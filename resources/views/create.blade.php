@@ -6,6 +6,6 @@
         <div class='blue_elea'>食材名</div>
         <div class='blue_elea'>食材名</div>
         <div class='blue_elea'>食材名</div>
-        <div class='blue_elea'>食材名</div>
+        <div class='blue_elea'>メロン</div>
     </div>
 @endsection
