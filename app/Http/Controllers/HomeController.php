@@ -34,6 +34,7 @@ class HomeController extends Controller
         ->whereNull('deleted_at')
         ->orderby('created_at','DESC')
         ->get();
+
         //在庫数を取得
         // $stocks= Stock::select('stock.*')
         // ->where('food_id' , '=' , \Food::id())

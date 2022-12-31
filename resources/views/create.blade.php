@@ -12,7 +12,7 @@
                 </a>
                 <a href="">
                     <p>
-                        在庫数
+                        {{ $food['stock']}}
                     </p>
                 </a>
             </div>
