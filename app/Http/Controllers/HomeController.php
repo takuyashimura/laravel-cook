@@ -66,6 +66,7 @@ class HomeController extends Controller
     {
         $posts=$request->all();
         Food::insert(['name' => $posts['name'] , 'user_id' => \Auth::id()]);
+        Food::insert(['amount' => $posts['stock'], 'user_id' => \Auth::id()]);
 
         return redirect( route('home') );  
     }
