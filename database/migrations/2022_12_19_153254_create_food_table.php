@@ -15,13 +15,10 @@ class CreateFoodTable extends Migration
     {
         Schema::create('food', function (Blueprint $table) {
             $table->unsignedBigInteger('id',true);
-            $table->unsignedBigInteger('user_id');
             $table->string('name');
-            $table->unsignedBigInteger('stock');
             $table->softDeletes();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->foreign('user_id')->references('id')->on('users');
 
         });
     }
