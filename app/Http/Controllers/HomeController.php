@@ -107,6 +107,18 @@ class HomeController extends Controller
     {
         return view('menu_cook');
     }
+
+    // 食材購入画面
+    public function buy()
+    {
+        $food = Food::select('food.*')
+        ->whereNull('deleted_at')
+        ->orderby('created_at','DESC')
+        ->get();
+
+
+       return view('buy',compact('food'));  
+    }
 }
 
 
