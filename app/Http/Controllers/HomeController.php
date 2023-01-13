@@ -7,6 +7,7 @@ use App\Models\Food;
 use App\Models\Menu;
 use App\Models\Stock;
 use App\Models\User;
+use DB;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,7 @@ class HomeController extends Controller
      */
 
      //食材画面
-    public function index()
+    public function home()
     {
         //ここで食材名を取得する
         $food = Food::select('food.*')
@@ -71,17 +72,33 @@ class HomeController extends Controller
 
         return view('menu',compact('menus'));
     }
-    //メニュー画面 フードコントローラーを作成し追加する
+
+
+    // 食材追加画面→既存の食材以外に新規の食材を追加する時のみ必要→user_idと紐づける食材を作る方向性になってから作成する
     public function add_food()
     {
+        $food = Food::select('food.*')
+        ->whereNull('deleted_at')
+        ->orderby('created_at','DESC')
+        ->get();
+
+
        return view('add_food');  
     }
+
+
+
     //食材を追加した時の処理
     public function add(Request $request)
     {
+        // dd($request);
         $posts=$request->all();
-        Food::create(['name' => $posts['name'] , 'stock' => $posts['amount'],  'user_id' => \Auth::id()]);
-        // 
+
+        // DB::trasaction(function() use($posts) {
+          
+        Food::create(['name' => $posts['name'] ]);
+        // Stock::create(['amount' => $posts['amount']]);
+        // // 
 
         return redirect( route('home') );  
     }
