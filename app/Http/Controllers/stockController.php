@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Food;
 use App\Models\Menu;
-use App\Models\Stock;
+use APP\Models\Stock;
 use App\Models\User;
-use DB;
+
 
 class HomeController extends Controller
 {
@@ -28,26 +28,28 @@ class HomeController extends Controller
      */
 
      //食材画面
-    public function home()
+    public function index()
     {
         //ここで食材名を取得する
         $food = Food::select('food.*')
+        ->where('user_id', '=' , \Auth::id())
         ->whereNull('deleted_at')
         ->orderby('created_at','DESC')
         ->get();
-        // dd($food);
-
-        // stocksの指定したfood_idのamountカラムを合計する
-        // $sum = Stock::select('food_id')
-        // ->where('food_id' , '=' , '1')
-        // ->sum('amount');
-        // dd($sum);
-
-        //メンタリング時作成コード
-        // $stocks = Food::find(1)->get();
-        // dd($stocks);
+        $menus = User::find(1)->get();
+        // dd($menus);
+        // $user = Menu::find(1)->user;
+        // dd($user);
+        
 
         // 参考にするコード $test->food = 'amount';  $food = Stock
+
+
+
+        //在庫数を取得
+        // $stocks= Stock::select('stock.*')
+        // ->where('food_id' , '=' , \Food::id())
+        // dd($food);
 
         return view('create' , compact('food'));
     }
@@ -61,44 +63,21 @@ class HomeController extends Controller
         ->whereNull('deleted_at')
         ->orderby('created_at','DESC')
         ->get();
-
-
-        // ここの処理はメンタリング時にindexに記載したもの
-        // $menus = User::find(1)->get();
-        // dd($menus);
-        // $user = Menu::find(1)->user;
-        // dd($user);
         
 
         return view('menu',compact('menus'));
     }
-
-
-    // 食材追加画面→既存の食材以外に新規の食材を追加する時のみ必要→user_idと紐づける食材を作る方向性になってから作成する
+    //メニュー画面 フードコントローラーを作成し追加する
     public function add_food()
     {
-        $food = Food::select('food.*')
-        ->whereNull('deleted_at')
-        ->orderby('created_at','DESC')
-        ->get();
-
-
        return view('add_food');  
     }
-
-
-
     //食材を追加した時の処理
     public function add(Request $request)
     {
-        // dd($request);
         $posts=$request->all();
-
-        // DB::trasaction(function() use($posts) {
-          
-        Food::create(['name' => $posts['name'] ]);
-        // Stock::create(['amount' => $posts['amount']]);
-        // // 
+        Food::create(['name' => $posts['name'] , 'stock' => $posts['amount'],  'user_id' => \Auth::id()]);
+        // 
 
         return redirect( route('home') );  
     }

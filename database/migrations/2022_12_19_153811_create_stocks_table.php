@@ -16,11 +16,14 @@ class CreateStocksTable extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->unsignedBigInteger('id',true);
             $table->unsignedBigInteger('food_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('amount');
             $table->softDeletes();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('food_id')->references('id')->on('food');
+            $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 

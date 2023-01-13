@@ -20,7 +20,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');//
+Route::get('/home', [HomeController::class, 'home'])->name('home');//
 Route::get('/menu', [HomeController::class, 'menu'])->name('menu');
 Route::get('/add_food', [HomeController::class, 'add_food'])->name('add_food');
 Route::post('/add', [HomeController::class, 'add'])->name('add');
+Route::get('/menu_cook', [HomeController::class, 'menu_cook'])->name('menu_cook');

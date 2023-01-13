@@ -8,22 +8,9 @@
         <div class='blue_elea'>
             <p class='text-center'>{{ $menu['name']}}</p>
             <div class='d-flex justify-content-end'>
-                <p>削除</p>
-                <p>調理</p>
-                <p>編集</p>
+                <p class='bg-secondary text-white' style='margin:0px 5px 0px'>削除</p>
+                <p class='bg-secondary text-white' style='margin:0px 5px 0px'>調理</p>
+                <p class='bg-secondary text-white' style='margin:0px 5px 0px'>編集</p>
             </div>
         @endforeach
-        <!-- </div>
-        <div class='blue_elea d-flex justify-content-between'>
-            <div>メニュー名</div>
-            <div>在庫数</div>
-        </div>        
-        <div class='blue_elea d-flex justify-content-between'>
-            <div>メニュー名</div>
-            <div>在庫数</div>
-        </div>
-        <div class='blue_elea d-flex justify-content-between'>
-            <div>メニュー名</div>
-            <div>在庫数</div>
-        </div> -->
 @endsection
