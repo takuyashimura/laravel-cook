@@ -10,7 +10,7 @@
                         {{ $food['name']}}
                      </p>
                 </a>
-                <input type="number" name='amount' min='0' max='100'><!--stocksのamountに数字を追加する-->
+                <input type="number" name='amount' min='0' max='100'><!--stocksのamountに数字を追加-->
              </div>
 
         @endforeach
