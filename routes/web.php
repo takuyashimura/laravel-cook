@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\buyController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +27,5 @@ Route::get('/menu', [HomeController::class, 'menu'])->name('menu');
 Route::get('/add_food', [HomeController::class, 'add_food'])->name('add_food');
 Route::post('/add', [HomeController::class, 'add'])->name('add');
 Route::get('/menu_cook', [HomeController::class, 'menu_cook'])->name('menu_cook');
-Route::get('/buy', [HomeController::class, 'buy'])->name('buy');
+Route::get('/buy', [buyController::class, 'buy'])->name('buy');
 
