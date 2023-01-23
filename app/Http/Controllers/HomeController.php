@@ -98,7 +98,8 @@ class HomeController extends Controller
           
         Food::create(['name' => $posts['name'] ]);
         // Stock::create(['amount' => $posts['amount']]);
-        // // 
+
+        // 食材名に何も記載していなかった際にエラーではなく、画面に止まる処理をするコードを書く
 
         return redirect( route('home') );  
     }

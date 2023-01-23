@@ -77,17 +77,15 @@
         </nav>
 
         <main class="py-4">
-            
-        <div>
+            <div class=''>
                 @yield('content')
             </div>
-                <div class='row fixed-bottom'>
-                        <div class='col border d-flex d-flex align-items-center justify-content-center' >食材</div>
-                        <div class='col border d-flex d-flex align-items-center justify-content-center'>メニュー</div>
-                        <div class='col border d-flex d-flex align-items-center justify-content-center'>買い物<br>リスト</div>
-                        <div class='col border d-flex d-flex align-items-center justify-content-center'>調理<br>リスト</div>
-                </div>
-           
+            <div class='flex- row fixed-bottom'>
+                <div class='col border d-flex d-flex align-items-center justify-content-center' >食材</div>
+                <div class='col border d-flex d-flex align-items-center justify-content-center'>メニュー</div>
+                <div class='col border d-flex d-flex align-items-center justify-content-center'>買い物<br>リスト</div>
+                <div class='col border d-flex d-flex align-items-center justify-content-center'>調理<br>リスト</div>
+            </div>
         </main>
     </div>
 </body>

@@ -1,7 +1,7 @@
 @extends('layouts.finely')
 
 @section('content')
-    <form  action='{{ route('add') }}' method='POST'>
+    <form  action='{{ route('add') }} method='POST'>
         @csrf
         <!-- 食材入力部分 -->
         <div class='text-center'>
