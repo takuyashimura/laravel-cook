@@ -6,22 +6,21 @@
         @foreach($food as $food)
             @foreach($food -> stocks as $stock)
             
-                <div class='blue_elea'>
-                    <a href="">
+                <div class='blue_elea '>
+                    <!-- 食材名をクリックするとその食材を使用するメニューを表示したい -->
+                     <a class="d-flex justify-content-between" href=""> 
                         <p>
                             {{ $food['name']}}
                         </p>
-                    </a>
-                    <a href="">
+                        
                         <p>
                             {{ $stock->amount }}
                         </p>
+                        <!-- stocksにデータがなかった場合、在庫数０と表記するコードを書く -->
                     </a>
                 </div>
             @endforeach
         @endforeach
-        <!-- <div class='blue_elea'>食材名</div>
-        <div class='blue_elea'>食材名</div>
-        <div class='blue_elea'>メロン</div> -->
+
     </div>
 @endsection
