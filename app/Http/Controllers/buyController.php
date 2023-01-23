@@ -35,6 +35,19 @@ class buyController extends Controller
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
         ->get();
+        
+        $stocks = Stock::select('stocks.*')
+        ->orderby('created_at','DESC')
+        ->get();
+
+        $amount = 0;
+        foreach ($stocks as $stock) {
+            if ($stock->food_id == $this -> food_id) {
+              $amount += $stock['amount'];
+            }
+            dd($amount);
+        }
+
 
        
        return view('buy',compact('food'));  
