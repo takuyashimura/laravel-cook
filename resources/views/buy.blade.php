@@ -2,10 +2,10 @@
 
 @section('content')
     <div>
-       
+        <?php dd($stocks); ?>
         <!-- 以下udemy参考コード -->
         @foreach($food as $food)
-            @foreach($food->stocks as $stock) 
+            @foreach($food-> stocks as $stock) 
             <div class='blue_elea d-flex justify-content-between '>
                <p>{{ $food['name'] }}</p>
                <p>{{ $stock['amount'] }}</p>
@@ -15,6 +15,7 @@
             @endforeach 
         @endforeach 
 
+      
     </div>
         <div class='text-center'>
                 <button  type='submit'>新しい食材を<br>追加</button>
