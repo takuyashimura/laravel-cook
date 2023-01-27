@@ -40,6 +40,25 @@ class add_menuController extends Controller
         
        return view('add_menu',compact("food"));  
     }
+
+    public function add_menu_register(Request $request)
+    {
+        $posts=$request->all();
+        dd($posts);
+        $menu_id=Menu::create(
+            [
+                'name' => $posts['menu_name'] , 
+                'user_id' => \Auth::id()
+            ]
+        );
+        FoodMenu::create(
+            [
+                'menu_id' => $menu_id ,
+                // food_amount => 
+            ]
+            );
+       return redirect(route('menu'));  
+    }
 }
 
 

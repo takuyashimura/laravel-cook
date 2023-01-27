@@ -1,7 +1,7 @@
 @extends('layouts.finely')
 
 @section('content')
-    <form action="登録ボタンを押した時にメニュー名と使用する食材を登録できるようにする">
+    <form action="http://localhost:8888/add_menu_register" method='POST'>
     @csrf
         <div>
             <input type="text" name="menu_name" placeholder="登録する食材名">
