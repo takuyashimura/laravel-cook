@@ -104,10 +104,7 @@ class HomeController extends Controller
         return redirect( route('home') );  
     }
 
-    public function menu_cook()
-    {
-        return view('menu_cook');
-    }
+    
 
    
 }
