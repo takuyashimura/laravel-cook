@@ -34,30 +34,15 @@ class buyController extends Controller
     {
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
+        ->get()
+        ->keyby('id');
+        
+        $stocks = Stock::select('food_id')
+        ->selectRaw('SUM(amount) AS total_amount')
+        ->groupBy('food_id')
         ->get();
         
-        $stocks = Stock::select('stocks.*')
-        ->orderby('created_at','DESC')
-        ->get();
-        
-        $stockArray = array_column($stocks, 'amount');
-        // $keys=array_values(array_unique(array_column($stocks,0)));
-
-        dd($stockArray);
-
-        
-
-        // $amount = 0;
-        // foreach ($stocks as $stock) {
-        //     if ($stock->food_id == $this -> food_id) {
-        //       $amount += $stock['amount'];
-        //     }
-        //     dd($amount);
-        // }
-
-
-       
-       return view('buy',compact('food','keys'));  
+       return view('buy',compact('food','stocks'));  
     }
 }
 
