@@ -2,18 +2,14 @@
 
 @section('content')
     <div>
-        <?php dd($stocks); ?>
-        <!-- 以下udemy参考コード -->
-        @foreach($food as $food)
-            @foreach($food-> stocks as $stock) 
-            <div class='blue_elea d-flex justify-content-between '>
-               <p>{{ $food['name'] }}</p>
-               <p>{{ $stock['amount'] }}</p>
-               <input type="number" name='amount' min='0' max='100'>
 
-            </div>
-            @endforeach 
-        @endforeach 
+                @foreach($stocks as $stock) 
+                    <div class='blue_elea d-flex justify-content-between '>
+                        <p>{{ $food[$stock->food_id]['name'] }}</p>
+                        <p>{{ $stock['amount'] }}</p>
+                        <input type="number" name='amount' min='0' max='100'>
+                    </div>
+                @endforeach 
 
       
     </div>

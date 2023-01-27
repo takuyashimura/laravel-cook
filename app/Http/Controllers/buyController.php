@@ -34,18 +34,16 @@ class buyController extends Controller
     {
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
+        ->get()
+        ->keyby('id');        
+        
+        $stocks = Stock::select('food_id')
+        ->selectRaw('SUM(amount) AS amount')
+        ->groupBy('food_id')
         ->get();
-        
-        
-        
-        // $stocks = Stock::select('food_id')
-        // ->selectRaw('SUM(amount) AS amount')
-        // ->groupBy('food_id')
+        // $stocks = Stock::select('stocks.*')
+        // ->orderby('created_at','DESC')
         // ->get();
-
-        $stocks = Stock::select('stocks.*')
-        ->orderby('created_at','DESC')
-        ->get();
 
        
        return view('buy',compact('stocks','food'));  
