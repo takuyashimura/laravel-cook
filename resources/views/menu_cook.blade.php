@@ -22,17 +22,14 @@
     </div>
 </div>
 <div>
-@foreach($menus as $menu)
-    <div class='row blue_elea mt-1'>
-        <div class='col '>
-                <p>{{$menu->name}} </p> 
+    <div class='row blue_elea'>
+        <div class='col'>
+            <p>食材名</p> 
         </div>
         <div class='col'>
 
         </div>
     </div>
-    @endforeach 
-
 
 </div>
 @endsection

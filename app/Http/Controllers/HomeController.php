@@ -52,26 +52,7 @@ class HomeController extends Controller
         return view('create' , compact('food'));
     }
 
-    //メニュー画面 メニューコントローラを作成し追加する
-    public function menu()
-    {
-        //ここでメニュー名を取得
-        $menus= Menu::select('menus.*')
-        ->where('user_id' , '=' , \Auth::id())
-        ->whereNull('deleted_at')
-        ->orderby('created_at','DESC')
-        ->get();
-
-
-        // ここの処理はメンタリング時にindexに記載したもの
-        // $menus = User::find(1)->get();
-        // dd($menus);
-        // $user = Menu::find(1)->user;
-        // dd($user);
-        
-
-        return view('menu',compact('menus'));
-    }
+   
 
 
     // 食材追加画面→既存の食材以外に新規の食材を追加する時のみ必要→user_idと紐づける食材を作る方向性になってから作成する

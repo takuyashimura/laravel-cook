@@ -9,7 +9,7 @@ use App\Models\Stock;
 use App\Models\User;
 use DB;
 
-class menu_cookController extends Controller
+class add_menuController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -30,11 +30,15 @@ class menu_cookController extends Controller
      
 
     // 食材購入画面
-    public function menu_cook()
+    public function add_menu()
     {
-     
+        $food = Food::select('food.*')
+        ->orderby('created_at','DESC')
+        ->get();
 
-        return view('menu_cook');
+
+        
+       return view('add_menu',compact("food"));  
     }
 }
 
