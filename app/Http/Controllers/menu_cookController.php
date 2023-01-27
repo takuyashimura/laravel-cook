@@ -32,10 +32,9 @@ class menu_cookController extends Controller
     // 食材購入画面
     public function menu_cook()
     {
-        $menus = Menu::orderby('created_at','DESC')
-        ->get();
+     
 
-        return view('menu_cook',compact("menus"));
+        return view('menu_cook');
     }
 }
 
