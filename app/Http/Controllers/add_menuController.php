@@ -7,6 +7,7 @@ use App\Models\Food;
 use App\Models\Menu;
 use App\Models\Stock;
 use App\Models\User;
+use App\Models\FoodMenu;
 use DB;
 
 class add_menuController extends Controller
@@ -44,19 +45,26 @@ class add_menuController extends Controller
     public function add_menu_register(Request $request)
     {
         $posts=$request->all();
-        dd($posts);
-        $menu_id=Menu::create(
+        $menu_id=Menu::insertGetId(
             [
                 'name' => $posts['menu_name'] , 
                 'user_id' => \Auth::id()
             ]
         );
-        FoodMenu::create(
-            [
-                'menu_id' => $menu_id ,
-                // food_amount => 
-            ]
-            );
+        foreach($posts["food_ids"] as $food_id => $amount){
+            if($amount == Null){
+                continue;
+            }
+            FoodMenu::create(
+                [
+                    "food_amount" => $amount,
+                    "food_id" => $food_id,
+                    'menu_id' => $menu_id 
+                    
+                ]
+                );
+        }
+
        return redirect(route('menu'));  
     }
 }
