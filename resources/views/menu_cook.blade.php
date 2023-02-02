@@ -3,7 +3,7 @@
 @section('content')
 <div class='row'>
     <div class='col-4 border d-flex d-flex align-items-center justify-content-center' style='background-color:powderblue;'>
-        メニュー
+        menuでクリックしたメニュー名が表示されるようにしたい
     </div>
     <div class='col-4 border d-flex d-flex align-items-center justify-content-center' style='background-color:powderblue;'>
         今回使用する<br>食材の編集
