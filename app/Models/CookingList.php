@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CookingList extends Model
 {
     use HasFactory;
+    public function users()
+    {
+        return $this->hasOne(User::class);
+    }
+    public function menus()
+    {
+        return $this->hasmany(Menu::class);
+    }
 }

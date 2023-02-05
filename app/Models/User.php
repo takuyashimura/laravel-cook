@@ -46,6 +46,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Menu::class);
     }
+    public function cooking_lists()
+    {
+        return $this->hasOne(CookingList::class);
+    }
 
     // public function stocks()
     // {

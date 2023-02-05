@@ -36,14 +36,6 @@ class menuController extends Controller
          $menus= Menu::orderby('created_at','DESC')
          ->get();
  
- 
-         // ここの処理はメンタリング時にindexに記載したもの
-         // $menus = User::find(1)->get();
-         // dd($menus);
-         // $user = Menu::find(1)->user;
-         // dd($user);
-         
- 
          return view('menu',compact('menus'));
      }
 }
