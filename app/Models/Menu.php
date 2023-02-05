@@ -12,9 +12,17 @@ class Menu extends Model
     use HasFactory;
     protected $fillable = ['name','user_id'];
 
-    public function user()
+    public function users()
     {
-    
         return $this->belongsTo(User::class);
     }
+    public function cooking_lists()
+    {
+        return $this->belongsTo(CookingList::class);
+    }
+    public function food_menus()
+    {
+        return $this->hasMany(FoodMenu::class);
+    }
+  
 }

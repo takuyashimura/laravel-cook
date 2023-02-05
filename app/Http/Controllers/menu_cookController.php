@@ -37,18 +37,23 @@ class menu_cookController extends Controller
 
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
-        ->get();
+        ->get()
+        ->keyby("id");
+
 
         // food_menusテーブルのfood_idを取得
-        $food_ids = FoodMenu::select("food_id")
+        $food_menus = FoodMenu::select("food_menus.*")
         ->where("menu_id", "=" , $menu_id)
+        ->orderby('food_id','DESC')
         ->get();
 
-        $stocks = Stock::select("stocks.*")
-        ->orderby("created_at", "DESC")
-        ->get();
+        $stocks = Stock::select('food_id')
+        ->selectRaw('SUM(amount) AS total_amount')
+        ->groupBy('food_id')
+        ->get()
+        ->keyby("food_id");
         
-        return view('menu_cook',compact('menu_name',"food","food_ids","stocks"));
+        return view('menu_cook',compact('menu_name',"food","food_menus","stocks"));
     }
 }
 
