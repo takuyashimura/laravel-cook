@@ -49,7 +49,7 @@
             @continue
         @endif
     @endforeach
-    <div>不足分を購入リストへ</div>
+    <div>不足分を購入リスト</div>
     <div>調理リストへ</div>
 </div>
 @endsection
