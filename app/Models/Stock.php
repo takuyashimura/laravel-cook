@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Stock extends Model
 {
     protected $fillable = ['amount'];
-    // protected $table = 'stocks';
     use HasFactory;
 
 //     public function user()
@@ -21,4 +20,5 @@ class Stock extends Model
     {
         return $this->belongsTo(Food::class);
     }
+    
 }
