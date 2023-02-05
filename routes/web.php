@@ -29,7 +29,7 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');//①
 Route::get('/menu', [menuController::class, 'menu'])->name('menu');//②
 Route::get('/add_food', [HomeController::class, 'add_food'])->name('add_food');//③
 Route::post('/add', [HomeController::class, 'add'])->name('add');//④
-Route::get('/menu_cook', [menu_cookController::class, 'menu_cook'])->name('menu_cook');//⑤
+Route::get('/menu_cook/{menu_id}', [menu_cookController::class, 'menu_cook'])->name('menu_cook');//⑤
 Route::get('/buy', [buyController::class, 'buy'])->name('buy');//⑥
 Route::get('/add_menu', [add_menuController::class, 'add_menu'])->name('add_menu');//⑦
 Route::post('/add_menu_register', [add_menuController::class, 'add_menu_register'])->name('add_menu_register');//⑦

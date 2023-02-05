@@ -8,7 +8,8 @@
         </div>
         @foreach ($menus as $menu)
         <div class='blue_elea mt-1'>
-            <a href="http://localhost:8888/menu_cook">
+            <a href="{{ route('menu_cook', $menu_id = $menu['id']) }}">
+                
                  <p class='text-center'>{{ $menu['name']}}</p><!--ここで表示される食材名を次のページに受け渡したい -->
             </a>    
             

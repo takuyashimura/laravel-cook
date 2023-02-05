@@ -3,7 +3,7 @@
 @section('content')
 <div class='row'>
     <div class='col-4 border d-flex d-flex align-items-center justify-content-center' style='background-color:powderblue;'>
-        menuでクリックしたメニュー名が表示されるようにしたい
+       <p>{{$menu_name['name']}}</p> 
     </div>
     <div class='col-4 border d-flex d-flex align-items-center justify-content-center' style='background-color:powderblue;'>
         今回使用する<br>食材の編集
@@ -22,14 +22,15 @@
     </div>
 </div>
 <div>
+    @foreach($food_ids as $food_id)
     <div class='row blue_elea'>
         <div class='col'>
-            <p>食材名</p> 
+            <p>{{$food[$food_id]["name"]}}</p> 
         </div>
         <div class='col'>
 
         </div>
     </div>
-
+    @endforeach
 </div>
 @endsection
