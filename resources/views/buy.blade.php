@@ -3,14 +3,23 @@
 @section('content')
     <div>
 
-                @foreach($stocks as $stock) 
-                    <div class='blue_elea d-flex justify-content-between '>
-                        <p>{{ $food[$stock->food_id]->name }}</p>
-                        <p>{{ $stock['total_amount'] }}</p>
-                        <input type="number" name='amount' min='0' max='100'>
-                    </div>
-                @endforeach 
+        @foreach($stocks as $stock) 
+            <div class='blue_elea d-flex justify-content-between '>
+                <p>{{ $food[$stock->food_id]->name }}</p>
+                <p>{{ $stock['total_amount'] }}</p>
+                <input type="number" name='amount' min='0' max='100'>
+            </div>
+        @endforeach 
 
+{{dd($array)}}
+        @foreach($food as $food)
+            @if(array_search((array)$food["id"],(array)$array)===false)
+            <p>{{ $food->name }}</p>
+                <p>0</p>
+            @else
+                @continue
+            @endif
+        @endforeach
       
     </div>
         <div class='text-center'>
