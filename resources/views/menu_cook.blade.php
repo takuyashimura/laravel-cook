@@ -33,6 +33,7 @@
     @endforeach
     </div>
 </div>
+---------
 <div>
     <p>在庫のある食材</p>
     @foreach($food_menus as $food_menu)
@@ -49,7 +50,6 @@
             @continue
         @endif
     @endforeach
-    <div>不足分を購入リスト</div>
     <div>調理リストへ</div>
 </div>
 @endsection
