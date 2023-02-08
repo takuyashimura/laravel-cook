@@ -11,15 +11,14 @@
             </div>
         @endforeach 
 
-{{dd($array)}}
-        @foreach($food as $food)
-            @if(array_search((array)$food["id"],(array)$array)===false)
-            <p>{{ $food->name }}</p>
-                <p>0</p>
-            @else
-                @continue
-            @endif
+        
+        @foreach($array as $array)
+            <div class="bg-danger mt-1">
+                <p>{{ $food[$array]->name }}</p>
+                <p>在庫なし</p>
+            </div>
         @endforeach
+        <!-- stocksテーブルにデータはあるが、在庫がない時のコードを書く -->
       
     </div>
         <div class='text-center'>
