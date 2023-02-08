@@ -3,24 +3,23 @@
 @section('content')
     <div>
         <div class='blue_elea' style='text-align:center rounded-pill'>新しい食材を<br>追加</div>
-        @foreach($food as $food)
-            @foreach($food -> stocks as $stock)
-            
-                <div class='blue_elea '>
-                    <!-- 食材名をクリックするとその食材を使用するメニューを表示したい -->
-                     <a class="d-flex justify-content-between" href=""> 
-                        <p>
-                            {{ $food['name']}}
-                        </p>
-                        
-                        <p>
-                            {{ $stock->amount }}
-                        </p>
-                        <!-- stocksにデータがなかった場合、在庫数０と表記するコードを書く -->
-                    </a>
-                </div>
-            @endforeach
+        <!-- aタグのhrefを使って食材をクリックするとその食材を使うメニューが表示されるようにする -->
+        @foreach($stocks as $stock) 
+            <div class='blue_elea d-flex justify-content-between '>
+                <p>{{ $food[$stock->food_id]->name }}</p>
+                <p>{{ $stock['total_amount'] }}</p>
+            </div>
+        @endforeach 
+
+        <!-- stocksテーブルにfood_idがない→在庫がないと判断する -->
+        @foreach($array as $array)
+        <div class='blue_elea d-flex justify-content-between '>
+                <p>{{ $food[$array]->name }}</p>
+                <p>0</p>
+            </div>
         @endforeach
+        
+        <!-- stocksターブルにidはあるが在庫数が0の時のコーディングをする -->
 
     </div>
 @endsection
