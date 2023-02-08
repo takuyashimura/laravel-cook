@@ -10,14 +10,15 @@
                 <input type="number" name='amount' min='0' max='100'>
             </div>
         @endforeach 
-        {{$array = $stocks->pluck('food_id')}}
-        @foreach($food as $food)
-        @if(in_array((array)$food["id"] ,(array)$food["id"])))
-                @continue
-            @else
-                <p>{{ $food->id }}</p>
-            @endif
+
+        
+        @foreach($array as $array)
+            <div class="bg-danger mt-1">
+                <p>{{ $food[$array]->name }}</p>
+                <p>在庫なし</p>
+            </div>
         @endforeach
+        <!-- stocksテーブルにデータはあるが、在庫がない時のコードを書く -->
       
     </div>
         <div class='text-center'>
