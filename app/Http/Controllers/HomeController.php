@@ -31,25 +31,28 @@ class HomeController extends Controller
     public function home()
     {
         //ここで食材名を取得する
-        $food = Food::select('food.*')
+        $foods = Food::select('food.*')
         ->whereNull('deleted_at')
         ->orderby('created_at','DESC')
         ->get();
-        // dd($food);
 
-        // stocksの指定したfood_idのamountカラムを合計する
-        // $sum = Stock::select('food_id')
-        // ->where('food_id' , '=' , '1')
-        // ->sum('amount');
-        // dd($sum);
+        $food = Food::select('food.*')
+        ->orderby('created_at','DESC')
+        ->get()
+        ->keyby('id');
+        $food_array = $food->pluck('id')->toArray();
 
-        //メンタリング時作成コード
-        // $stocks = Food::find(1)->get();
-        // dd($stocks);
+        $stocks = Stock::select('food_id')
+        ->selectRaw('SUM(amount) AS total_amount')
+        ->groupBy('food_id')
+        ->get();
+        $stocks_array = $stocks->pluck('food_id')->toArray();
+        
+        $array= array_diff($food_array,$stocks_array);
+        
 
-        // 参考にするコード $test->food = 'amount';  $food = Stock
 
-        return view('create' , compact('food'));
+        return view('create' ,compact('food','stocks','array'));
     }
 
    
@@ -72,10 +75,8 @@ class HomeController extends Controller
     //食材を追加した時の処理
     public function add(Request $request)
     {
-        // dd($request);
         $posts=$request->all();
 
-        // DB::trasaction(function() use($posts) {
           
         Food::create(['name' => $posts['name'] ]);
         // Stock::create(['amount' => $posts['amount']]);
