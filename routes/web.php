@@ -6,6 +6,7 @@ use App\Http\Controllers\buyController;
 use App\Http\Controllers\menu_cookController;
 use App\Http\Controllers\menuController;
 use App\Http\Controllers\add_menuController;
+use App\Http\Controllers\cookingController;
 
 
 /*
@@ -33,5 +34,6 @@ Route::get('/menu_cook/{menu_id}', [menu_cookController::class, 'menu_cook'])->n
 Route::get('/buy', [buyController::class, 'buy'])->name('buy');//⑥
 Route::get('/add_menu', [add_menuController::class, 'add_menu'])->name('add_menu');//⑦
 Route::post('/add_menu_register', [add_menuController::class, 'add_menu_register'])->name('add_menu_register');//⑦
+Route::post('/cooking_lists', [cookingController::class, 'cooking_lists'])->name('cooking_lists');//⑧
 
 
