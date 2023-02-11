@@ -17,7 +17,7 @@
                     
         </div>
         
-    </fomr>
+    </form>
 
 @endsection
     

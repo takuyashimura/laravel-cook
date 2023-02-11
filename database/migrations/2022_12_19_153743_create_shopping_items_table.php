@@ -15,14 +15,14 @@ class CreateShoppingItemsTable extends Migration
     {
         Schema::create('shopping_items', function (Blueprint $table) {
             $table->unsignedBigInteger('id',true);
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('list_id');
             $table->unsignedBigInteger('food_id');
             $table->unsignedBigInteger('amount');
             $table->string('name');
             $table->softDeletes();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('list_id')->references('id')->on('shopping_lists');
             $table->foreign('food_id')->references('id')->on('food');
         });
     }

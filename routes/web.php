@@ -35,5 +35,10 @@ Route::get('/buy', [buyController::class, 'buy'])->name('buy');//⑥
 Route::get('/add_menu', [add_menuController::class, 'add_menu'])->name('add_menu');//⑦
 Route::post('/add_menu_register', [add_menuController::class, 'add_menu_register'])->name('add_menu_register');//⑦
 Route::post('/cooking_lists', [cookingController::class, 'cooking_lists'])->name('cooking_lists');//⑧
+Route::post('/add_buy_list', [buyController::class, 'add_buy_list'])->name('add_buy_list');
+Route::get('/buy_list', [buyController::class, 'buy_list'])->name('buy_list');
+Route::get('/edit_buy_list', [buyController::class, 'edit_buy_list'])->name('edit_buy_list');
+Route::post('/reply_buy_list', [buyController::class, 'reply_buy_list'])->name('reply_buy_list');
+
 
 

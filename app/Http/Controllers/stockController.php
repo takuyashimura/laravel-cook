@@ -33,24 +33,10 @@ class HomeController extends Controller
         //ここで食材名を取得する
         $food = Food::select('food.*')
         ->where('user_id', '=' , \Auth::id())
-        ->whereNull('deleted_at')
         ->orderby('created_at','DESC')
         ->get();
         $menus = User::find(1)->get();
-        // dd($menus);
-        // $user = Menu::find(1)->user;
-        // dd($user);
         
-
-        // 参考にするコード $test->food = 'amount';  $food = Stock
-
-
-
-        //在庫数を取得
-        // $stocks= Stock::select('stock.*')
-        // ->where('food_id' , '=' , \Food::id())
-        // dd($food);
-
         return view('create' , compact('food'));
     }
 

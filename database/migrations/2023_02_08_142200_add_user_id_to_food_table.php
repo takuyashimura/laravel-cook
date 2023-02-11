@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShoppingListsTable extends Migration
+class AddUserIdToFoodTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateShoppingListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shopping_lists', function (Blueprint $table) {
-            $table->unsignedBigInteger('id',true);
+        Schema::table('food', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
-            $table->longtext('text');
-            $table->softDeletes();
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 
@@ -31,6 +27,9 @@ class CreateShoppingListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shopping_lists');
+        Schema::table('food', function (Blueprint $table) {
+            $table->dropForeign('food_user_id_foreign');
+            $table->dropColumn('user_id');
+        });
     }
 }
