@@ -9,4 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ShoppingItem extends Model
 {
     use HasFactory;
+    protected $fillable = ['food_id','amount','user_id'];
 }

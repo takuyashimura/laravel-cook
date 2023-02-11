@@ -83,7 +83,7 @@
                 <div class='row fixed-bottom'>
                         <div class='col border d-flex d-flex align-items-center justify-content-center' >食材</div>
                         <div class='col border d-flex d-flex align-items-center justify-content-center'>メニュー</div>
-                        <a class='col border d-flex d-flex align-items-center justify-content-center' href="http://localhost:8888/buy">
+                        <a class='col border d-flex d-flex align-items-center justify-content-center' href="{{route('edit_buy_list')}}">
                             <div>購入<br>リスト</div>
                         </a>
                         <div class='col border d-flex d-flex align-items-center justify-content-center'>調理<br>リスト</div>

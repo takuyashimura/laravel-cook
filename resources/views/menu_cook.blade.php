@@ -20,10 +20,10 @@
         <div class='col d-flex d-flex align-items-center justify-content-center'>不足数</div>
     </div>
     <div>
-    <p>不足している食材</p>    
+    <p>不足している食材</p>
+    <form action="http://localhost:8888/add_buy_list" id="hoge" method='POST'>
+    @csrf
     @foreach($food_menus as $food_menu)
-    <form action="http://localhost:8888/cooking_lists" id="hoge" method='POST'>
-        @csrf
         @if($stocks[$food_menu->food_id]["total_amount"] < $food_menu->food_amount)
             <div class='row bg-danger mt-1'>
                 <div class='col '>
@@ -31,18 +31,18 @@
                         <p>不足数{{$food_menu->food_amount - $stocks[$food_menu->food_id]["total_amount"]}}</p>
                 </div>
             </div>
-            <input type="hidden" name="{{$food[$food_menu->food_id]['name']}}_name" value="{{$food[$food_menu->food_id]['name']}}">
-            <input type="hidden" name="{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}_amount" class="form-control"  value="{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}">
+            <input type="hidden" name="{{$food[$food_menu->food_id]['name']}}" value="id_{{$food[$food_menu->food_id]['id']}}">
+            <input type="hidden" name="{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}" value="amount_{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}">
+            
             @else
             @continue
         @endif
-        
-    </form>
-        <div>
-        <button type="submit" form="hoge">不足分を購入リストへ</button>
-        </div>
     @endforeach
-
+        <input type="hidden" name="menu_id" value="{{$menu_id}}">
+    <div>
+        <button type="submit" form="hoge">不足分を購入リストへ</button>
+    </div>
+    </form>
 
     </div>
 </div>
