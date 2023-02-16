@@ -81,12 +81,18 @@
                 @yield('content')
             </div>
             <div class='flex- row fixed-bottom'>
-                <div class='col border d-flex d-flex align-items-center justify-content-center' >食材</div>
-                <div class='col border d-flex d-flex align-items-center justify-content-center'>メニュー</div>
-                <div class='col border d-flex d-flex align-items-center justify-content-center'>
-                    <a href="{{route('edit_buy_list')}}">買い物<br>リスト</a>
+                <div class='col border d-flex d-flex align-items-center justify-content-center' >
+                <a href="http://localhost:8888/home">食材</a>
                 </div>
-                <div class='col border d-flex d-flex align-items-center justify-content-center'>調理<br>リスト</div>
+                <div class='col border d-flex d-flex align-items-center justify-content-center'>                            
+                    <a href="http://localhost:8888/menu">メニュー</a>
+                </div>
+                <div class='col border d-flex d-flex align-items-center justify-content-center'>
+                    <a href="{{route('buy_list')}}">買い物<br>リスト</a>
+                </div>
+                <div class='col border d-flex d-flex align-items-center justify-content-center'>
+                    <a href="{{route('cooking_list')}}">調理<br>リスト</a>
+                </div>
             </div>
         </main>
     </div>

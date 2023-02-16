@@ -7,6 +7,8 @@ use App\Http\Controllers\menu_cookController;
 use App\Http\Controllers\menuController;
 use App\Http\Controllers\add_menuController;
 use App\Http\Controllers\cookingController;
+use App\Http\Controllers\cookingListController;
+use App\Http\Controllers\textController;
 
 
 /*
@@ -25,7 +27,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+// コントローラー、URLには基本的に_を使用しないので編集して無くす
 Route::get('/home', [HomeController::class, 'home'])->name('home');//①
 Route::get('/menu', [menuController::class, 'menu'])->name('menu');//②
 Route::get('/add_food', [HomeController::class, 'add_food'])->name('add_food');//③
@@ -39,6 +41,7 @@ Route::post('/add_buy_list', [buyController::class, 'add_buy_list'])->name('add_
 Route::get('/buy_list', [buyController::class, 'buy_list'])->name('buy_list');
 Route::get('/edit_buy_list', [buyController::class, 'edit_buy_list'])->name('edit_buy_list');
 Route::post('/reply_buy_list', [buyController::class, 'reply_buy_list'])->name('reply_buy_list');
-
-
-
+Route::post('/buy_list_by_edit', [buyController::class, 'buy_list_by_edit'])->name('buy_list_by_edit');
+Route::get('/cooking_list', [cookingListController::class, 'cooking_list'])->name('cooking_list');
+Route::post('/add_cooking_list', [cookingListController::class, 'add_cooking_list'])->name('add_cooking_list');
+Route::post('/text', [textController::class, 'text'])->name('text');

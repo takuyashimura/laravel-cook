@@ -8,6 +8,7 @@ use App\Models\Menu;
 use App\Models\Stock;
 use App\Models\User;
 use App\Models\FoodMenu;
+use App\Models\ShoppingItem;
 use DB;
 
 class menu_cookController extends Controller
@@ -52,8 +53,12 @@ class menu_cookController extends Controller
         ->groupBy('food_id')
         ->get()
         ->keyby("food_id");
+
+        $shopping_items = ShoppingItem::select("shopping_items.*")
+        ->get()
+        ->keyby("food_id");
         
-        return view('menu_cook',compact('menu_name',"food","food_menus","stocks","menu_id"));
+        return view('menu_cook',compact('menu_name',"food","food_menus","stocks","menu_id","shopping_items"));
     }
 }
 

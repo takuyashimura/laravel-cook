@@ -53,12 +53,10 @@ class buyController extends Controller
     }
     public function add_buy_list(Request $request)
     {
-        
         $posts = $request->all();
         // dd($posts);
-        
+
         $menu_id = $posts["menu_id"];
-        // dd($menu_id);
 
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
@@ -71,29 +69,45 @@ class buyController extends Controller
          ->orderby('food_id','DESC')
          ->get();
  
-         
+        // stocksテーブルを取得。amountを合計し、キーをfood_idに指定した配列作成した
          $stocks = Stock::select('food_id')
          ->selectRaw('SUM(amount) AS total_amount')
          ->groupBy('food_id')
          ->get()
          ->keyby("food_id");
 
-        // dd($result);
+        $shopping_items=ShoppingItem::select("shopping_items.*")
+        ->get()
+        ->keyby("food_id");
+        $shopping_item=$shopping_items
+        ->pluck("food_id")
+        ->toArray();
+        // dd($shopping_items);
+
         foreach($food_menus as $food_menu){
             if($stocks[$food_menu->food_id]["total_amount"] < $food_menu->food_amount){
-                $shopping_items=ShoppingItem::create([
+                if(in_array($food[$food_menu->food_id]['id'], $shopping_item)){
+                    $food_amount=$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount'];
+                    ShoppingItem::where("food_id", "=", $food[$food_menu->food_id]['id'])
+                    ->update([                        
+                        "amount" => $shopping_items[$food_menu->food_id]->amount += $food_amount
+                    ]);
+                }
+                else{ 
+                    ShoppingItem::create([
                     'user_id' => \Auth::id(),
                     'food_id' => $food[$food_menu->food_id]['id'],
                     "amount" => $food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']
                     ])
                     ->get();
+                }
             }
             else{
                 continue;
             }
-        }        
+        }
 
-        return redirect(route('buy_list'));  
+        return redirect()->route('buy_list');
     }
 
     public function buy_list()
@@ -102,7 +116,7 @@ class buyController extends Controller
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy('food_id')
         ->get();
-       
+
 
         $food = Food::select('food.*')
         ->where('user_id', '=' , \Auth::id())
@@ -133,9 +147,18 @@ class buyController extends Controller
     public function reply_buy_list(Request $request)
     {
         $posts= $request->all();
+        // $memo_idを受け取る
+        // dd($posts);
+
+        foreach($posts as $key => $value){
+            ShoppingItem::where("food_id", "=", $key)
+            ->update([
+                "amount" => $value
+            ]);
+        }
         return redirect(route('buy_list'));  
     }
     
-
+   
    
 }

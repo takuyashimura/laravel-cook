@@ -29,18 +29,24 @@
                 <div class='col '>
                         <p>{{$food[$food_menu->food_id]["name"]}}</p> 
                         <p>不足数{{$food_menu->food_amount - $stocks[$food_menu->food_id]["total_amount"]}}</p>
+                        @if(isset($shopping_items[$food_menu->food_id]->amount))
+                            <p>購入リスト登録数{{$shopping_items[$food_menu->food_id]->amount}}</p>
+                        @else
+                            <p>購入リスト登録数 0</p>
+                        @endif
                 </div>
             </div>
             <input type="hidden" name="{{$food[$food_menu->food_id]['name']}}" value="id_{{$food[$food_menu->food_id]['id']}}">
             <input type="hidden" name="{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}" value="amount_{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}">
-            
+
             @else
             @continue
         @endif
     @endforeach
-        <input type="hidden" name="menu_id" value="{{$menu_id}}">
+    <input type="hidden" name="menu_id" value="{{$menu_id}}">
+
     <div>
-        <button type="submit" form="hoge">不足分を購入リストへ</button>
+        <button type="submit" form="hoge">不足分を購入リストに追加する</button>
     </div>
     </form>
 
@@ -62,6 +68,12 @@
             @continue
         @endif
     @endforeach
-    <div>調理リストへ</div>
+    <form action="{{route('add_cooking_list')}}" method="POST">
+    @csrf
+        <input type="hidden" name="menu" value="{{$menu_id}}">
+        <button type="submit">調理リストへ</button> 
+    </form>
+
+    
 </div>
 @endsection

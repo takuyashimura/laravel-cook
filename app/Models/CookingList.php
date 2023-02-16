@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CookingList extends Model
 {
     use HasFactory;
+    protected $fillable = ['menu_id','user_id'];
     public function users()
     {
         return $this->hasOne(User::class);
