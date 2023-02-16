@@ -9,6 +9,7 @@ use App\Models\Stock;
 use App\Models\FoodMenu;
 use App\Models\User;
 use App\Models\ShoppingItem;
+use App\Models\Text;
 use DB;
 
 class buyController extends Controller
@@ -123,7 +124,12 @@ class buyController extends Controller
         ->orderby('created_at','DESC')
         ->get()
         ->keyby("id");
-        return view('add_buy_list',compact("shopping_items","food"));  
+        $texts = Text::select("texts.*")
+        ->where("user_id" , "=" , \Auth::id())
+        ->orderby("created_at","DESC") 
+        ->get();
+
+        return view('add_buy_list',compact("shopping_items","food","texts"));  
     }
 
     
