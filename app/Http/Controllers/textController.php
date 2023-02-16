@@ -7,6 +7,7 @@ use App\Models\Food;
 use App\Models\Menu;
 use App\Models\Stock;
 use App\Models\User;
+use App\Models\Text;
 use DB;
 
 class textController extends Controller
@@ -31,8 +32,20 @@ class textController extends Controller
     public function text(Request $request)
     {
         $posts=$request->all();
-        dd($posts);
-        
+        $text = Text::select("texts.*")
+        ->get();
+        if(isset($text)){
+            Text::create([
+                "user_id" => \Auth::id(),
+                "text" => $posts["text"]
+            ]);
+        }else{
+            Text::where("user_id", "=", \Auth::id())
+            ->save([
+                "text" => $posts["text"]
+            ]);
+        }
+        //データベースのデータ量がずっと増え続けるので、コードを変えた方がいいか相談
 
         return redirect( route('buy_list') );
     }

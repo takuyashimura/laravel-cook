@@ -14,11 +14,9 @@
         <a href="{{route('edit_buy_list')}}">購入する食材を編集する</a>
         <input type="submit" value="購入する">
     </div>
-    <form action="" method="POST">
+    <form action="{{route('text')}}" method="POST">
     @csrf
-        <textarea  placeholder="その他買い物メモ">
-            DBの設計を変更してテキストエリアのテーブルを作る
-        </textarea>
+        <textarea name="text" placeholder="その他買い物メモ">{{$texts[0]->text}}</textarea>
         <input type="submit" value="保存">
     </form>
 </div>
