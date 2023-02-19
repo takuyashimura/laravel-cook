@@ -34,17 +34,20 @@ class textController extends Controller
         $posts=$request->all();
         $text = Text::select("texts.*")
         ->get();
-        if(isset($text)){
-            Text::create([
-                "user_id" => \Auth::id(),
-                "text" => $posts["text"]
-            ]);
-        }else{
-            Text::where("user_id", "=", \Auth::id())
-            ->save([
-                "text" => $posts["text"]
-            ]);
+        if($posts["text"]!=null){
+            if(isset($text)){
+                Text::create([
+                    "user_id" => \Auth::id(),
+                    "text" => $posts["text"]
+                ]);
+            }else{
+                Text::where("user_id", "=", \Auth::id())
+                ->save([
+                    "text" => $posts["text"]
+                ]);
+            }
         }
+
         //データベースのデータ量がずっと増え続けるので、コードを変えた方がいいか相談
 
         return redirect( route('buy_list') );

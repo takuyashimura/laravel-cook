@@ -47,7 +47,12 @@ class menu_cookController extends Controller
         ->orderby('food_id','DESC')
         ->get();
 
-        
+        $food_menus_amount = FoodMenu::select("food_id")
+        ->selectRaw('SUM(food_amount) AS total_amount')
+        ->groupBy('food_id')        
+        ->get()
+        ->keyby("food_id");
+
         $stocks = Stock::select('food_id')
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy('food_id')
@@ -58,7 +63,7 @@ class menu_cookController extends Controller
         ->get()
         ->keyby("food_id");
         
-        return view('menu_cook',compact('menu_name',"food","food_menus","stocks","menu_id","shopping_items"));
+        return view('menu_cook',compact('menu_name',"food","food_menus","stocks","menu_id","shopping_items","food_menus_amount"));
     }
 }
 

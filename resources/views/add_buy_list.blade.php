@@ -16,8 +16,13 @@
     </div>
     <form action="{{route('text')}}" method="POST">
     @csrf
-        <textarea name="text" placeholder="その他買い物メモ">{{$texts[0]->text}}</textarea>
-        <input type="submit" value="保存">
+    
+        @if(empty($texts))
+            <textarea name="text" placeholder="その他買い物メモ"></textarea>
+        @else
+            <textarea name="text" >{{$texts[0]["text"]}}</textarea>
+        @endif
+            <input type="submit" value="保存">
     </form>
 </div>
 

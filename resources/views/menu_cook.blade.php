@@ -24,24 +24,34 @@
     <form action="http://localhost:8888/add_buy_list" id="hoge" method='POST'>
     @csrf
     @foreach($food_menus as $food_menu)
-        @if($stocks[$food_menu->food_id]["total_amount"] < $food_menu->food_amount)
-            <div class='row bg-danger mt-1'>
-                <div class='col '>
-                        <p>{{$food[$food_menu->food_id]["name"]}}</p> 
-                        <p>不足数{{$food_menu->food_amount - $stocks[$food_menu->food_id]["total_amount"]}}</p>
-                        @if(isset($shopping_items[$food_menu->food_id]->amount))
-                            <p>購入リスト登録数{{$shopping_items[$food_menu->food_id]->amount}}</p>
-                        @else
-                            <p>購入リスト登録数 0</p>
-                        @endif
+        @if(isset($stocks[$food_menu->food_id]["total_amount"]))
+            @if($stocks[$food_menu->food_id]["total_amount"] < $food_menu->food_amount)
+                <div class='row bg-danger mt-1'>
+                    <div class='col '>
+                            <p>{{$food[$food_menu->food_id]["name"]}}</p> 
+                            <p>不足数{{$food_menu->food_amount - $stocks[$food_menu->food_id]["total_amount"]}}</p>
+                            @if(isset($shopping_items[$food_menu->food_id]->amount))
+                                <p>購入リスト登録数{{$shopping_items[$food_menu->food_id]->amount}}</p>
+                            @else
+                                <p>購入リスト登録数 0</p>
+                            @endif
+                    </div>
                 </div>
-            </div>
-            <input type="hidden" name="{{$food[$food_menu->food_id]['name']}}" value="id_{{$food[$food_menu->food_id]['id']}}">
-            <input type="hidden" name="{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}" value="amount_{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}">
+                <input type="hidden" name="{{$food[$food_menu->food_id]['name']}}" value="id_{{$food[$food_menu->food_id]['id']}}">
+                <input type="hidden" name="{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}" value="amount_{{$food_menu->food_amount - $stocks[$food_menu->food_id]['total_amount']}}">
 
-            @else
-            @continue
+                @else
+                @continue
+            @endif        
+        @else
+        <div class='row bg-danger mt-1'>
+            <div class='col '>
+                <p>{{$food[$food_menu->food_id]->name}}</p>
+                <p>{{$food_menus_amount[$food_menu->food_id]->total_amount}}</p>
+            </div>
+        </div>   
         @endif
+        
     @endforeach
     <input type="hidden" name="menu_id" value="{{$menu_id}}">
 
@@ -56,14 +66,18 @@
 <div>
     <p>在庫のある食材</p>
     @foreach($food_menus as $food_menu)
-        @if($stocks[$food_menu->food_id]["total_amount"] > $food_menu->food_amount)
-            <div class='row blue_elea mt-1'>
-                <div class='col '>
-                        <p>{{$food[$food_menu->food_id]["name"]}}</p> 
-                        <p>在庫数{{$stocks[$food_menu->food_id]["total_amount"]}}</p>
-                        <p>使用数{{$food_menu->food_amount}}</p>
+        @if(isset($stocks[$food_menu->food_id]["total_amount"]))
+            @if($stocks[$food_menu->food_id]["total_amount"] > $food_menu->food_amount )
+                <div class='row blue_elea mt-1'>
+                    <div class='col '>
+                            <p>{{$food[$food_menu->food_id]["name"]}}</p> 
+                            <p>在庫数{{$stocks[$food_menu->food_id]["total_amount"]}}</p>
+                            <p>使用数{{$food_menu->food_amount}}</p>
+                    </div>
                 </div>
-            </div>
+            @else
+                @continue
+            @endif
         @else
             @continue
         @endif

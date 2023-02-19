@@ -124,10 +124,12 @@ class buyController extends Controller
         ->orderby('created_at','DESC')
         ->get()
         ->keyby("id");
+
         $texts = Text::select("texts.*")
         ->where("user_id" , "=" , \Auth::id())
         ->orderby("created_at","DESC") 
-        ->get();
+        ->get()
+        ->toArray();
 
         return view('add_buy_list',compact("shopping_items","food","texts"));  
     }

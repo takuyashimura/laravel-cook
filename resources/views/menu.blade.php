@@ -14,7 +14,9 @@
             
             <div class='d-flex justify-content-end'>
                 <p class='bg-secondary text-white' style='margin:0px 5px 0px'>削除</p>
-                <p class='bg-secondary text-white' style='margin:0px 5px 0px'>編集</p>
+                <a href="{{ route('menu_edit', $menu_id = $menu['id']) }}" class='bg-secondary text-white' style='margin:0px 5px 0px'>
+                    編集
+                </a>
             </div>
         </div>
         @endforeach
