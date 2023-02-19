@@ -9,6 +9,8 @@ use App\Http\Controllers\add_menuController;
 use App\Http\Controllers\cookingController;
 use App\Http\Controllers\cookingListController;
 use App\Http\Controllers\textController;
+use App\Http\Controllers\menuEditController;
+use App\Http\Controllers\deleteController;
 
 
 /*
@@ -45,3 +47,5 @@ Route::post('/buy_list_by_edit', [buyController::class, 'buy_list_by_edit'])->na
 Route::get('/cooking_list', [cookingListController::class, 'cooking_list'])->name('cooking_list');
 Route::post('/add_cooking_list', [cookingListController::class, 'add_cooking_list'])->name('add_cooking_list');
 Route::post('/text', [textController::class, 'text'])->name('text');
+Route::get('/menu_edit/{menu_id}', [menuEditController::class, 'menu_edit'])->name('menu_edit');
+Route::get('/food_menu_food_delet/{food_menu_id}', [deleteController::class, 'food_menu_food_delet'])->name('food_menu_food_delet');
