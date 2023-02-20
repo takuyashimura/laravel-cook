@@ -33,7 +33,9 @@ class menuController extends Controller
      public function menu()
      {
          //ここでメニュー名を取得
-         $menus= Menu::orderby('created_at','DESC')
+         $menus= Menu::where("user_id" ,"=", \Auth::id())
+         ->whereNull("deleted_at")
+         ->orderby('created_at','DESC')
          ->get();
  
          return view('menu',compact('menus'));

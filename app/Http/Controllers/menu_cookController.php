@@ -34,30 +34,39 @@ class menu_cookController extends Controller
     // メニュー確定画面
     public function menu_cook($menu_id)
     {
+        //menuテーブルから$menu_idに格納されてる番号がid_のデータを取得
         $menu_name = Menu::find($menu_id);
+
+        //foodテーブルのデータをidをキーとし、配列して取得
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
         ->get()
         ->keyby("id");
 
 
-        // food_menusテーブルのfood_idを取得
+        //名前が表示されてるメニューで使用される食材の使用量を取得
         $food_menus = FoodMenu::select("food_menus.*")
         ->where("menu_id", "=" , $menu_id)
+        ->whereNull('deleted_at')
         ->orderby('food_id','DESC')
         ->get();
 
         $food_menus_amount = FoodMenu::select("food_id")
+        ->where("menu_id", "=" , $menu_id)
+        ->whereNull('deleted_at')
         ->selectRaw('SUM(food_amount) AS total_amount')
         ->groupBy('food_id')        
         ->get()
         ->keyby("food_id");
+        // dd($food_menus_amount);
 
+        // 食材の在庫をキーをfood_idとし、配列にして取得
         $stocks = Stock::select('food_id')
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy('food_id')
         ->get()
         ->keyby("food_id");
+        // dd($stocks);
 
         $shopping_items = ShoppingItem::select("shopping_items.*")
         ->get()

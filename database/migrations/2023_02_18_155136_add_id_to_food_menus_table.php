@@ -15,6 +15,8 @@ class AddIdToFoodMenusTable extends Migration
     {
         Schema::table('food_menus', function (Blueprint $table) {
             $table->unsignedBigInteger('id',true);
+            $table->softDeletes();
+
         });
     }
 
@@ -27,6 +29,7 @@ class AddIdToFoodMenusTable extends Migration
     {
         Schema::table('food_menus', function (Blueprint $table) {
             $table->dropColumn('id');  
+            $table->dropColumn('deleted_at');
         });
     }
 }
