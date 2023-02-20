@@ -48,4 +48,5 @@ Route::get('/cooking_list', [cookingListController::class, 'cooking_list'])->nam
 Route::post('/add_cooking_list', [cookingListController::class, 'add_cooking_list'])->name('add_cooking_list');
 Route::post('/text', [textController::class, 'text'])->name('text');
 Route::get('/menu_edit/{menu_id}', [menuEditController::class, 'menu_edit'])->name('menu_edit');
-Route::get('/food_menu_food_delet/{food_menu_id}', [deleteController::class, 'food_menu_food_delet'])->name('food_menu_food_delet');
+Route::get('/food_menu_food_delet/{food_menu_id}/menu/{menu_id}', [deleteController::class, 'food_menu_food_delet'])->name('food_menu_food_delet');
+Route::get('/menu_delete/{menu_id}', [deleteController::class, 'menu_delete'])->name('menu_delete');
