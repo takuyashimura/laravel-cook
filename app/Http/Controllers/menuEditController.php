@@ -31,6 +31,11 @@ class menuEditController extends Controller
      //食材画面
     public function menu_edit($menu_id)
     {
+        $food = Food::select('food.*')
+        ->orderby('created_at','DESC')
+        ->get()
+        ->keyby("id");
+        
         $menus = Menu::select("menus.*")
         ->orderby("id")
         ->get()
@@ -38,7 +43,9 @@ class menuEditController extends Controller
 
         $food_menus = FoodMenu::select("food_menus.*")
         ->where("menu_id",$menu_id)
+        ->whereNull("deleted_at")
         ->get();
+        
         $food = Food::select("food.*")
         ->get()
         ->keyby("id");
