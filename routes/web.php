@@ -11,6 +11,9 @@ use App\Http\Controllers\cookingListController;
 use App\Http\Controllers\textController;
 use App\Http\Controllers\menuEditController;
 use App\Http\Controllers\deleteController;
+use App\Http\Controllers\addMenuEditController;
+use App\Http\Controllers\addMenuFoodController;
+use App\Http\Controllers\foodToMenuController;
 
 
 /*
@@ -50,3 +53,8 @@ Route::post('/text', [textController::class, 'text'])->name('text');
 Route::get('/menu_edit/{menu_id}', [menuEditController::class, 'menu_edit'])->name('menu_edit');
 Route::get('/food_menu_food_delet/{food_menu_id}/menu/{menu_id}', [deleteController::class, 'food_menu_food_delet'])->name('food_menu_food_delet');
 Route::get('/menu_delete/{menu_id}', [deleteController::class, 'menu_delete'])->name('menu_delete');
+Route::get('/add_menu_edit/{menu_id}', [addMenuEditController::class, 'add_menu_edit'])->name('add_menu_edit');
+Route::post('/add_menu_food', [addMenuFoodController::class, 'add_menu_food'])->name('add_menu_food');
+Route::get('/add_menu_edit_completion/{menu_id}', [addMenuEditController::class, 'add_menu_edit_completion'])->name('add_menu_edit_completion');
+Route::get('/foodToMenu/{food_id}', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
+

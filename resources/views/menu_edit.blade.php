@@ -9,5 +9,7 @@
          <a href="{{ route('food_menu_food_delet', [$food_menu_id = $food_menu['id'],$menu_id ])}}">削除</a>
       </div>
    @endforeach
+   <a href="{{route('add_menu_edit',$menu_id)}}">使用する食材の追加</a>
    <a href="{{route('menu')}}">メニュー一覧に戻る</a>
+   <input type="submit" value="変更する">
 @endsection
