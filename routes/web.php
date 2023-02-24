@@ -14,6 +14,8 @@ use App\Http\Controllers\deleteController;
 use App\Http\Controllers\addMenuEditController;
 use App\Http\Controllers\addMenuFoodController;
 use App\Http\Controllers\foodToMenuController;
+use App\Http\Controllers\stockController;
+use App\Http\Controllers\boughtFoodController;
 
 
 /*
@@ -35,8 +37,8 @@ Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
 Route::get('/home', [HomeController::class, 'home'])->name('home');//①
 Route::get('/menu', [menuController::class, 'menu'])->name('menu');//②
-Route::get('/add_food', [HomeController::class, 'add_food'])->name('add_food');//③
-Route::post('/add', [HomeController::class, 'add'])->name('add');//④
+Route::get('/add_food', [stockController::class, 'add_food'])->name('add_food');//③
+Route::post('/add', [stockController::class, 'add'])->name('add');//④
 Route::get('/menu_cook/{menu_id}', [menu_cookController::class, 'menu_cook'])->name('menu_cook');//⑤
 Route::get('/buy', [buyController::class, 'buy'])->name('buy');//⑥
 Route::get('/add_menu', [add_menuController::class, 'add_menu'])->name('add_menu');//⑦
@@ -57,4 +59,5 @@ Route::get('/add_menu_edit/{menu_id}', [addMenuEditController::class, 'add_menu_
 Route::post('/add_menu_food', [addMenuFoodController::class, 'add_menu_food'])->name('add_menu_food');
 Route::get('/add_menu_edit_completion/{menu_id}', [addMenuEditController::class, 'add_menu_edit_completion'])->name('add_menu_edit_completion');
 Route::get('/foodToMenu/{food_id}', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
+Route::post('/boughtFood', [boughtFoodController::class, 'boughtFood'])->name('boughtFood');
 
