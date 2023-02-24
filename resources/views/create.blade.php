@@ -2,8 +2,9 @@
 
 @section('content')
     <div>
-        <div class='blue_elea' style='text-align:center rounded-pill'>新しい食材を<br>追加</div>
-        <!-- aタグのhrefを使って食材をクリックするとその食材を使うメニューが表示されるようにする -->
+        <a href="{{route('add_food')}}">
+            <div class='blue_elea' style='text-align:center rounded-pill'>新しい食材を<br>追加</div>
+        </a>
         @foreach($stocks as $stock) 
             <a href="{{route('foodToMenu' ,$food_id = $stock->food_id)}}">
                 <div class='blue_elea d-flex justify-content-between '>

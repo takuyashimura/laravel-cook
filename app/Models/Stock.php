@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stock extends Model
 {
-    protected $fillable = ['amount'];
     use HasFactory;
+    protected $fillable = ['user_id','food_id','amount'];
+
 
 //     public function user()
 //     {

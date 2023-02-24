@@ -61,8 +61,7 @@ class add_menuController extends Controller
                     "food_id" => $food_id,
                     'menu_id' => $menu_id 
                     
-                ]
-                );
+                ]);
         }
 
        return redirect(route('menu'));  
