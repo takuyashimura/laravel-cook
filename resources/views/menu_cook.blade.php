@@ -55,9 +55,7 @@
         @endif
         
     @endforeach
-   
     <input type="hidden" name="menu_id" value="{{$menu_id}}">
-
     <div>
         <button type="submit" form="hoge">不足分を購入リストに追加する</button>
     </div>
