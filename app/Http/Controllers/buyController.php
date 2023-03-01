@@ -55,7 +55,6 @@ class buyController extends Controller
     public function add_buy_list(Request $request)
     {
         $posts = $request->all();
-        // dd($posts);
 
         $menu_id = $posts["menu_id"];
 
@@ -79,8 +78,10 @@ class buyController extends Controller
 
 
         $shopping_items=ShoppingItem::select("shopping_items.*")
+        ->whereNull("deleted_at")
         ->get()
         ->keyby("food_id");
+
         $shopping_item=$shopping_items
         ->pluck("food_id")
         ->toArray();
@@ -141,7 +142,7 @@ class buyController extends Controller
         ->whereNull("deleted_at")
         ->groupBy('food_id')
         ->get();
-
+       
 
         $food = Food::select('food.*')
         ->where('user_id', '=' , \Auth::id())
@@ -155,7 +156,7 @@ class buyController extends Controller
         ->get()
         ->toArray();
 
-        return view('add_buy_list',compact("shopping_items","food","texts"));  
+        return view('add_buy_list',compact("shopping_items","food","texts",));  
     }
 
     

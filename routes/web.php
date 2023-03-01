@@ -16,6 +16,9 @@ use App\Http\Controllers\addMenuFoodController;
 use App\Http\Controllers\foodToMenuController;
 use App\Http\Controllers\stockController;
 use App\Http\Controllers\boughtFoodController;
+use App\Http\Controllers\cookingListFoodAmountController;
+use App\Http\Controllers\cookingListdeleteController;
+use App\Http\Controllers\addBuyListByCoookingListController;
 
 
 /*
@@ -43,7 +46,6 @@ Route::get('/menu_cook/{menu_id}', [menu_cookController::class, 'menu_cook'])->n
 Route::get('/buy', [buyController::class, 'buy'])->name('buy');//⑥
 Route::get('/add_menu', [add_menuController::class, 'add_menu'])->name('add_menu');//⑦
 Route::post('/add_menu_register', [add_menuController::class, 'add_menu_register'])->name('add_menu_register');//⑦
-Route::post('/cooking_lists', [cookingController::class, 'cooking_lists'])->name('cooking_lists');//⑧
 Route::post('/add_buy_list', [buyController::class, 'add_buy_list'])->name('add_buy_list');
 Route::get('/buy_list', [buyController::class, 'buy_list'])->name('buy_list');
 Route::get('/edit_buy_list', [buyController::class, 'edit_buy_list'])->name('edit_buy_list');
@@ -60,4 +62,8 @@ Route::post('/add_menu_food', [addMenuFoodController::class, 'add_menu_food'])->
 Route::get('/add_menu_edit_completion/{menu_id}', [addMenuEditController::class, 'add_menu_edit_completion'])->name('add_menu_edit_completion');
 Route::get('/foodToMenu/{food_id}', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
 Route::post('/boughtFood', [boughtFoodController::class, 'boughtFood'])->name('boughtFood');
+Route::get('/cookingListFoodAmount/{menu_id}', [cookingListFoodAmountController::class, 'cookingListFoodAmount'])->name('cookingListFoodAmount');
+Route::get('/cookingListdelete/{id}', [cookingListdeleteController::class, 'cookingListdelete'])->name('cookingListdelete');
+Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::class, 'addBuyListByCoookingList'])->name('addBuyListByCoookingList');
+Route::get('/cooking', [cookingController::class, 'cooking'])->name('cooking');
 
