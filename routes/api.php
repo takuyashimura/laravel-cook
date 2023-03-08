@@ -35,7 +35,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
 Route::get('/home', [HomeController::class, 'home'])->name('home'); //①
 Route::get('/menu', [menuController::class, 'menu'])->name('menu'); //②

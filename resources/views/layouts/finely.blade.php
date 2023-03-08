@@ -82,7 +82,7 @@
             </div>
             <div class='flex- row fixed-bottom'>
                 <div class='col border d-flex d-flex align-items-center justify-content-center' >
-                <a href="http://localhost:8888/home">食材</a>
+                <a href="route('home')">食材</a>
                 </div>
                 <div class='col border d-flex d-flex align-items-center justify-content-center'>                            
                     <a href="http://localhost:8888/menu">メニュー</a>
