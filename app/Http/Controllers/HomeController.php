@@ -16,10 +16,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -30,6 +30,8 @@ class HomeController extends Controller
     //食材画面
     public function home()
     {
+        return response()->json(
+            [
         // //ここで食材名を取得する
         // $foods = Food::select('food.*')
         //     ->whereNull('deleted_at')
@@ -64,8 +66,7 @@ class HomeController extends Controller
         //     JSON_UNESCAPED_UNICODE //文字化け対策
 
         // ]);
-        return response()->json(
-            [
+        
                 "post" => [
                     [
                         "id" => 1,
