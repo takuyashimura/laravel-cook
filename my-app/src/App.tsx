@@ -23,6 +23,7 @@ const App = () => {
             try {
                 const res = await axios.get(url);
                 setValue(res.data.post);
+                //サイトで拾ってきたコードにはconsoleのコードはなかったので自分で追記
                 console.log(res);
 
                 return;
