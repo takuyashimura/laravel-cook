@@ -30,27 +30,29 @@ class HomeController extends Controller
     //食材画面
     public function home()
     {
-        return response()->json(
-            [
-        // //ここで食材名を取得する
-        // $foods = Food::select('food.*')
-        //     ->whereNull('deleted_at')
-        //     ->orderby('id', 'DESC')
-        //     ->get();
+    //     // ここで食材名を取得する
+    //     $foods = Food::select('food.*')
+    //         ->whereNull('deleted_at')
+    //         ->orderby('id', 'DESC')
+    //         ->get()
+    //         ->toArray();
+    
+    //     $food = Food::select('food.*')
+    //         ->orderby('created_at', 'DESC')
+    //         ->get()
+    //         ->keyby('id');
+    //     $food_array = $food->pluck('id')->toArray();
 
-        // $food = Food::select('food.*')
-        //     ->orderby('created_at', 'DESC')
-        //     ->get()
-        //     ->keyby('id');
-        // $food_array = $food->pluck('id')->toArray();
+    //     $stocks = Stock::select('food_id')
+    //         ->selectRaw('SUM(amount) AS total_amount')
+    //         ->groupBy('food_id')
+    //         ->get();
+    //     $stocks_array = $stocks->pluck('food_id')->toArray();
 
-        // $stocks = Stock::select('food_id')
-        //     ->selectRaw('SUM(amount) AS total_amount')
-        //     ->groupBy('food_id')
-        //     ->get();
-        // $stocks_array = $stocks->pluck('food_id')->toArray();
+    //     $array = array_diff($food_array, $stocks_array);
 
-        // $array = array_diff($food_array, $stocks_array);
+    //     return view('create',compact('foods',"food","food_array","food_array","stocks","stocks_array","array"));
+    // }
 
 
 
@@ -66,6 +68,10 @@ class HomeController extends Controller
         //     JSON_UNESCAPED_UNICODE //文字化け対策
 
         // ]);
+
+
+
+        return response()->json([
         
                 "post" => [
                     [
