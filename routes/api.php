@@ -31,9 +31,9 @@ use App\Http\Controllers\addBuyListByCoookingListController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
 Route::get('/home', [HomeController::class, 'home'])->name('home'); //①
