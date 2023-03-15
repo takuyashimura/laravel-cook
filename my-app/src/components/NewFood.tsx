@@ -1,26 +1,64 @@
+import axios from "axios";
 import { useState } from "react";
 
+type FoodData = {
+    name: string;
+    amount: number;
+};
+
 const NewFood = () => {
-    const [count, setCount] = useState(0);
+    const [FoodData, setFoodData] = useState<FoodData>({
+        name: "新規食材名を記入してください",
+        amount: 0,
+    });
 
     const OnClickCountUp = () => {
-        setCount(count + 1);
+        setFoodData({
+            ...FoodData,
+            amount: FoodData.amount + 1,
+        });
     };
     const OnClickCountDown = () => {
-        setCount(count - 1);
+        setFoodData({
+            ...FoodData,
+            amount: FoodData.amount - 1,
+        });
     };
 
+    const OnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFoodData({
+            ...FoodData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        axios
+            .post("http://localhost:8888/api/add", FoodData)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
     return (
         <>
             <div>
-                <input type="text" name="name" placeholder="登録する食材名" />
-                <p>{count}</p>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder={FoodData.name}
+                    onChange={OnChangeName}
+                />
+                <p>{FoodData.amount}</p>
                 <button onClick={OnClickCountUp}>+</button>
                 <button onClick={OnClickCountDown}>-</button>
             </div>
-            <div>
-                <button type="submit">新しい食材を追加</button>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <button type="submit">新規食材追加</button>
+            </form>
         </>
     );
 };
