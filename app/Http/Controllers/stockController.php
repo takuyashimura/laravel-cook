@@ -61,6 +61,8 @@ class stockController extends Controller
     //食材を追加した時の処理
     public function add(Request $request)
     {
+        $post =$request->all();
+        dd($post);
 
         $foods = Food::select('food.*')
         ->whereNull('deleted_at')
@@ -112,5 +114,3 @@ class stockController extends Controller
     }
 
 }
-
-
