@@ -1,4 +1,5 @@
 import { Wrap, WrapItem } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -34,6 +35,10 @@ const Food = () => {
     }, []);
     return (
         <div className="Food">
+            <div>
+                <a href="/newFood/">新規食材追加</a>
+            </div>
+
             <Wrap>
                 {foodStocks &&
                     foodStocks.map((food_stock) => (
@@ -47,6 +52,7 @@ const Food = () => {
                                         : food_stock.total_amount}
                                     個
                                 </p>
+                                <p>リンク先未設定</p>
                             </SCord>
                         </WrapItem>
                     ))}

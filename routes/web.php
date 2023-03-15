@@ -38,7 +38,7 @@ Route::get('/', function () {
 
 Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
-Route::get('/home', [HomeController::class, 'home'])->name('home');//①
+// Route::get('/home', [HomeController::class, 'home'])->name('home');//①
 Route::get('/menu', [menuController::class, 'menu'])->name('menu');//②
 Route::get('/add_food', [stockController::class, 'add_food'])->name('add_food');//③
 Route::post('/add', [stockController::class, 'add'])->name('add');//④
@@ -66,4 +66,3 @@ Route::get('/cookingListFoodAmount/{menu_id}', [cookingListFoodAmountController:
 Route::get('/cookingListdelete/{id}', [cookingListdeleteController::class, 'cookingListdelete'])->name('cookingListdelete');
 Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::class, 'addBuyListByCoookingList'])->name('addBuyListByCoookingList');
 Route::get('/cooking', [cookingController::class, 'cooking'])->name('cooking');
-

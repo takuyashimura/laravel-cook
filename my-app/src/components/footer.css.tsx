@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const Footer = () => {
     return (
         <SContainer>
-            <SMenu href="#">
-                <SPtagu>食材（リンク先未設定）</SPtagu>
+            <SMenu href="/Food/">
+                <SPtagu>食材</SPtagu>
             </SMenu>
             <SMenu href="#">
                 <SPtagu>メニュー（リンク先未設定）</SPtagu>
