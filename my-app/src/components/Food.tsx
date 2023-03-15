@@ -32,29 +32,27 @@ const Food = () => {
             }
         })();
     }, []);
-    return;
-    <div className="Food">
-        <Wrap>
-            {foodStocks ? (
-                foodStocks.map((food_stock) => (
-                    <WrapItem>
-                        <SCord>
-                            <p>{food_stock.name}</p>
-                            <p>
-                                在庫数
-                                {food_stock.total_amount === null
-                                    ? 0
-                                    : food_stock.total_amount}
-                                個
-                            </p>
-                        </SCord>
-                    </WrapItem>
-                ))
-            ) : (
-                <div>Loading...</div>
-            )}
-        </Wrap>
-    </div>;
+    return (
+        <div className="Food">
+            <Wrap>
+                {foodStocks &&
+                    foodStocks.map((food_stock) => (
+                        <WrapItem>
+                            <SCord>
+                                <p>{food_stock.name}</p>
+                                <p>
+                                    在庫数
+                                    {food_stock.total_amount === null
+                                        ? 0
+                                        : food_stock.total_amount}
+                                    個
+                                </p>
+                            </SCord>
+                        </WrapItem>
+                    ))}
+            </Wrap>
+        </div>
+    );
 };
 
 const SCord = styled.div`

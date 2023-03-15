@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Register from "./Register";
 import Login from "./Login";
+import { Footer } from "./css/footer.css";
+import Food from "./components/Food";
 
 interface article {
     id: number;
@@ -35,6 +37,7 @@ const App = () => {
 
     return (
         <div className="App">
+            <Food />
             {value.map((article: article) => {
                 return (
                     <div key={article.id}>
@@ -50,6 +53,7 @@ const App = () => {
                     <Route path={`/login/`} element={<Login />} />
                 </Routes>
             </BrowserRouter>
+            <Footer />
         </div>
     );
 };
