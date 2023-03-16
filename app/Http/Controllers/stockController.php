@@ -62,14 +62,16 @@ class stockController extends Controller
     public function add(Request $request)
     {
         $post =$request->all();
+        $foodName = key($post);
+        // return $foodName;
 
-        $food =Food::where("name","=",$post["name"])->exists();
+        $food =Food::where("name","=",$foodName)->exists();
         if($food === false){
             $foods=Food::
             create([
                 "user_id"=>1,
-                "name"=>$post["name"]]
-                )
+                "name"=>$foodName
+                ])
             ->save();
         }else{
             return "この食材はすでに登録されています。";
