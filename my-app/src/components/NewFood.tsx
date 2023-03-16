@@ -1,7 +1,7 @@
 import { Button, ChakraProvider, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import Food from "./Food";
+import { useHistory } from "react-router-dom";
 
 type FoodData = string;
 
@@ -11,62 +11,79 @@ const NewFood = () => {
     const OnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFoodData(e.target.value);
     };
-
-    const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        axios
-            .post("http://localhost:8888/api/add", foodData)
-            .then((response) => {
-                setFoodData(response.data);
-                console.log(foodData);
-                HandleAddFood();
-            })
-            .catch((error) => {
-                console.error(error);
+    const HandleAddFood = (foodDatas: string) => {
+        if (foodDatas === "この食材はすでに登録されています。") {
+            toast({
+                title: "既に登録されています",
+                description: "食材ページを確認してください",
+                status: "error",
+                duration: 9000,
+                isClosable: true
             });
+        }
     };
-
-    const toast = useToast();
-
-    const HandleAddFood = () => {
+    const HandleAddFood2 = () => {
         if (foodData === "この食材はすでに登録されています。") {
             toast({
                 title: "既に登録されています",
                 description: "食材ページを確認してください",
                 status: "error",
                 duration: 9000,
-                isClosable: true,
+                isClosable: true
             });
         }
     };
 
+    const history = useHistory();
+
+    const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (foodData !== "この食材はすでに登録されています。") {
+            axios
+                .post("http://localhost:8888/api/add", foodData)
+                .then(response => {
+                    console.log(response.data);
+                    HandleAddFood(response.data);
+                    setFoodData(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else if (foodData === "登録完了") {
+            history.push("/completed-registration");
+        } else {
+            HandleAddFood2();
+        }
+    };
+
+    const toast = useToast();
+
     return (
         <>
-            <div>
-                <ChakraProvider>
-                    <form onSubmit={HandleSubmit}>
-                        <div>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder={foodData || "食品名"}
-                                onChange={OnChangeName}
-                            />
-                        </div>
+            <ChakraProvider>
+                {/* レイアウトを整えるのにstackを使う 
+                    時間に余裕があればmodalを用いたい。*/}
+                <form onSubmit={HandleSubmit}>
+                    <div>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder={foodData || "食品名"}
+                            onChange={OnChangeName}
+                        />
+                    </div>
 
-                        {foodData === "食品名" ||
-                        foodData === "" ||
-                        foodData.length === 0 ? (
-                            <p>食材名を記入してください</p>
-                        ) : (
-                            <Button type="submit" isDisabled={!foodData}>
-                                新規食材追加
-                            </Button>
-                        )}
-                    </form>
-                </ChakraProvider>
-            </div>
+                    {foodData === "食品名" ||
+                    foodData === "" ||
+                    foodData.length === 0 ? (
+                        <p>食材名を記入してください</p>
+                    ) : (
+                        <Button type="submit" isDisabled={!foodData}>
+                            新規食材追加
+                        </Button>
+                    )}
+                </form>
+            </ChakraProvider>
         </>
     );
 };
