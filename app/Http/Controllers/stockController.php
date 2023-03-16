@@ -73,10 +73,11 @@ class stockController extends Controller
                 "name"=>$foodName
                 ])
             ->save();
+            return "登録完了";
         }else{
             return "この食材はすでに登録されています。";
         }
-        
+    }
 
 
 
@@ -88,55 +89,55 @@ class stockController extends Controller
 
 
 
-        //食材をid順に取得
-        $foods = Food::select('food.*')
-        ->whereNull('deleted_at')
-        ->orderby('id','DESC')
-        ->get();
+    //     //食材をid順に取得
+    //     $foods = Food::select('food.*')
+    //     ->whereNull('deleted_at')
+    //     ->orderby('id','DESC')
+    //     ->get();
 
-        //食材を登録日順に全て取得
-        $food = Food::select('food.*')
-        ->orderby('created_at','DESC')
-        ->get()
-        ->keyby('id');
-        $food_array = $food->pluck('id')->toArray();
+    //     //食材を登録日順に全て取得
+    //     $food = Food::select('food.*')
+    //     ->orderby('created_at','DESC')
+    //     ->get()
+    //     ->keyby('id');
+    //     $food_array = $food->pluck('id')->toArray();
 
-        $stocks = Stock::select('food_id')
-        ->selectRaw('SUM(amount) AS total_amount')
-        ->groupBy('food_id')
-        ->get();
-        $stocks_array = $stocks->pluck('food_id')->toArray();
-        //ストックにない食材を抽出
-        $array= array_diff($food_array,$stocks_array);
+    //     $stocks = Stock::select('food_id')
+    //     ->selectRaw('SUM(amount) AS total_amount')
+    //     ->groupBy('food_id')
+    //     ->get();
+    //     $stocks_array = $stocks->pluck('food_id')->toArray();
+    //     //ストックにない食材を抽出
+    //     $array= array_diff($food_array,$stocks_array);
 
 
-        $posts=$request->all();
-        //食材の名前をキーとしてデータを取得
-        $food_names=Food::select("food.*")
-        ->where('user_id','=',\Auth::id())
-        ->whereNull("deleted_at")
-        ->orderby("id")
-        ->get()
-        ->keyby("name");
-        $food_name=$food_names->pluck("name")->toArray();
+    //     $posts=$request->all();
+    //     //食材の名前をキーとしてデータを取得
+    //     $food_names=Food::select("food.*")
+    //     ->where('user_id','=',\Auth::id())
+    //     ->whereNull("deleted_at")
+    //     ->orderby("id")
+    //     ->get()
+    //     ->keyby("name");
+    //     $food_name=$food_names->pluck("name")->toArray();
 
-        if(in_array($posts["name"],$food_name) || $posts["name"] ==NULL){
-            // 今はホーム画面に戻ってしまうが、add_food画面に戻るようにする
-            return view('create' ,compact('food','stocks','array'));
-        }else{
-        Food::create([
-            'name' => $posts['name'] ,
-            'user_id' => \Auth::id()
-        ]);
-            if(isset($posts['amount'])){
-                Stock::create([
-                    "food_id" => $food[$posts['name']]->id,
-                    "user_id" => \Auth::id(),
-                    "amount" => $posts["amount"]
-                ]);
-            }
-        }
-        return redirect( route('home') );  
-    }
+    //     if(in_array($posts["name"],$food_name) || $posts["name"] ==NULL){
+    //         // 今はホーム画面に戻ってしまうが、add_food画面に戻るようにする
+    //         return view('create' ,compact('food','stocks','array'));
+    //     }else{
+    //     Food::create([
+    //         'name' => $posts['name'] ,
+    //         'user_id' => \Auth::id()
+    //     ]);
+    //         if(isset($posts['amount'])){
+    //             Stock::create([
+    //                 "food_id" => $food[$posts['name']]->id,
+    //                 "user_id" => \Auth::id(),
+    //                 "amount" => $posts["amount"]
+    //             ]);
+    //         }
+    //     }
+    //     return redirect( route('home') );  
+    // }
 
 }
