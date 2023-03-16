@@ -17,10 +17,10 @@ class add_menuController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -67,5 +67,3 @@ class add_menuController extends Controller
        return redirect(route('menu'));  
     }
 }
-
-
