@@ -16,10 +16,10 @@ class stockController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -61,12 +61,38 @@ class stockController extends Controller
     //食材を追加した時の処理
     public function add(Request $request)
     {
+        $post =$request->all();
 
+        $food =Food::where("name","=",$post["name"])->exists();
+        if($food === false){
+            $foods=Food::
+            create([
+                "user_id"=>1,
+                "name"=>$post["name"]]
+                )
+            ->save();
+        }else{
+            return "この食材はすでに登録されています。";
+        }
+        
+
+
+
+        //foodテーブルに受け取った名前を持dったレコードが存在するか確認
+      
+        //もしなければ名前、在庫数を登録
+        //あれば react画面にその食材は登録がある旨の注意書きを表示
+
+
+
+
+        //食材をid順に取得
         $foods = Food::select('food.*')
         ->whereNull('deleted_at')
         ->orderby('id','DESC')
         ->get();
 
+        //食材を登録日順に全て取得
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')
         ->get()
@@ -78,12 +104,12 @@ class stockController extends Controller
         ->groupBy('food_id')
         ->get();
         $stocks_array = $stocks->pluck('food_id')->toArray();
-        
+        //ストックにない食材を抽出
         $array= array_diff($food_array,$stocks_array);
 
 
         $posts=$request->all();
-
+        //食材の名前をキーとしてデータを取得
         $food_names=Food::select("food.*")
         ->where('user_id','=',\Auth::id())
         ->whereNull("deleted_at")
@@ -112,5 +138,3 @@ class stockController extends Controller
     }
 
 }
-
-
