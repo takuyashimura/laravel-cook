@@ -6,6 +6,7 @@ import Login from "./Login";
 import Food from "./components/Food";
 import NewFood from "./components/NewFood";
 import { Footer } from "./components/footer.css";
+import Menu from "./components/Menu";
 
 const App = () => {
     return (
@@ -17,6 +18,7 @@ const App = () => {
                     <Route path={`/login/`} element={<Login />} />
                     <Route path={`/Food/`} element={<Food />} />
                     <Route path={`/newFood/`} element={<NewFood />} />
+                    <Route path={`/menu/`} element={<Menu />} />
                 </Routes>
             </BrowserRouter>
             <Footer />

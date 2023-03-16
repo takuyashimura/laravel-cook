@@ -16,15 +16,15 @@ class menuController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Contracts\Supposrt\Renderable
      */
 
      
@@ -33,13 +33,19 @@ class menuController extends Controller
      public function menu()
      {
          //ここでメニュー名を取得
-         $menus= Menu::where("user_id" ,"=", \Auth::id())
-         ->whereNull("deleted_at")
+         $menus= Menu::
+        //  where("user_id" ,"=", \Auth::id())
+         whereNull("deleted_at")
          ->orderby('created_at','DESC')
          ->get();
  
-         return view('menu',compact('menus'));
+         return response()->json([
+            "menus" => $menus,
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
+
      }
 }
-
-
