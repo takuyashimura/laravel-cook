@@ -1,7 +1,8 @@
 import { Button, ChakraProvider, useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { response } from "express";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type FoodData = string;
 
@@ -18,7 +19,7 @@ const NewFood = () => {
                 description: "食材ページを確認してください",
                 status: "error",
                 duration: 9000,
-                isClosable: true
+                isClosable: true,
             });
         }
     };
@@ -29,28 +30,29 @@ const NewFood = () => {
                 description: "食材ページを確認してください",
                 status: "error",
                 duration: 9000,
-                isClosable: true
+                isClosable: true,
             });
         }
     };
 
-    const history = useHistory();
+    const navigation = useNavigate();
 
     const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (foodData !== "この食材はすでに登録されています。") {
             axios
                 .post("http://localhost:8888/api/add", foodData)
-                .then(response => {
+                .then((response) => {
                     console.log(response.data);
                     HandleAddFood(response.data);
                     setFoodData(response.data);
+                    if (response.data === "登録完了") {
+                        navigation("/Food/");
+                    }
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error(error);
                 });
-        } else if (foodData === "登録完了") {
-            history.push("/completed-registration");
         } else {
             HandleAddFood2();
         }
