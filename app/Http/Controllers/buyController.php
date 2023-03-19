@@ -19,10 +19,10 @@ class buyController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -137,18 +137,15 @@ class buyController extends Controller
 
     public function buy_list()
     {
-        $shopping_items = ShoppingItem::select("food_id")
+        $shopping_items = ShoppingItem::whereNull("shopping_items.deleted_at")
+        ->leftjoin("food","shopping_items.food_id" ,"=" ,"food.id")
+        ->select("shopping_items.food_id","food.name")
         ->selectRaw('SUM(amount) AS total_amount')
-        ->whereNull("deleted_at")
-        ->groupBy('food_id')
+        ->groupBy("shopping_items.food_id","food.name")
         ->get();
        
 
-        $food = Food::select('food.*')
-        ->where('user_id', '=' , \Auth::id())
-        ->orderby('created_at','DESC')
-        ->get()
-        ->keyby("id");
+        
 
         $texts = Text::select("texts.*")
         ->where("user_id" , "=" , \Auth::id())
@@ -156,7 +153,19 @@ class buyController extends Controller
         ->get()
         ->toArray();
 
-        return view('add_buy_list',compact("shopping_items","food","texts",));  
+        
+        return response()->json([
+            "shopping_items"=>$shopping_items,
+            "texts"=>$texts
+            
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
+
+
+        // return view('add_buy_list',compact("shopping_items","food","texts",));  
     }
 
     

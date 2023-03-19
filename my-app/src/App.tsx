@@ -7,6 +7,8 @@ import Food from "./components/Food";
 import NewFood from "./components/NewFood";
 import { Footer } from "./components/footer.css";
 import Menu from "./components/Menu";
+import NewMenu from "./components/NewMenu";
+import BuyList from "./components/BuyList";
 
 const App = () => {
     return (
@@ -19,6 +21,8 @@ const App = () => {
                     <Route path={`/Food/`} element={<Food />} />
                     <Route path={`/newFood/`} element={<NewFood />} />
                     <Route path={`/menu/`} element={<Menu />} />
+                    <Route path={`/newmenu/`} element={<NewMenu />} />
+                    <Route path={`/buyList/`} element={<BuyList />} />
                 </Routes>
             </BrowserRouter>
             <Footer />

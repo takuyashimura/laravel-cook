@@ -39,12 +39,24 @@ class add_menuController extends Controller
 
 
         
-       return view('add_menu',compact("food"));  
+       return response()->json([
+        "food" => $food,
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
+
     }
 
     public function add_menu_register(Request $request)
     {
         $posts=$request->all();
+       
+        return $posts;
+
+        
+        
         $menu_id=Menu::insertGetId(
             [
                 'name' => $posts['menu_name'] , 
