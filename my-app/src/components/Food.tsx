@@ -23,8 +23,6 @@ const Food = () => {
                 const res = await axios.get(url);
 
                 setFoodStocks(res.data.food_stocks);
-                //サイトで拾ってきたコードにはconsoleのコードはなかったので自分で追記
-                console.log(res);
 
                 return;
             } catch (e) {

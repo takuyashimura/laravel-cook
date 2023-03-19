@@ -13,11 +13,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type MenuName = string;
-type Amount = number;
 
 type Food = {
     id: number;
     name: string;
+};
+
+type MenuFood = {
+    foodId: number;
+    amount: number;
 };
 
 const NewMenu = () => {
@@ -39,41 +43,48 @@ const NewMenu = () => {
             }
         })();
     }, []);
-
     //↑GET受信関係 ----------------------------------------------------------------------------------------------
 
     //↓POST送信関係 ----------------------------------------------------------------------------------------------
     const [menuName, setMenuName] = useState<MenuName>();
 
-    const [amount, setAmount] = useState<Amount>(0);
-
-    const [menuData, setMenuData] = useState({
-        name: menuName,
-        amount: amount,
-    });
+    const [menuData, setMenuData] = useState<MenuFood[] | undefined>(undefined);
+    console.log("menuData", menuData);
 
     const OnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMenuName(e.target.value);
     };
 
-    useEffect(() => {
-        setMenuData({ ...menuData, name: menuName });
-    }, [menuName]);
+    const onChangeFoodNumber = (e: string, foodId: number) => {
+        console.log(e); // foodの存在チェック
+        if (menuData?.some((d) => d.foodId === foodId)) {
+            const updatedMenuData = menuData.map((menu) =>
+                menu.foodId === foodId ? { foodId, amount: Number(e) } : menu
+            );
+            setMenuData(updatedMenuData);
 
-    useEffect(() => {
-        setMenuData({ ...menuData, amount: amount });
-    }, [amount]);
-
-    const handleAmountChange = (id: number, value: string) => {
-        setFoods((prevFoods) =>
-            prevFoods.map((food) => {
-                if (food.id === id) {
-                    return { ...food, amount: parseFloat(value) };
-                }
-                return food;
-            })
-        );
+            // 存在しない場合
+        } else {
+            setMenuData([
+                ...(menuData ? menuData : []),
+                {
+                    foodId,
+                    amount: 1,
+                },
+            ]);
+        }
     };
+
+    // const handleAmountChange = (id: number, value: string) => {
+    //     setFoods((prevFoods) =>
+    //         prevFoods.map((food) => {
+    //             if (food.id === id) {
+    //                 return { ...food, amount: parseFloat(value) };
+    //             }
+    //             return food;
+    //         })
+    //     );
+    // };
     // const HandleAddFood = (foodDatas: string) => {
     //     if (foodDatas === "この食材はすでに登録されています。") {
     //         toast({
@@ -148,10 +159,15 @@ const NewMenu = () => {
                         </Button>
                     )}
                     {food &&
-                        food.map((value) => (
-                            <div key={value.id}>
-                                <p>{value.name}</p>
-                                <NumberInput min={0}>
+                        food.map((f) => (
+                            <div key={f.id}>
+                                <p>{f.name}</p>
+                                <NumberInput
+                                    min={0}
+                                    onChange={(e) =>
+                                        onChangeFoodNumber(e, f.id)
+                                    }
+                                >
                                     <NumberInputField />
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
