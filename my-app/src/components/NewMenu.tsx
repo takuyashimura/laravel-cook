@@ -24,6 +24,8 @@ type MenuFood = {
     amount: number;
 };
 
+type Responce = string;
+
 const NewMenu = () => {
     //↓GET受信関係 ----------------------------------------------------------------------------------------------
     const [food, setFood] = useState<[Food] | undefined>(undefined);
@@ -49,14 +51,15 @@ const NewMenu = () => {
     const [menuName, setMenuName] = useState<MenuName>();
 
     const [menuData, setMenuData] = useState<MenuFood[] | undefined>(undefined);
-    console.log("menuData", menuData);
+
+    const [postData, setPostData] = useState([menuName, menuData]);
 
     const OnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMenuName(e.target.value);
     };
 
     const onChangeFoodNumber = (e: string, foodId: number) => {
-        console.log(e); // foodの存在チェック
+        // foodの存在チェック
         if (menuData?.some((d) => d.foodId === foodId)) {
             const updatedMenuData = menuData.map((menu) =>
                 menu.foodId === foodId ? { foodId, amount: Number(e) } : menu
@@ -74,6 +77,13 @@ const NewMenu = () => {
             ]);
         }
     };
+    useEffect(() => {
+        setPostData([menuName, menuData]);
+    }, [menuName, menuData]);
+
+    // console.log("postData", postData);
+    // console.log("menuName", menuName);
+    // console.log("menuData", menuData);
 
     // const handleAmountChange = (id: number, value: string) => {
     //     setFoods((prevFoods) =>
@@ -115,20 +125,27 @@ const NewMenu = () => {
         e.preventDefault();
         // if (menuName !== "この食材はすでに登録されています。") {
         axios
-            .post("http://localhost:8888/api/add_menu_register", menuData)
+            .post("http://localhost:8888/api/add_menu_register", postData)
             .then((response) => {
-                console.log(response.data);
-                setMenuName(response.data);
-                // if (response.data === "登録完了") {
-                //     navigation("/Food/");
-                // }
+                console.log("post", response.data);
+                if (response.data === "登録完了") {
+                    navigation("/menu/");
+                } else {
+                    HandleAddFood2();
+                }
             })
             .catch((error) => {
                 console.error(error);
             });
-        // } else {
-        //     HandleAddFood2();
-        // }
+        const HandleAddFood2 = () => {
+            toast({
+                title: "既に登録されています",
+                description: "メニューページを確認してください",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            });
+        };
     };
     //↑POST送信関係 ----------------------------------------------------------------------------------------------
 

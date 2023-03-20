@@ -147,11 +147,9 @@ class buyController extends Controller
 
         
 
-        $texts = Text::select("texts.*")
-        ->where("user_id" , "=" , \Auth::id())
-        ->orderby("created_at","DESC") 
-        ->get()
-        ->toArray();
+        $texts = Text::select("texts.text")
+        ->where("user_id" , "=" , 1)
+        ->get();
 
         
         return response()->json([
@@ -210,6 +208,16 @@ class buyController extends Controller
     public function reply_buy_list(Request $request)
     {
         $posts= $request->all();
+
+        foreach($posts as $post){
+            Stock::create([
+                "food_id"=>$post['food_id'].
+                
+            ])
+        }
+        return $posts;
+
+
         $post = array_filter($posts, function($key) {
             return is_int($key);
         }, ARRAY_FILTER_USE_KEY);

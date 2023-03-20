@@ -9,6 +9,7 @@ import { Footer } from "./components/footer.css";
 import Menu from "./components/Menu";
 import NewMenu from "./components/NewMenu";
 import BuyList from "./components/BuyList";
+import CookingList from "./cookingList";
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                     <Route path={`/menu/`} element={<Menu />} />
                     <Route path={`/newmenu/`} element={<NewMenu />} />
                     <Route path={`/buyList/`} element={<BuyList />} />
+                    <Route path={`/cookingList/`} element={<CookingList />} />
                 </Routes>
             </BrowserRouter>
             <Footer />

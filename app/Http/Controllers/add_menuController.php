@@ -52,10 +52,37 @@ class add_menuController extends Controller
     public function add_menu_register(Request $request)
     {
         $posts=$request->all();
-       
-        return $posts;
+        // メニュー名の存在確認
+        $exists = Menu::where("name", "=", $posts[0])
+        ->exists();
+        $post = $posts[1];
+
+        if($exists === true){
+
+        return "このメニューは既に登録されています。";
+
+        }else{
+            Menu::insertGetId([
+                "name" => $posts[0],
+                "user_id" => 1
+            ]);
+            foreach($post as $value){
+                FoodMenu::create([
+                    "food_id" => $value["foodId"],
+                    "food_amount"=> $value["amount"],
+                    "menu_id"=> 1
+                ]);
+            };
+            return"登録完了";
+        }
 
         
+       
+
+        //存在していなければメニュー登録して、iDを取得
+        // 取得したidを含めてfoodmenusテーブルにcreate
+
+
         
         $menu_id=Menu::insertGetId(
             [

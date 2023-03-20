@@ -12,7 +12,7 @@ export const Footer = () => {
             <SMenu href="/buyList/">
                 <SPtagu>買い物リスト</SPtagu>
             </SMenu>
-            <SMenu href="#">
+            <SMenu href="/cookingList/">
                 <SPtagu>調理リスト（リンク先未設定）</SPtagu>
             </SMenu>
         </SContainer>

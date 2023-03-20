@@ -11,50 +11,38 @@ const NewFood = () => {
     const OnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFoodData(e.target.value);
     };
-    const HandleAddFood = (foodDatas: string) => {
-        if (foodDatas === "この食材はすでに登録されています。") {
-            toast({
-                title: "既に登録されています",
-                description: "食材ページを確認してください",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-            });
-        }
-    };
-    const HandleAddFood2 = () => {
-        if (foodData === "この食材はすでに登録されています。") {
-            toast({
-                title: "既に登録されています",
-                description: "食材ページを確認してください",
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-            });
-        }
-    };
 
     const navigation = useNavigate();
 
     const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (foodData !== "この食材はすでに登録されています。") {
-            axios
-                .post("http://localhost:8888/api/add", foodData)
-                .then((response) => {
-                    console.log(response.data);
-                    HandleAddFood(response.data);
-                    setFoodData(response.data);
-                    if (response.data === "登録完了") {
-                        navigation("/Food/");
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        } else {
-            HandleAddFood2();
-        }
+        axios
+            .post("http://localhost:8888/api/add", foodData)
+            .then((response) => {
+                console.log(response.data);
+                if (response.data === "登録完了") {
+                    navigation("/Food/");
+                    //画面遷移するとトーストが表示されない
+                    toast({
+                        title: "正常に登録されました",
+                        description: "食材ページを確認してください",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                } else {
+                    toast({
+                        title: "既に登録されています",
+                        description: "食材ページを確認してください",
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const toast = useToast();
