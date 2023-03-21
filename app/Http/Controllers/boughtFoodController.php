@@ -18,10 +18,10 @@ class boughtFoodController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -34,16 +34,14 @@ class boughtFoodController extends Controller
      {
          $posts=$request->all();
         //  dd($posts);
-         $post = array_filter($posts, function ($key) {
-            return is_int($key);
-        }, ARRAY_FILTER_USE_KEY);
+        
         // dd($post);
 
-         foreach($post as $key => $value){
+         foreach($posts as $post){
             Stock::create([
-                "food_id" => $key,
-                "user_id" => \Auth::id(),
-                "amount" => $value
+                "food_id" => $post['food_id'],
+                "user_id" => 1,
+                "amount" => $post["total_amount"]
             ]);
 
             
@@ -58,4 +56,3 @@ class boughtFoodController extends Controller
 
 
 }    
-

@@ -18,10 +18,10 @@ class cookingListController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -68,12 +68,10 @@ class cookingListController extends Controller
         
         //cooking_listにあるメニューのmenu_idを抽出する
         $cooking_list = CookingList::select("cooking_lists.*")
-        ->where("user_id","=",\Auth::id())
+        // ->where("user_id","=",\Auth::id())
         ->whereNull("deleted_at")
         ->orderby("id","DESC")
-        ->get()
-        ->keyby("id");
-
+        ->get();
 
         //keyby('menu_id')でfood_menuのデータを取得すると、同一のkey（今回はmenu_id)を保有しているデータがfood_menusテーブル上に複数あったとしても一つのデータしたしか取得できない
         //すると、メニューで使用してる食材全てのfood_idを取得できないので、一旦、cooking_listにあるメニューのidを抽出し、そのidをidカラムに保有するレコードのfood_idを取得するという順番でfood_idを求めた
@@ -131,7 +129,13 @@ class cookingListController extends Controller
                 $new_array[$food_id] = $total_amount;
             }
         }
-
+        return response()->json([
+            "cooking_list"=>$cooking_list,            
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
 
 
 

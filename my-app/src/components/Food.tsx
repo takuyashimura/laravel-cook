@@ -30,6 +30,7 @@ const Food = () => {
             }
         })();
     }, []);
+    console.log("foodStocks", foodStocks);
     return (
         <div className="Food">
             <div>

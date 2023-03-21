@@ -18,10 +18,11 @@ export const Footer = () => {
         </SContainer>
     );
 };
-const SContainer = styled.div`
+const SContainer = styled.footer`
     background-color: #eeeeee;
     position: fixed;
     bottom: 0;
+    height;50px;
     width: 100%;
     display: flex;
     justify-content: space-between;

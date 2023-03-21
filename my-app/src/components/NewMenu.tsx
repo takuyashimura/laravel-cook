@@ -24,11 +24,9 @@ type MenuFood = {
     amount: number;
 };
 
-type Responce = string;
-
 const NewMenu = () => {
     //↓GET受信関係 ----------------------------------------------------------------------------------------------
-    const [food, setFood] = useState<[Food] | undefined>(undefined);
+    const [food, setFood] = useState<Food[] | undefined>(undefined);
 
     const url = "http://localhost:8888/api/add_menu";
 
@@ -38,6 +36,7 @@ const NewMenu = () => {
                 const res = await axios.get(url);
 
                 setFood(res.data.food);
+                console.log("food", food);
 
                 return;
             } catch (e) {
@@ -45,6 +44,7 @@ const NewMenu = () => {
             }
         })();
     }, []);
+    console.log("food２", food);
     //↑GET受信関係 ----------------------------------------------------------------------------------------------
 
     //↓POST送信関係 ----------------------------------------------------------------------------------------------
@@ -80,43 +80,6 @@ const NewMenu = () => {
     useEffect(() => {
         setPostData([menuName, menuData]);
     }, [menuName, menuData]);
-
-    // console.log("postData", postData);
-    // console.log("menuName", menuName);
-    // console.log("menuData", menuData);
-
-    // const handleAmountChange = (id: number, value: string) => {
-    //     setFoods((prevFoods) =>
-    //         prevFoods.map((food) => {
-    //             if (food.id === id) {
-    //                 return { ...food, amount: parseFloat(value) };
-    //             }
-    //             return food;
-    //         })
-    //     );
-    // };
-    // const HandleAddFood = (foodDatas: string) => {
-    //     if (foodDatas === "この食材はすでに登録されています。") {
-    //         toast({
-    //             title: "既に登録されています",
-    //             description: "食材ページを確認してください",
-    //             status: "error",
-    //             duration: 9000,
-    //             isClosable: true,
-    //         });
-    //     }
-    // };
-    // const HandleAddFood2 = () => {
-    //     if (menuName === "この食材はすでに登録されています。") {
-    //         toast({
-    //             title: "既に登録されています",
-    //             description: "食材ページを確認してください",
-    //             status: "error",
-    //             duration: 9000,
-    //             isClosable: true,
-    //         });
-    //     }
-    // };
 
     //メニューが登録できた際の画面推移に使用するメソッド
     const navigation = useNavigate();

@@ -2,12 +2,14 @@ import {
     Box,
     Button,
     ChakraProvider,
+    Link,
     StackDivider,
     Textarea,
     VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type shopingItem = {
     food_id: number;
@@ -40,9 +42,10 @@ const BuyList = () => {
     const HnadleSubmit1 = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios
-            .post("http://localhost:8888/api/reply_buy_list", shoppingItems)
+            .post("http://localhost:8888/api/boughtFood", shoppingItems)
             .then((response) => {
                 console.log("shoppingItems", shoppingItems);
+                navigation("/Food/");
             })
             .catch((error) => {
                 console.error(error);
@@ -64,10 +67,13 @@ const BuyList = () => {
     const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setText(e.target.value);
     };
+    const navigation = useNavigate();
+
     // console.log("text");
 
     return (
         <ChakraProvider>
+            <div>post送信機能未完成</div>
             <form onSubmit={HnadleSubmit1}>
                 <VStack
                     divider={<StackDivider borderColor="gray.200" />}
@@ -88,6 +94,8 @@ const BuyList = () => {
                     )}
 
                     {shoppingItems && <Button type="submit">購入する</Button>}
+
+                    <Link href="/editBuyList/">購入リストを編集する</Link>
                 </VStack>
             </form>
 
