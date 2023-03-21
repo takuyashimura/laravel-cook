@@ -175,45 +175,73 @@ class buyController extends Controller
         ->whereNull("deleted_at")
         ->get();
 
+        $shopping_item = ShoppingItem::whereNull("shopping_items.deleted_at")
+        ->leftjoin("food","shopping_items.food_id" ,"=" ,"food.id")
+        ->select("shopping_items.food_id","food.name","shopping_items.amount")
+        ->get();
+
+        
+
         $food = Food::select('food.*')
-        ->where('user_id', '=' , \Auth::id())
+        // ->where('user_id', '=' , \Auth::id())
         ->orderby('created_at','DESC')
-        ->get()
-        ->keyby("id");
+        ->get();
 
         //$shopping_lists内にない食材を抽出するために
         // $foodのidの配列を取得し
-        $foods_id = Food::select("id")
-        ->whereNull("deleted_at")
-        ->orderby("id","DESC")
-        ->get()
+        $foods_id = $food
         ->pluck('id')
         ->toArray();
             // dd($foods_id);
         // $shopping_listsのfood_idの配列を取得し
-        $shopping_items_food_id = ShoppingItem::select("food_id")
-        ->whereNull("deleted_at")
-        ->orderby("food_id","DESC")
-        ->get()
+        $shopping_items_food_id = $shopping_items
         ->pluck("food_id")
         ->toArray();
             // dd($shopping_items_food_id);
         // array_diffで重複していない＝$shopping_listsにない食材のidのみの配列を作成する
-        $food_non = array_diff($foods_id,$shopping_items_food_id);
-        // dd($food_non);
+        $non_food = array_diff($foods_id,$shopping_items_food_id);
 
-        return view('edit_buy_list',compact("shopping_items","food","food_non"));
+        $nonFood=[];
+        foreach($non_food as $id){
+            $nonFood[] = Food::select("food.name","food.id")
+            ->whereNull("deleted_at")
+            // ->where("user_id" ,"=" \Auth::id()
+            ->where("id",'=',$id)
+            ->get(); 
+        }
+
+        return response()->json([
+            "shopping_item"=>$shopping_item,            
+            "food"=>$food,            
+            "nonFood"=>$nonFood,            
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
+        // dd($non_food);
+
     }
 
     public function reply_buy_list(Request $request)
     {
         $posts= $request->all();
 
+
         foreach($posts as $post){
-            Stock::create([
-                "food_id"=>$post['food_id'].
-                
-            ])
+            if(ShoppingItem::whereNull("deleted_at")->where("food_id","=" ,$post["food_id"])->exists()){
+                ShoppingItem::where("food_id",'=',$post['food_id'])
+                ->whereNull('deleted_at')
+                ->update([
+                    "amount"=>$post["amount"]
+                ]);
+            }else{
+                ShoppingItem::create([
+                    "user_id" => 1,
+                    "food_id" => $post["food_id"],
+                    'amount' => $post["amount"]
+                ]);
+            }
         }
         return $posts;
 
