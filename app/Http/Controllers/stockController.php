@@ -27,36 +27,23 @@ class stockController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-     //食材画面
+    //食材画面
     public function index()
     {
         //ここで食材名を取得する
         $food = Food::select('food.*')
-        ->where('user_id', '=' , \Auth::id())
-        ->orderby('created_at','DESC')
+        ->where('user_id', '=', \Auth::id())
+        ->orderby('created_at', 'DESC')
         ->get();
         $menus = User::find(1)->get();
-        
-        return view('create' , compact('food'));
+
+        return view('create', compact('food'));
     }
 
-    //メニュー画面 メニューコントローラを作成し追加する
-    public function menu()
-    {
-        //ここでメニュー名を取得
-        $menus= Menu::select('menus.*')
-        ->where('user_id' , '=' , \Auth::id())
-        ->whereNull('deleted_at')
-        ->orderby('created_at','DESC')
-        ->get();
-        
-
-        return view('menu',compact('menus'));
-    }
     //メニュー画面 フードコントローラーを作成し追加する
     public function add_food()
     {
-       return view('add_food');  
+        return view('add_food');
     }
     //食材を追加した時の処理
     public function add(Request $request)
@@ -65,19 +52,19 @@ class stockController extends Controller
         $foodName = key($post);
         // return $foodName;
 
-        $food =Food::where("name","=",$foodName)->exists();
-        if($food === false){
-            $foods=Food::
-            create([
+        $food =Food::where("name", "=", $foodName)->exists();
+        if ($food === false) {
+            Food::create([
                 "user_id"=>1,
                 "name"=>$foodName
                 ])
             ->save();
             return "登録完了";
-        }else{
+        } else {
             return "この食材はすでに登録されています。";
         }
     }
+}
 
 
 

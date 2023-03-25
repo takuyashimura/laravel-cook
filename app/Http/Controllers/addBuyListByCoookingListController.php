@@ -18,10 +18,10 @@ class addBuyListByCoookingListController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -33,6 +33,34 @@ class addBuyListByCoookingListController extends Controller
     public function addBuyListByCoookingList(Request $request)
     {
         $posts=$request->all();
+
+        $post=[];
+        //配列を１次元にする
+        foreach($posts as $I){
+            foreach($I as $i)
+            $post [] = [
+                "id"=> $i["id"],
+                "name"=> $i["food_name"],
+                "amount"=> $i['amount']
+            ];
+        }   
+        foreach($post as $i){
+            if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("user_id","=",1)
+                ->where("food_id","=",$i["id"])->exists()){
+                    ShoppingItem::where("food_id","=",$i["id"])
+                    ->increment("amount",$i["amount"]);
+            }else{
+                ShoppingItem::create([
+                    "user_id"=>1,
+                    "food_id"=>$i["id"],
+                    "amount"=>$i["amount"]
+                ]);
+            }
+            
+        }
+        return "登録できたよ";
+      
+      
 
         $shopping_items_food_id_array = ShoppingItem::select("shopping_items.*")
         ->where("user_id","=",\Auth::id())
@@ -70,5 +98,3 @@ class addBuyListByCoookingListController extends Controller
        return redirect(route('buy_list'));  
     }
 }
-
-

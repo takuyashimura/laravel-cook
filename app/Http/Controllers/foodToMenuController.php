@@ -17,10 +17,10 @@ class foodToMenuController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -31,8 +31,18 @@ class foodToMenuController extends Controller
      
 
      //メニュー画面 メニューコントローラを作成し追加する
-     public function foodToMenu($food_id)
+     public function foodToMenu(Request $request)
      {
+        $posts =$request->all();
+
+        $menu = FoodMenu::whereNull("food_menus.deleted_at")
+        ->where("food_id","=",$posts["food_stock"]['id'])
+        ->leftjoin("menus","food_menus.menu_id" ,"=","menus.id")
+        ->select("menus.name")
+        ->get();
+        // return $menu[0]["name"];
+        
+        return [$posts["food_stock"]["name"],$menu];
         // dd($food_id);
          //ここでメニュー名を取得
          $menus= Menu::where("user_id" ,"=", \Auth::id())
@@ -55,5 +65,3 @@ class foodToMenuController extends Controller
      }
     
 }
-
-

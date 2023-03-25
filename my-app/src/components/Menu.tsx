@@ -1,23 +1,27 @@
 import { Wrap, WrapItem } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 type Menus = {
     menu_id: number;
     name: string;
 };
+type MenuData = {
+    id: number;
+    name: string;
+};
 
 const Menu = () => {
     const [menus, setMenus] = useState<[Menus] | undefined>(undefined);
+    const [menuData, setMenuData] = useState<[MenuData] | undefined>(undefined);
 
-    // 先ほど作成したLaravelのAPIのURL、メニューから取得する
-    const url = "http://localhost:8888/api/menu";
-
+    // get↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     useEffect(() => {
         (async () => {
             try {
-                const res = await axios.get(url);
+                const res = await axios.get("http://localhost:8888/api/menu");
 
                 setMenus(res.data.menus);
                 //サイトで拾ってきたコードにはconsoleのコードはなかったので自分で追記
@@ -29,6 +33,24 @@ const Menu = () => {
             }
         })();
     }, []);
+    // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+    // post↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    const navigate = useNavigate();
+
+    const handlePost = (menu: any) => {
+        axios
+            .post("http://localhost:8888/api/menu_cook", { menu })
+            .then((response) => {
+                setMenuData(response.data);
+                console.log("post", response.data);
+                navigate("/MenuCook/", { state: response.data });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+    // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
     return (
         <div className="Food">
             <div>
@@ -38,7 +60,10 @@ const Menu = () => {
             <Wrap>
                 {menus &&
                     menus.map((menu) => (
-                        <WrapItem>
+                        <WrapItem
+                            key={menu.menu_id}
+                            onClick={() => handlePost(menu)}
+                        >
                             <SCord>
                                 <p>{menu.name}</p>
 

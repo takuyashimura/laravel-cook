@@ -65,4 +65,4 @@ Route::post('/boughtFood', [boug飯htFoodController::class, 'boughtFood'])->name
 Route::get('/cookingListFoodAmount/{menu_id}', [cookingListFoodAmountController::class, 'cookingListFoodAmount'])->name('cookingListFoodAmount');
 Route::get('/cookingListdelete/{id}', [cookingListdeleteController::class, 'cookingListdelete'])->name('cookingListdelete');
 Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::class, 'addBuyListByCoookingList'])->name('addBuyListByCoookingList');
-Route::get('/cooking', [cookingController::class, 'cooking'])->name('cooking');
+// Route::get('/cooking', [cookingController::class, 'cooking'])->name('cooking');
