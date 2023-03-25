@@ -1,6 +1,7 @@
-import { Wrap, WrapItem } from "@chakra-ui/react";
+import { Button, Wrap, WrapItem } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 type FoodStocks = {
@@ -30,7 +31,20 @@ const Food = () => {
             }
         })();
     }, []);
-    console.log("foodStocks", foodStocks);
+
+    const handlePost = (food_stock: any) => {
+        axios
+            .post("http://localhost:8888/api/foodToMenu", { food_stock })
+            .then((response) => {
+                console.log("post", response.data);
+                navigate("/FoodToMenus/", { state: { data: response.data } });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+    const navigate = useNavigate();
+
     return (
         <div className="Food">
             <div>
@@ -40,7 +54,10 @@ const Food = () => {
             <Wrap>
                 {foodStocks &&
                     foodStocks.map((food_stock) => (
-                        <WrapItem>
+                        <WrapItem
+                            key={food_stock.id}
+                            onClick={() => handlePost(food_stock)}
+                        >
                             <SCord>
                                 <p>{food_stock.name}</p>
                                 <p>
@@ -50,7 +67,6 @@ const Food = () => {
                                         : food_stock.total_amount}
                                     個
                                 </p>
-                                <p>リンク先未設定</p>
                             </SCord>
                         </WrapItem>
                     ))}

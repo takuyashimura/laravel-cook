@@ -18,10 +18,10 @@ class cookingController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -30,8 +30,36 @@ class cookingController extends Controller
      */
 
      //食材画面
-    public function cooking()
+    public function cooking(Request $request)
     {
+        $posts = $request->all();
+        // return $posts;
+
+        foreach($posts as $i){
+            // return $i;
+            // dd($use_food["total_amount"]);
+            $remaining_amount = $i["amount"];
+            // return $remaining_amount;
+            while($remaining_amount != 0){
+               $stock = Stock::whereNull("deleted_at")->where("food_id",'=', $i['id'])->where("user_id","=",1)->orderby("created_at","ASC")->first();
+               // 在庫数を充足して消せた場合の処理
+                if(isset($stock)){
+                    if($stock["amount"] - $remaining_amount >= 0){
+                        $stock->decrement('amount', $remaining_amount);
+                        $remaining_amount = 0;
+                        // 残り必要な数からストックの数を引いて0より大きい場合処理の継続処理
+                    } elseif($remaining_amount - $stock["amount"] > 0) {
+                        $remaining_amount = $remaining_amount - $stock["amount"];
+                        $stock->delete();
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
+
+        return $posts;
+
         $cooking_lists = CookingList::select("cooking_lists.*")
         ->where("user_id","=",\Auth::id())
         ->whereNull("deleted_at")
@@ -77,6 +105,7 @@ class cookingController extends Controller
         ->keyby("id")
         ->toArray();
         // dd($stocks);
+        return $food_menus_food_amount;
 
         
         foreach($food_menus_food_amount as $use_food){
@@ -134,5 +163,3 @@ class cookingController extends Controller
         return redirect( route('home') );
     }
 }
-
-

@@ -55,6 +55,7 @@ class buyController extends Controller
     public function add_buy_list(Request $request)
     {
         $posts = $request->all();
+        return $posts;
 
         $menu_id = $posts["menu_id"];
 

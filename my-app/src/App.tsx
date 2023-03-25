@@ -9,8 +9,10 @@ import { Footer } from "./components/footer.css";
 import Menu from "./components/Menu";
 import NewMenu from "./components/NewMenu";
 import BuyList from "./components/BuyList";
-import CookingList from "./cookingList";
+import CookingList from "./components/cookingList";
 import EditBuyList from "./components/editBuyList";
+import FoodToMenus from "./components/FoodToMenus";
+import MenuCook from "./components/MenuCook";
 
 const App = () => {
     return (
@@ -37,6 +39,11 @@ const App = () => {
                                 path={`/editBuyList/`}
                                 element={<EditBuyList />}
                             />
+                            <Route
+                                path={`/FoodToMenus/`}
+                                element={<FoodToMenus />}
+                            />
+                            <Route path={`/MenuCook/`} element={<MenuCook />} />
                         </Routes>
                     </BrowserRouter>
                     {/* フッターが浮いて要素がしてに隠れてしまうのを改善する */}

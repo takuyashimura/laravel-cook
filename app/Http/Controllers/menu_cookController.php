@@ -18,10 +18,10 @@ class menu_cookController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -32,10 +32,63 @@ class menu_cookController extends Controller
      
 
     // メニュー確定画面
-    public function menu_cook($menu_id)
+    public function menu_cook(Request $request)
     {
+        $posts = $request->all();
+
+        $menu_food_data = FoodMenu::whereNull("food_menus.deleted_at")
+        ->where("food_menus.menu_id" ,"=",$posts['menu']['id'])
+        ->leftjoin("food","food_menus.food_id",'=','food.id')
+        ->select('food.name',"food_menus.food_id","food_menus.food_amount")
+        ->get();
+
+        $menu_food_data_non_id=FoodMenu::whereNull("food_menus.deleted_at")
+        ->where("food_menus.menu_id" ,"=",$posts['menu']['id'])
+        ->leftjoin("food","food_menus.food_id",'=','food.id')
+        ->select('food.name',"food_menus.food_amount")
+        ->get();
+
+        $stocks = Stock::select('food_id')
+        ->selectRaw('SUM(amount) AS total_amount')
+        ->groupBy('food_id')
+        ->get()
+        ->keyby("food_id");
+        // return $stocks[2]["total_amount"];
+        // if( Stock::select("stocks.food_id")->where("food_id",'=',45)->exists() !==true){
+        //     return"あ" ;
+        // }else{
+        //     return "i";
+        // }
+       
+
+        $post_data=[];
+
+        foreach($menu_food_data as $i){
+            // return $i["food_id"];
+            if(Stock::select("stocks.food_id")->where("food_id",'=',$i['food_id'])->exists() !== true){
+                 $post_data [] = $i;
+                //  return $post_data;
+            }else{
+                // return $i["food_amount"];
+                if($i["food_amount"]>$stocks[$i["food_id"]]["total_amount"]){
+                    $post_data[] = [
+                    "name"=>$i["name"],
+                    "food_id"=>$i["food_id"],
+                    "food_amount"=>$i["food_amount"]-$stocks[$i["food_id"]]["total_amount"]
+                ];
+            }
+
+            }
+        }
+
+
+        return [$post_data,$posts ['menu']['name'], $menu_food_data];
+        // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+
+
         //menuテーブルから$menu_idに格納されてる番号がid_のデータを取得
-        $menu_name = Menu::find($menu_id);
+        $menu_name = Menu::find($posts);
 
         //foodテーブルのデータをidをキーとし、配列して取得
         $food = Food::select('food.*')
@@ -46,13 +99,13 @@ class menu_cookController extends Controller
 
         //名前が表示されてるメニューで使用される食材の使用量を取得
         $food_menus = FoodMenu::select("food_menus.*")
-        ->where("menu_id", "=" , $menu_id)
+        ->where("menu_id", "=" ,$posts)
         ->whereNull('deleted_at')
         ->orderby('food_id','DESC')
         ->get();
 
         $food_menus_amount = FoodMenu::select("food_id")
-        ->where("menu_id", "=" , $menu_id)
+        ->where("menu_id", "=" ,$posts)
         ->whereNull('deleted_at')
         ->selectRaw('SUM(food_amount) AS total_amount')
         ->groupBy('food_id')        
@@ -75,5 +128,3 @@ class menu_cookController extends Controller
         return view('menu_cook',compact('menu_name',"food","food_menus","stocks","menu_id","shopping_items","food_menus_amount"));
     }
 }
-
-

@@ -40,7 +40,7 @@ Route::get('/home', [HomeController::class, 'home'])->name('home'); //①
 Route::get('/menu', [menuController::class, 'menu'])->name('menu'); //②
 Route::get('/add_food', [stockController::class, 'add_food'])->name('add_food'); //③
 Route::post('/add', [stockController::class, 'add'])->name('add'); //④
-Route::get('/menu_cook/{menu_id}', [menu_cookController::class, 'menu_cook'])->name('menu_cook'); //⑤
+Route::post('/menu_cook', [menu_cookController::class, 'menu_cook'])->name('menu_cook'); //⑤
 Route::get('/buy', [buyController::class, 'buy'])->name('buy'); //⑥
 Route::get('/add_menu', [add_menuController::class, 'add_menu'])->name('add_menu'); //⑦
 Route::post('/add_menu_register', [add_menuController::class, 'add_menu_register'])->name('add_menu_register'); //⑦
@@ -58,9 +58,9 @@ Route::get('/menu_delete/{menu_id}', [deleteController::class, 'menu_delete'])->
 Route::get('/add_menu_edit/{menu_id}', [addMenuEditController::class, 'add_menu_edit'])->name('add_menu_edit');
 Route::post('/add_menu_food', [addMenuFoodController::class, 'add_menu_food'])->name('add_menu_food');
 Route::get('/add_menu_edit_completion/{menu_id}', [addMenuEditController::class, 'add_menu_edit_completion'])->name('add_menu_edit_completion');
-Route::get('/foodToMenu/{food_id}', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
+Route::post('/foodToMenu', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
 Route::post('/boughtFood', [boughtFoodController::class, 'boughtFood'])->name('boughtFood');
 Route::get('/cookingListFoodAmount/{menu_id}', [cookingListFoodAmountController::class, 'cookingListFoodAmount'])->name('cookingListFoodAmount');
 Route::get('/cookingListdelete/{id}', [cookingListdeleteController::class, 'cookingListdelete'])->name('cookingListdelete');
 Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::class, 'addBuyListByCoookingList'])->name('addBuyListByCoookingList');
-Route::get('/cooking', [cookingController::class, 'cooking'])->name('cooking');
+Route::post('/cooking', [cookingController::class, 'cooking'])->name('cooking');
