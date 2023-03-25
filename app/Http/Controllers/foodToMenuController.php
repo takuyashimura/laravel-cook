@@ -38,9 +38,8 @@ class foodToMenuController extends Controller
         $menu = FoodMenu::whereNull("food_menus.deleted_at")
         ->where("food_id","=",$posts["food_stock"]['id'])
         ->leftjoin("menus","food_menus.menu_id" ,"=","menus.id")
-        ->select("menus.name")
+        ->select("menus.*")
         ->get();
-        // return $menu[0]["name"];
         
         return [$posts["food_stock"]["name"],$menu];
         // dd($food_id);
