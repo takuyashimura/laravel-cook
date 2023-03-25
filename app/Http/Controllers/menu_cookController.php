@@ -41,12 +41,13 @@ class menu_cookController extends Controller
         ->leftjoin("food","food_menus.food_id",'=','food.id')
         ->select('food.name',"food_menus.food_id","food_menus.food_amount")
         ->get();
+        
 
-        $menu_food_data_non_id=FoodMenu::whereNull("food_menus.deleted_at")
-        ->where("food_menus.menu_id" ,"=",$posts['menu']['id'])
-        ->leftjoin("food","food_menus.food_id",'=','food.id')
-        ->select('food.name',"food_menus.food_amount")
-        ->get();
+        // $menu_food_data_non_id=FoodMenu::whereNull("food_menus.deleted_at")
+        // ->where("food_menus.menu_id" ,"=",$posts['menu']['id'])
+        // ->leftjoin("food","food_menus.food_id",'=','food.id')
+        // ->select('food.name',"food_menus.food_amount")
+        // ->get();
 
         $stocks = Stock::select('food_id')
         ->selectRaw('SUM(amount) AS total_amount')
