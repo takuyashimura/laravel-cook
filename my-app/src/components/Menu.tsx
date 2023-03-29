@@ -1,4 +1,4 @@
-import { Wrap, WrapItem } from "@chakra-ui/react";
+import { border, Wrap, WrapItem } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,6 @@ type MenuData = {
 
 const Menu = () => {
     const [menus, setMenus] = useState<[Menus] | undefined>(undefined);
-    const [menuData, setMenuData] = useState<[MenuData] | undefined>(undefined);
 
     // get↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     useEffect(() => {
@@ -36,17 +35,37 @@ const Menu = () => {
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
     // post↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     const navigate = useNavigate();
-
+    // 食材選択画面へ
     const handlePost = (menu: any) => {
         axios
             .post("http://localhost:8888/api/menu_cook", { menu })
             .then((response) => {
-                setMenuData(response.data);
                 console.log("post", response.data);
                 navigate("/MenuCook/", { state: response.data });
             })
             .catch((error) => {
                 console.error(error);
+            });
+    };
+
+    const handlePost1 = (menu: any) => {
+        axios
+            .post("http://localhost:8888/api/menu_edit", { menu })
+            .then((response) => {
+                console.log("post1", response.data);
+                navigate("/EditMenu/", { state: response.data });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const handlePost2 = (menu: any) => {
+        axios
+            .post("http://localhost:8888/api/menu_delete", { menu })
+            .then((response) => {
+                console.log("response", response.data);
+                window.location.reload();
             });
     };
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -60,15 +79,31 @@ const Menu = () => {
             <Wrap>
                 {menus &&
                     menus.map((menu) => (
-                        <WrapItem
-                            key={menu.menu_id}
-                            onClick={() => handlePost(menu)}
-                        >
-                            <SCord>
-                                <p>{menu.name}</p>
-
-                                <p>リンク先未設定</p>
-                            </SCord>
+                        <WrapItem key={menu.menu_id}>
+                            <>
+                                {" "}
+                                <SCord>
+                                    <p>{menu.name}</p>{" "}
+                                    <div
+                                        style={{ border: "1px solid black" }}
+                                        onClick={() => handlePost(menu)}
+                                    >
+                                        選択する
+                                    </div>
+                                    <div
+                                        style={{ border: "1px solid black" }}
+                                        onClick={() => handlePost1(menu)}
+                                    >
+                                        編集
+                                    </div>
+                                    <div
+                                        style={{ border: "1px solid black" }}
+                                        onClick={() => handlePost2(menu)}
+                                    >
+                                        削除
+                                    </div>
+                                </SCord>
+                            </>
                         </WrapItem>
                     ))}
             </Wrap>

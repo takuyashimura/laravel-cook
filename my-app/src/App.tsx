@@ -13,6 +13,7 @@ import CookingList from "./components/cookingList";
 import EditBuyList from "./components/editBuyList";
 import FoodToMenus from "./components/FoodToMenus";
 import MenuCook from "./components/MenuCook";
+import EditMenu from "./components/EditMenu";
 
 const App = () => {
     return (
@@ -44,6 +45,7 @@ const App = () => {
                                 element={<FoodToMenus />}
                             />
                             <Route path={`/MenuCook/`} element={<MenuCook />} />
+                            <Route path={`/EditMenu/`} element={<EditMenu />} />
                         </Routes>
                     </BrowserRouter>
                     {/* フッターが浮いて要素がしてに隠れてしまうのを改善する */}

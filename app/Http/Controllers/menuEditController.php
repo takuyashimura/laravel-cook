@@ -17,10 +17,10 @@ class menuEditController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -29,27 +29,58 @@ class menuEditController extends Controller
      */
 
      //食材画面
-    public function menu_edit($menu_id)
+    public function menu_edit(Request $request)
     {
-        $food = Food::select('food.*')
-        ->orderby('created_at','DESC')
-        ->get()
-        ->keyby("id");
+        $posts=$request->all();
         
-        $menus = Menu::select("menus.*")
-        ->orderby("id")
-        ->get()
-        ->keyby("id");
+        $menu_id = $posts["menu"]["id"];
 
-        $food_menus = FoodMenu::select("food_menus.*")
-        ->where("menu_id",$menu_id)
-        ->whereNull("deleted_at")
-        ->get();
+        $menu_data = [
+            "id"=>$menu_id,
+            "name"=>$posts["menu"]["name"]
+        ];
+
+
+
+        $food_menu = FoodMenu::whereNull("food_menus.deleted_at")
+        ->where("food_menus.menu_id","=",$menu_id)
+        ->leftjoin("food","food_menus.food_id","=","food.id");
         
-        $food = Food::select("food.*")
-        ->get()
-        ->keyby("id");
 
+        $food_menu_data= $food_menu ->select("food.name","food_menus.food_amount","food.id")->get();
+
+        $food_menus= $food_menu->select("food.name","food.id") -> get()->pluck("name")->toArray();
+        // return $food_menus;
+        $food = Food::select('food.name',"food.id")->get()->pluck("name")->toArray();
+        // return $food;
+        $unused_food = array_diff($food,$food_menus);
+
+        $unused=[];
+        foreach ($unused_food  as $key =>$value){
+            $foods=Food::select("food.name","food.id")->whereNull("deleted_at")->get();
+            foreach($foods as $f)
+            if($f["name"]===$value)
+                $unused[]= [
+                    "id"=> $f["id"],
+                    "name" => $value,
+                    "food_amount"=>null
+            ];
+        }
+
+        $food_array  = array_merge( $food_menu_data->toArray(),$unused);
+
+        // return [$menu_name,$food_menu_data];
+
+        return response()->json([
+            "menuData"=>$menu_data,
+            "foodArray"=>$food_array
+            
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
+        
 
 
         return view('menu_edit',compact("menus","menu_id","food","food_menus"));
@@ -62,5 +93,3 @@ class menuEditController extends Controller
 
    
 }
-
-
