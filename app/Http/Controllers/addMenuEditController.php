@@ -17,10 +17,10 @@ class addMenuEditController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -29,17 +29,47 @@ class addMenuEditController extends Controller
      */
 
      //食材画面
-    public function add_menu_edit($menu_id)
+    public function add_menu_edit(Request $request)
     {
-        
+        $posts = $request->all();
+        // return $posts;
+        $food_data = $posts['menuData'];
+        $menu_id =$posts["menuName"]["id"];
+ 
         //編集しているメニューに使用する食材のfood_idを配列として取得
-        $food_menus=FoodMenu::select("food_id")
-        ->where("menu_id", "=", $menu_id)
-        ->whereNull("deleted_at")
-        ->orderby("food_id", "DESC")
-        ->get()
-        ->pluck("food_id")
-        ->toArray();
+
+        foreach($food_data as $i){
+            if($i['food_amount']!==null){
+                if($i['food_amount']===0){
+                    FoodMenu::where("menu_id",'=', $menu_id)
+                ->where("food_id",'=',$i['id'])
+                ->update([
+                    "deleted_at" => now()
+                ]);
+                }else{              
+                if(FoodMenu::where("menu_id",'=', $menu_id)
+                    ->where("food_id",'=', $i['id'])->exists()){
+                    FoodMenu::where("menu_id",'=', $menu_id)
+                    ->where("food_id",'=', $i['id'])
+                    ->update([
+                        "food_amount"=>$i['food_amount']
+                    ]);
+                }else{
+                    FoodMenu::create([
+                        "food_id"=>$i['id'],
+                        "food_amount"=>$i['food_amount'],
+                        "menu_id"=>$menu_id
+                    ]);
+                }
+                    
+            }
+                
+            }
+        }
+
+        return "編集完了";
+
+        
 
         $menus = Menu::select("menus.*")
         ->orderby("id","DESC")
@@ -66,5 +96,3 @@ class addMenuEditController extends Controller
     }
     
 }
-
-

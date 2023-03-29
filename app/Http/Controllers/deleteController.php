@@ -18,10 +18,10 @@ class deleteController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -78,8 +78,12 @@ class deleteController extends Controller
         return view('menu_cook',compact("menu_name","food_menus","food","food_menus_amount","menu_id"));
     }
 
-    public function menu_delete($menu_id )
+    public function menu_delete(Request $request )
     {
+        $posts = $request->all();
+        $menu_id = $posts["menu"]['id'];
+    
+        
         Menu::where("id","=",$menu_id)
         ->update(["deleted_at" => now()]);
 
@@ -87,11 +91,10 @@ class deleteController extends Controller
         ->where("user_id", "=", \Auth::id())
         ->whereNull("deleted_at")
         ->get();
+        return "削除完了";
 
         return view('menu',compact("menus"));
     }
 
 
 }
-
-

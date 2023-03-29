@@ -52,10 +52,10 @@ Route::post('/buy_list_by_edit', [buyController::class, 'buy_list_by_edit'])->na
 Route::get('/cooking_list', [cookingListController::class, 'cooking_list'])->name('cooking_list');
 Route::post('/add_cooking_list', [cookingListController::class, 'add_cooking_list'])->name('add_cooking_list');
 Route::post('/text', [textController::class, 'text'])->name('text');
-Route::get('/menu_edit/{menu_id}', [menuEditController::class, 'menu_edit'])->name('menu_edit');
+Route::post('/menu_edit', [menuEditController::class, 'menu_edit'])->name('menu_edit');
 Route::get('/food_menu_food_delet/{food_menu_id}/menu/{menu_id}', [deleteController::class, 'food_menu_food_delet'])->name('food_menu_food_delet');
-Route::get('/menu_delete/{menu_id}', [deleteController::class, 'menu_delete'])->name('menu_delete');
-Route::get('/add_menu_edit/{menu_id}', [addMenuEditController::class, 'add_menu_edit'])->name('add_menu_edit');
+Route::post('/menu_delete', [deleteController::class, 'menu_delete'])->name('menu_delete');
+Route::post('/add_menu_edit', [addMenuEditController::class, 'add_menu_edit'])->name('add_menu_edit');
 Route::post('/add_menu_food', [addMenuFoodController::class, 'add_menu_food'])->name('add_menu_food');
 Route::get('/add_menu_edit_completion/{menu_id}', [addMenuEditController::class, 'add_menu_edit_completion'])->name('add_menu_edit_completion');
 Route::post('/foodToMenu', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
