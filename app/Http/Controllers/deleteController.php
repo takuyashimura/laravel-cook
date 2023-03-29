@@ -87,14 +87,23 @@ class deleteController extends Controller
         Menu::where("id","=",$menu_id)
         ->update(["deleted_at" => now()]);
 
-        $menus = Menu::select("menus.*")
-        ->where("user_id", "=", \Auth::id())
-        ->whereNull("deleted_at")
-        ->get();
+     
         return "削除完了";
 
         return view('menu',compact("menus"));
     }
+    
+    public function food_delete(Request $request )
+    {
+        $posts = $request ->all();
+        $food_id = $posts["food_stock"]['id'];
+    
+        
+        Food::where("id","=",$food_id)
+        ->update(["deleted_at" => now()]);
 
+
+        return "削除完了";
+    }
 
 }

@@ -55,9 +55,22 @@ class buyController extends Controller
     public function add_buy_list(Request $request)
     {
         $posts = $request->all();
-        return $posts;
+        $food = $posts[2];
 
-        $menu_id = $posts["menu_id"];
+        foreach($food as $f){
+            if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("food_id",'='.$f["food_id"])->exists()){
+                ShoppingItem::whereNull("deleted_at")->where("food_id",'='.$f["food_id"])->increment("amount",$f["food_amount"]);
+            }else{
+                ShoppingItem::create([
+                    "food_id"=> $f['food_id'],
+                    "amount"=> $f["food_amount"],
+                    "user_id"=>1
+                ]);
+            }
+        }
+        return "購入リストへ追加完了";
+
+        $menu_id = $food["menu_id"];
 
         $food = Food::select('food.*')
         ->orderby('created_at','DESC')

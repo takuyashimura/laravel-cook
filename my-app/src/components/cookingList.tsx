@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type cookingList = {
     id: number;
@@ -25,6 +26,7 @@ const CookingList = () => {
     );
     const [toBuyList, settoBuyList] = useState([nonStocksData, onStocksData]);
     const [useList, setUseList] = useState<[StocksData] | undefined>(undefined);
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -64,6 +66,7 @@ const CookingList = () => {
             )
             .then((response) => {
                 console.log("帰ってきたお", response.data);
+                navigate("/buylist/");
             })
             .catch((error) => {
                 console.error(error);
@@ -73,9 +76,10 @@ const CookingList = () => {
     const HandleSubmit1 = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axios
-            .post("http://localhost:8888/api/cooking", useList)
+            .post("http://localhost:8888/api/cooking", { useList, cookingList })
             .then((response) => {
                 console.log("帰ってきたお", response.data);
+                navigate("/food/");
             })
             .catch((error) => {
                 console.error(error);
@@ -115,22 +119,28 @@ const CookingList = () => {
                 )}
             </form>
 
-            {cookingList &&
+            {cookingList ? (
                 cookingList.map((c) => (
                     <div key={c.id}>
                         <p>{c.name}</p>
                     </div>
-                ))}
+                ))
+            ) : (
+                <p>メニューを追加してください</p>
+            )}
             <form onSubmit={HandleSubmit1}>
                 <p>使用する食材</p>
-                {useList &&
+                {useList ? (
                     useList.map((u) => (
                         <div key={u.id}>
                             <p>{u.food_name}</p>
                             <p>{u.amount}</p>
                         </div>
-                    ))}
-                <Button type="submit">調理をする</Button>{" "}
+                    ))
+                ) : (
+                    <Button type="submit">調理をする</Button>
+                )}
+
                 <p>食材数の確認をする</p>
             </form>
         </>

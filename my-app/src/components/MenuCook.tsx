@@ -1,11 +1,11 @@
 import { Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MenuCook = () => {
     const [food, setFood] = useState<any>();
-    // const navigator = useNavigate();
+    const navigator = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
@@ -19,8 +19,8 @@ const MenuCook = () => {
         axios
             .post("http://localhost:8888/api/add_buy_list", food)
             .then((response) => {
-                console.log("post", response);
-                // navigator("/food/");
+                console.log("post", response.data);
+                navigator("/buylist/");
             })
             .catch((error) => {
                 console.error(error);
