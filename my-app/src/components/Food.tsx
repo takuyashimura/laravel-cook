@@ -43,6 +43,19 @@ const Food = () => {
                 console.error(error);
             });
     };
+
+    const handlePost1 = (food_stock: any) => {
+        axios
+            .post("http://localhost:8888/api/food_delete", { food_stock })
+            .then((response) => {
+                console.log("response", response.data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
     const navigate = useNavigate();
 
     return (
@@ -54,10 +67,7 @@ const Food = () => {
             <Wrap>
                 {foodStocks &&
                     foodStocks.map((food_stock) => (
-                        <WrapItem
-                            key={food_stock.id}
-                            onClick={() => handlePost(food_stock)}
-                        >
+                        <WrapItem key={food_stock.id}>
                             <SCord>
                                 <p>{food_stock.name}</p>
                                 <p>
@@ -66,6 +76,12 @@ const Food = () => {
                                         ? 0
                                         : food_stock.total_amount}
                                     個
+                                </p>
+                                <p onClick={() => handlePost(food_stock)}>
+                                    選択
+                                </p>
+                                <p onClick={() => handlePost1(food_stock)}>
+                                    削除
                                 </p>
                             </SCord>
                         </WrapItem>
