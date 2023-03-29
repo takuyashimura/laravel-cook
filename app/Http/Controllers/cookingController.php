@@ -33,9 +33,13 @@ class cookingController extends Controller
     public function cooking(Request $request)
     {
         $posts = $request->all();
-        // return $posts;
+        // return $posts["cookingList"];
+        
+        CookingList::whereNull("deleted_at")->update([
+            "deleted_at"=> now()
+        ]);
 
-        foreach($posts as $i){
+        foreach($posts["useList"] as $i){
             // return $i;
             // dd($use_food["total_amount"]);
             $remaining_amount = $i["amount"];
