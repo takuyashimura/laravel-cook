@@ -11,7 +11,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type MenuName = {
