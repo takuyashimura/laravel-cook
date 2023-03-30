@@ -10,7 +10,6 @@ const MenuCook = () => {
 
     useEffect(() => {
         setFood(location.state);
-        console.log("location", location.state);
     }, []);
     console.log("food", food);
 
@@ -27,10 +26,24 @@ const MenuCook = () => {
             });
     };
 
+    const handlePost1 = () => {
+        axios
+            .post("http://localhost:8888/api/add_cooking_list", food[1])
+            .then((response) => {
+                console.log("response", response.data);
+                navigator("/cookingList/");
+            })
+            .catch((error) => {
+                console.log("error", error);
+                navigator("/cookingList/");
+            });
+    };
+
     return (
         <>
             <div>
-                <h1>{food && food[1]}</h1>
+                <h1>{food && food[1]["name"]}</h1>
+                <Button onClick={handlePost1}>調理リストへ追加する</Button>
                 <h2>不足数</h2>
                 <form onSubmit={handlePost}>
                     <div>

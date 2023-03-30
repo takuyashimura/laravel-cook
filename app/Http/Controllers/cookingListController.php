@@ -243,12 +243,15 @@ class cookingListController extends Controller
     public function add_cooking_list(Request $request)
     {
         $posts=$request->all();
-        $menu_id = $posts["menu"];
+        // return $posts;
+        $menu_id =  $posts["id"];
 
         Cookinglist::create([
             "menu_id" => $menu_id,
-            "user_id" => \Auth::id(),
+            "user_id" => 1,
         ]);
+
+        return "調理リストへ登録完了";
 
 
         return redirect( route('cooking_list') );  

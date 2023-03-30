@@ -73,8 +73,7 @@ const CookingList = () => {
             });
     };
 
-    const HandleSubmit1 = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const HandlePost = () => {
         axios
             .post("http://localhost:8888/api/cooking", { useList, cookingList })
             .then((response) => {
@@ -87,8 +86,6 @@ const CookingList = () => {
     };
 
     const length = onStocksData?.length || nonStocksData?.length;
-
-    console.log("length", !!length);
 
     return (
         <>
@@ -115,11 +112,16 @@ const CookingList = () => {
                         </Button>
                     </>
                 ) : (
-                    <p>不足している食材はありません</p>
+                    <>
+                        <p>不足している食材はありません</p>
+                        {cookingList && cookingList.length > 0 && (
+                            <Button onClick={HandlePost}>調理をする</Button>
+                        )}
+                    </>
                 )}
             </form>
 
-            {cookingList ? (
+            {cookingList && cookingList.length > 0 ? (
                 cookingList.map((c) => (
                     <div key={c.id}>
                         <p>{c.name}</p>
@@ -128,21 +130,18 @@ const CookingList = () => {
             ) : (
                 <p>メニューを追加してください</p>
             )}
-            <form onSubmit={HandleSubmit1}>
-                <p>使用する食材</p>
-                {useList ? (
-                    useList.map((u) => (
+
+            {useList && (
+                <>
+                    <h2>使用する食材</h2>
+                    {useList.map((u) => (
                         <div key={u.id}>
                             <p>{u.food_name}</p>
                             <p>{u.amount}</p>
                         </div>
-                    ))
-                ) : (
-                    <Button type="submit">調理をする</Button>
-                )}
-
-                <p>食材数の確認をする</p>
-            </form>
+                    ))}
+                </>
+            )}
         </>
     );
 };
