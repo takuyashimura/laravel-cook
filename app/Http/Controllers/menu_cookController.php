@@ -83,7 +83,7 @@ class menu_cookController extends Controller
         }
 
 
-        return [$post_data,$posts ['menu']['name'], $menu_food_data];
+        return [$post_data,$posts ['menu'], $menu_food_data];
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 
