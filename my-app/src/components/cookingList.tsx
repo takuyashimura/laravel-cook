@@ -123,24 +123,26 @@ const CookingList = () => {
 
             {cookingList && cookingList.length > 0 ? (
                 cookingList.map((c) => (
-                    <div key={c.id}>
-                        <p>{c.name}</p>
-                    </div>
+                    <>
+                        <div key={c.id}>
+                            <p>{c.name}</p>
+                        </div>
+
+                        {useList && (
+                            <>
+                                <h2>使用する食材</h2>
+                                {useList.map((u) => (
+                                    <div key={u.id}>
+                                        <p>{u.food_name}</p>
+                                        <p>{u.amount}</p>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                    </>
                 ))
             ) : (
                 <p>メニューを追加してください</p>
-            )}
-
-            {useList && (
-                <>
-                    <h2>使用する食材</h2>
-                    {useList.map((u) => (
-                        <div key={u.id}>
-                            <p>{u.food_name}</p>
-                            <p>{u.amount}</p>
-                        </div>
-                    ))}
-                </>
             )}
         </>
     );

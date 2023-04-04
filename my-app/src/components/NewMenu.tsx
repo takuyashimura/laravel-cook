@@ -1,6 +1,5 @@
 import {
     Button,
-    ChakraProvider,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
@@ -116,48 +115,44 @@ const NewMenu = () => {
 
     return (
         <>
-            <ChakraProvider>
-                {/* レイアウトを整えるのにstackを使う 
+            {/* レイアウトを整えるのにstackを使う 
                     時間に余裕があればmodalを用いたい。*/}
-                <form onSubmit={HandleSubmit}>
-                    <div>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder={menuName || "メニュー名"}
-                            onChange={OnChangeName}
-                        />
-                    </div>
+            <form onSubmit={HandleSubmit}>
+                <div>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder={menuName || "メニュー名"}
+                        onChange={OnChangeName}
+                    />
+                </div>
 
-                    {menuName === "メニュー名" || menuName === "" ? (
-                        //  ||
-                        // menuName === 0
-                        <p>食材名を記入してください</p>
-                    ) : (
-                        <Button type="submit" isDisabled={!menuName}>
-                            新規メニュー追加
-                        </Button>
-                    )}
-                    {food &&
-                        food.map((f) => (
-                            <div key={f.id}>
-                                <p>{f.name}</p>
-                                <NumberInput
-                                    min={0}
-                                    onChange={(e) =>
-                                        onChangeFoodNumber(e, f.id)
-                                    }
-                                >
-                                    <NumberInputField />
-                                    <NumberInputStepper>
-                                        <NumberIncrementStepper />
-                                        <NumberDecrementStepper />
-                                    </NumberInputStepper>
-                                </NumberInput>
-                            </div>
-                        ))}
-                </form>
-            </ChakraProvider>
+                {menuName === "メニュー名" || menuName === "" ? (
+                    //  ||
+                    // menuName === 0
+                    <p>食材名を記入してください</p>
+                ) : (
+                    <Button type="submit" isDisabled={!menuName}>
+                        新規メニュー追加
+                    </Button>
+                )}
+                {food &&
+                    food.map((f) => (
+                        <div key={f.id}>
+                            <p>{f.name}</p>
+                            <NumberInput
+                                min={0}
+                                onChange={(e) => onChangeFoodNumber(e, f.id)}
+                            >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                </NumberInputStepper>
+                            </NumberInput>
+                        </div>
+                    ))}
+            </form>
         </>
     );
 };

@@ -35,7 +35,6 @@ const MenuCook = () => {
             })
             .catch((error) => {
                 console.log("error", error);
-                navigator("/cookingList/");
             });
     };
 

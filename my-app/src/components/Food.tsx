@@ -1,19 +1,56 @@
-import { Button, Wrap, WrapItem } from "@chakra-ui/react";
+import { Button, Wrap, WrapItem, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import NewFood from "./NewFood";
+import { FoodToMenusModal } from "./FoodToMenusModal";
+import { AlertDialogPage } from "./AlertDialogPage";
 type FoodStocks = {
     id: number;
     name: string;
     total_amount: number;
 };
 
+type ModalFoodStocks = {
+    id: number;
+    name: string;
+    total_amount: number;
+    length: number;
+};
+
+type Modal = {
+    id: number;
+    name: string;
+    total_amount: number;
+};
+
 const Food = () => {
-    const [foodStocks, setFoodStocks] = useState<[FoodStocks] | undefined>(
+    const [foodStocks, setFoodStocks] = useState<FoodStocks[] | undefined>(
         undefined
     );
+    const [modalFoodStocks, setModalFoodStocks] = useState<
+        ModalFoodStocks[] | undefined
+    >(undefined);
+
+    const [modaldata, setModalData] = useState<Modal[] | undefined>(undefined);
+
+    const {
+        isOpen: isOpenAddFoodModal,
+        onOpen: onOpenAddFoodModal,
+        onClose: CloseAddFoodModal,
+    } = useDisclosure();
+    const {
+        isOpen: isOpenFoodToMenuModal,
+        onOpen: onOpenFoodToMenuModal,
+        onClose: CloseFoodToMenuModal,
+    } = useDisclosure();
+    const {
+        isOpen: isCheck,
+        onOpen: onCheck,
+        onClose: endCheck,
+    } = useDisclosure();
 
     // 先ほど作成したLaravelのAPIのURL
     const url = "http://localhost:8888/api/home";
@@ -32,38 +69,31 @@ const Food = () => {
         })();
     }, []);
 
-    const handlePost = (food_stock: any) => {
+    const onCheckOpen = (food_stock: any) => {
+        setModalData(food_stock);
+        console.log("modaldata", modaldata);
+        onCheck();
+    };
+
+    const handlePostModal = (food_stock: any) => {
         axios
             .post("http://localhost:8888/api/foodToMenu", { food_stock })
             .then((response) => {
                 console.log("post", response.data);
-                navigate("/FoodToMenus/", { state: { data: response.data } });
+                setModalFoodStocks(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    };
-
-    const handlePost1 = (food_stock: any) => {
-        axios
-            .post("http://localhost:8888/api/food_delete", { food_stock })
-            .then((response) => {
-                console.log("response", response.data);
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        onOpenFoodToMenuModal();
     };
 
     const navigate = useNavigate();
 
     return (
         <div className="Food">
-            <div>
-                <a href="/newFood/">新規食材追加</a>
-            </div>
-
+            {/* <Button as={Link} to="/newFood/"> */}
+            <Button onClick={onOpenAddFoodModal}>新規食材追加</Button>
             <Wrap>
                 {foodStocks &&
                     foodStocks.map((food_stock) => (
@@ -77,16 +107,44 @@ const Food = () => {
                                         : food_stock.total_amount}
                                     個
                                 </p>
-                                <p onClick={() => handlePost(food_stock)}>
+                                <Button
+                                    colorScheme="teal"
+                                    onClick={() => handlePostModal(food_stock)}
+                                    // onClick={() => handlePost(food_stock)}
+                                    _hover={{
+                                        cursor: "pointer",
+                                        opacity: 0.8,
+                                    }}
+                                >
                                     選択
-                                </p>
-                                <p onClick={() => handlePost1(food_stock)}>
+                                </Button>
+                                <Button
+                                    colorScheme="red"
+                                    // onClick={() => handlePost1(food_stock)}
+                                    onClick={() => onCheckOpen(food_stock)}
+                                    _hover={{
+                                        cursor: "pointer",
+
+                                        opacity: 0.8,
+                                    }}
+                                >
                                     削除
-                                </p>
+                                </Button>
                             </SCord>
                         </WrapItem>
                     ))}
             </Wrap>
+            <NewFood isOpen={isOpenAddFoodModal} onClose={CloseAddFoodModal} />
+            <FoodToMenusModal
+                isOpen={isOpenFoodToMenuModal}
+                onClose={CloseFoodToMenuModal}
+                modalFoodStocks={modalFoodStocks}
+            />
+            <AlertDialogPage
+                isOpen={isCheck}
+                onClose={endCheck}
+                modaldata={modaldata}
+            />
         </div>
     );
 };

@@ -34,6 +34,7 @@ class add_menuController extends Controller
     public function add_menu()
     {
         $food = Food::select('food.*')
+        ->whereNull("deleted_at")
         ->orderby('created_at','DESC')
         ->get();
 
@@ -54,6 +55,7 @@ class add_menuController extends Controller
         $posts=$request->all();
         // メニュー名の存在確認
         $exists = Menu::where("name", "=", $posts[0])
+        ->whereNull("deleted_at")
         ->exists();
         $post = $posts[1];
 
@@ -62,7 +64,7 @@ class add_menuController extends Controller
         return "このメニューは既に登録されています。";
 
         }else{
-            Menu::insertGetId([
+            $menu_id = Menu::insertGetId([
                 "name" => $posts[0],
                 "user_id" => 1
             ]);
@@ -70,7 +72,7 @@ class add_menuController extends Controller
                 FoodMenu::create([
                     "food_id" => $value["foodId"],
                     "food_amount"=> $value["amount"],
-                    "menu_id"=> 1
+                    "menu_id"=> $menu_id
                 ]);
             };
             return"登録完了";

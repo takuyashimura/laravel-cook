@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    ChakraProvider,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
@@ -77,44 +76,40 @@ const EditMenu = () => {
 
     return (
         <>
-            <ChakraProvider>
-                <div>
-                    <h1>
-                        {menuName && menuName.length > 0 && menuName[0].name}
-                    </h1>
-                </div>
-                <form onSubmit={handlePost}>
-                    <Button type="submit"> 使用する食材を変更する </Button>
-                    <VStack
-                        divider={<StackDivider borderColor="gray.200" />}
-                        spacing={4}
-                        align="stretch"
-                    >
-                        {menuData &&
-                            menuData.length > 0 &&
-                            menuData.map((m) => (
-                                <>
-                                    <Box key={m.id} h="40px" bg="yellow.200">
-                                        <p>{m.name}</p>
-                                    </Box>
-                                    <NumberInput
-                                        defaultValue={m.food_amount}
-                                        min={0}
-                                        onChange={(e) =>
-                                            onChangeFoodNumber(e, m.name, m.id)
-                                        }
-                                    >
-                                        <NumberInputField />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput>
-                                </>
-                            ))}
-                    </VStack>
-                </form>
-            </ChakraProvider>
+            <div>
+                <h1>{menuName && menuName.length > 0 && menuName[0].name}</h1>
+            </div>
+            <form onSubmit={handlePost}>
+                <Button type="submit"> 使用する食材を変更する </Button>
+                <VStack
+                    divider={<StackDivider borderColor="gray.200" />}
+                    spacing={4}
+                    align="stretch"
+                >
+                    {menuData &&
+                        menuData.length > 0 &&
+                        menuData.map((m) => (
+                            <>
+                                <Box key={m.id} h="40px" bg="yellow.200">
+                                    <p>{m.name}</p>
+                                </Box>
+                                <NumberInput
+                                    defaultValue={m.food_amount}
+                                    min={0}
+                                    onChange={(e) =>
+                                        onChangeFoodNumber(e, m.name, m.id)
+                                    }
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </>
+                        ))}
+                </VStack>
+            </form>
         </>
     );
 };

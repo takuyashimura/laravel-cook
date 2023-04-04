@@ -52,7 +52,7 @@ class stockController extends Controller
         $foodName = key($post);
         // return $foodName;
 
-        $food =Food::where("name", "=", $foodName)->exists();
+        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
         if ($food === false) {
             Food::create([
                 "user_id"=>1,

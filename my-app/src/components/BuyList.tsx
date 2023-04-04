@@ -1,15 +1,17 @@
 import {
     Box,
     Button,
-    ChakraProvider,
-    Link,
+    Flex,
     StackDivider,
+    Text,
     Textarea,
     VStack,
+    useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { EditBuyListModal } from "./EditbuyListModal";
 
 type shopingItem = {
     food_id: number;
@@ -20,9 +22,15 @@ type Text = string;
 
 const BuyList = () => {
     const [shoppingItems, setShoppingItems] = useState<
-        [shopingItem] | undefined
+        shopingItem[] | undefined
     >(undefined);
     const [text, setText] = useState<Text>();
+
+    const {
+        isOpen: isEdit,
+        onOpen: onEdit,
+        onClose: endEdit,
+    } = useDisclosure();
 
     useEffect(() => {
         (async () => {
@@ -64,53 +72,61 @@ const BuyList = () => {
             });
     };
 
-    const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setText(e.target.value);
-    };
     const navigation = useNavigate();
 
-    // console.log("text");
+    const ToEditBuyList = () => {
+        navigation("/editBuyList/");
+    };
 
     return (
-        <ChakraProvider>
-            <div>post送信機能未完成</div>
+        <>
+            <Button
+                m={1}
+                // onClick={ToEditBuyList}
+                onClick={onEdit}
+            >
+                購入リストを編集する
+            </Button>
+
             <form onSubmit={HnadleSubmit1}>
                 <VStack
                     divider={<StackDivider borderColor="gray.200" />}
-                    spacing={4}
+                    spacing={2}
                     align="stretch"
                 >
-                    {shoppingItems ? (
+                    {shoppingItems &&
                         shoppingItems.map((shoppingItem) => (
-                            <>
-                                <Box h="40px" bg="yellow.200">
-                                    <p>{shoppingItem.name}</p>
-                                    <p>{shoppingItem.total_amount}</p>
-                                </Box>
-                            </>
-                        ))
-                    ) : (
-                        <p>購入リストは空です</p>
-                    )}
-
-                    {shoppingItems && <Button type="submit">購入する</Button>}
-
-                    <Link href="/editBuyList/">購入リストを編集する</Link>
+                            <Flex justify="space-between" bg="yellow.200">
+                                <Text>{shoppingItem.name}</Text>
+                                <Text>{shoppingItem.total_amount}個</Text>
+                            </Flex>
+                        ))}
                 </VStack>
+                {shoppingItems && shoppingItems.length > 0 && (
+                    <Button m={5} type="submit">
+                        購入する
+                    </Button>
+                )}
+
+                {!shoppingItems && <p>購入リストは空です</p>}
             </form>
 
             <form onSubmit={HnadleSubmit}>
                 <Textarea
+                    bgColor={"gray.50"}
                     resize="vertical"
                     minH="200px"
                     maxH="400px"
                     placeholder="その他買い物メモ"
                     value={text}
-                    onChange={onChangeText}
+                    onChange={(e) => setText(e.target.value)}
                 />
-                <Button type="submit">メモを保存</Button>
+                <Button m={5} type="submit">
+                    メモを保存
+                </Button>
             </form>
-        </ChakraProvider>
+            <EditBuyListModal isOpen={isEdit} onClose={endEdit} />
+        </>
     );
 };
 export default BuyList;

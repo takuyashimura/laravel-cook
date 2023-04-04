@@ -22,10 +22,10 @@ const SContainer = styled.footer`
     background-color: #eeeeee;
     position: fixed;
     bottom: 0;
-    height;50px;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    height: 50px;
 `;
 
 const SMenu = styled.a`
@@ -35,6 +35,7 @@ const SMenu = styled.a`
     align-items: center;
     text-decoration: none;
     border: 1px solid #333;
+    height: 50px;
 `;
 const SPtagu = styled.p`
     color: black;

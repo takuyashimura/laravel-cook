@@ -81,7 +81,7 @@ class deleteController extends Controller
     public function menu_delete(Request $request )
     {
         $posts = $request->all();
-        $menu_id = $posts["menu"]['id'];
+        $menu_id = $posts["deleteMenu"]['id'];
     
         
         Menu::where("id","=",$menu_id)
@@ -96,7 +96,7 @@ class deleteController extends Controller
     public function food_delete(Request $request )
     {
         $posts = $request ->all();
-        $food_id = $posts["food_stock"]['id'];
+        $food_id = $posts["modaldata"]['id'];
     
         
         Food::where("id","=",$food_id)
