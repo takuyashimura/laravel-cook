@@ -33,7 +33,7 @@ class addMenuEditController extends Controller
     {
         $posts = $request->all();
         // return $posts;
-        $food_data = $posts['menuData'];
+        $food_data = $posts['postMenuData'];
         $menu_id =$posts["menuName"]["id"];
  
         //編集しているメニューに使用する食材のfood_idを配列として取得

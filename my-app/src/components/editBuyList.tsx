@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    ChakraProvider,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
@@ -82,65 +81,55 @@ const EditBuyList = () => {
 
     return (
         <>
-            <ChakraProvider>
-                <form onSubmit={handleSubmit}>
-                    <Button type="submit"> 買い物リストを更新する</Button>
-                    <VStack
-                        divider={<StackDivider borderColor="gray.200" />}
-                        spacing={4}
-                        align="stretch"
-                    >
-                        {nonFoodArray &&
-                            nonFoodArray.map((f) => (
-                                <>
-                                    <Box key={f.id} h="40px" bg="yellow.200">
-                                        <p>{f.name}</p>
-                                    </Box>
-                                    <NumberInput
-                                        min={0}
-                                        onChange={(e) =>
-                                            onChangeFoodNumber(e, f.name, f.id)
-                                        }
-                                    >
-                                        <NumberInputField />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput>
-                                </>
-                            ))}
-                        {sList &&
-                            sList.map((l) => (
-                                <>
-                                    <Box
-                                        key={l.food_id}
-                                        h="40px"
-                                        bg="yellow.200"
-                                    >
-                                        <p>{l.name}</p>
-                                    </Box>
-                                    <NumberInput
-                                        defaultValue={l.amount}
-                                        onChange={(e) =>
-                                            onChangeFoodNumber(
-                                                e,
-                                                l.name,
-                                                l.food_id
-                                            )
-                                        }
-                                    >
-                                        <NumberInputField />
-                                        <NumberInputStepper>
-                                            <NumberIncrementStepper />
-                                            <NumberDecrementStepper />
-                                        </NumberInputStepper>
-                                    </NumberInput>
-                                </>
-                            ))}
-                    </VStack>
-                </form>
-            </ChakraProvider>
+            <form onSubmit={handleSubmit}>
+                <Button type="submit"> 買い物リストを更新する</Button>
+                <VStack
+                    divider={<StackDivider borderColor="gray.200" />}
+                    spacing={4}
+                    align="stretch"
+                >
+                    {nonFoodArray &&
+                        nonFoodArray.map((f) => (
+                            <>
+                                <Box key={f.id} h="40px" bg="yellow.200">
+                                    <p>{f.name}</p>
+                                </Box>
+                                <NumberInput
+                                    min={0}
+                                    onChange={(e) =>
+                                        onChangeFoodNumber(e, f.name, f.id)
+                                    }
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </>
+                        ))}
+                    {sList &&
+                        sList.map((l) => (
+                            <>
+                                <Box key={l.food_id} h="40px" bg="yellow.200">
+                                    <p>{l.name}</p>
+                                </Box>
+                                <NumberInput
+                                    defaultValue={l.amount}
+                                    onChange={(e) =>
+                                        onChangeFoodNumber(e, l.name, l.food_id)
+                                    }
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </>
+                        ))}
+                </VStack>
+            </form>
         </>
     );
 };

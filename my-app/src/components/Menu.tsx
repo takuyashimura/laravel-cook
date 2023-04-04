@@ -1,20 +1,60 @@
-import { border, Wrap, WrapItem } from "@chakra-ui/react";
+import { Button, Wrap, WrapItem, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AlertDialogPageMenu } from "./AlertDialogPageMenu";
+import { EditMenuModal } from "./EditMenuModal";
+import { NewMenuModal } from "./NewMenuModal";
+import { MenuCookModal } from "./MenuCookModal";
 
 type Menus = {
     menu_id: number;
     name: string;
 };
-type MenuData = {
+
+type DeleteMenu = {
+    id: number;
+    user_id: number;
+    name: string;
+};
+
+type MenuName = {
     id: number;
     name: string;
 };
 
+type MenuData = {
+    id: number;
+    name: string;
+    food_amount: number;
+};
+
 const Menu = () => {
     const [menus, setMenus] = useState<[Menus] | undefined>(undefined);
+    const [deleteMenu, setDeleteMenu] = useState<DeleteMenu[] | undefined>(
+        undefined
+    );
+    const [menuName, setMenuName] = useState<MenuName[] | undefined>(undefined);
+    const [menuData, setMenuData] = useState<MenuData[] | undefined>(undefined);
+    const [choiceMenu, setChoiceMenu] = useState<any>();
+
+    const {
+        isOpen: isAlert,
+        onOpen: onAlert,
+        onClose: endAlert,
+    } = useDisclosure();
+    const {
+        isOpen: isEdit,
+        onOpen: onEdit,
+        onClose: endEdit,
+    } = useDisclosure();
+    const { isOpen: isNew, onOpen: onNew, onClose: endNew } = useDisclosure();
+    const {
+        isOpen: isChoice,
+        onOpen: onChoice,
+        onClose: endChoice,
+    } = useDisclosure();
 
     // get↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     useEffect(() => {
@@ -48,6 +88,18 @@ const Menu = () => {
             });
     };
 
+    const ClickChoice = (menu: any) => {
+        axios
+            .post("http://localhost:8888/api/menu_cook", { menu })
+            .then((response) => {
+                setChoiceMenu(response.data);
+                onChoice();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
     const handlePost1 = (menu: any) => {
         axios
             .post("http://localhost:8888/api/menu_edit", { menu })
@@ -60,53 +112,99 @@ const Menu = () => {
             });
     };
 
-    const handlePost2 = (menu: any) => {
+    const ClickAlert = (menu: any) => {
+        setDeleteMenu(menu);
+        onAlert();
+    };
+
+    const clickEdit = (menu: any) => {
         axios
-            .post("http://localhost:8888/api/menu_delete", { menu })
+            .post("http://localhost:8888/api/menu_edit", { menu })
             .then((response) => {
-                console.log("response", response.data);
-                window.location.reload();
+                console.log("post1", response.data.menuData);
+                console.log("post2", response.data.foodArray);
+                setMenuName(response.data.menuData);
+                setMenuData(response.data.foodArray);
+                onEdit();
+
+                // navigate("/EditMenu/", { state: response.data });
+            })
+            .catch((error) => {
+                console.error(error);
             });
     };
+
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
     return (
         <div className="Food">
-            <div>
-                <a href="/newMenu/">新規メニュー追加</a>
-            </div>
+            <Button onClick={onNew}>新規メニュー追加</Button>
 
             <Wrap>
                 {menus &&
                     menus.map((menu) => (
                         <WrapItem key={menu.menu_id}>
                             <>
-                                {" "}
                                 <SCord>
-                                    <p>{menu.name}</p>{" "}
-                                    <div
+                                    <p>{menu.name}</p>
+                                    <Button
                                         style={{ border: "1px solid black" }}
-                                        onClick={() => handlePost(menu)}
+                                        // onClick={() => handlePost(menu)}
+                                        onClick={() => ClickChoice(menu)}
+                                        _hover={{
+                                            cursor: "pointer",
+                                            opacity: 0.8,
+                                        }}
                                     >
                                         選択する
-                                    </div>
-                                    <div
+                                    </Button>
+                                    <br></br>
+                                    <Button
+                                        colorScheme="teal"
                                         style={{ border: "1px solid black" }}
-                                        onClick={() => handlePost1(menu)}
+                                        // onClick={() => handlePost1(menu)}
+                                        onClick={() => clickEdit(menu)}
+                                        _hover={{
+                                            cursor: "pointer",
+                                            opacity: 0.8,
+                                        }}
                                     >
                                         編集
-                                    </div>
-                                    <div
+                                    </Button>
+                                    <Button
+                                        colorScheme="red"
                                         style={{ border: "1px solid black" }}
-                                        onClick={() => handlePost2(menu)}
+                                        // onClick={() => handlePost2(menu)}
+                                        onClick={() => ClickAlert(menu)}
+                                        _hover={{
+                                            cursor: "pointer",
+                                            opacity: 0.8,
+                                        }}
                                     >
                                         削除
-                                    </div>
+                                    </Button>
                                 </SCord>
                             </>
                         </WrapItem>
                     ))}
             </Wrap>
+            <AlertDialogPageMenu
+                isOpen={isAlert}
+                onClose={endAlert}
+                deleteMenu={deleteMenu}
+            />
+            <EditMenuModal
+                isOpen={isEdit}
+                onClose={endEdit}
+                menuName={menuName}
+                menuData={menuData}
+            />
+            <NewMenuModal isOpen={isNew} onClose={endNew} />
+            <MenuCookModal
+                isOpen={isChoice}
+                onClose={endChoice}
+                choiceMenu={choiceMenu}
+            />
         </div>
     );
 };

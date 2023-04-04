@@ -36,6 +36,7 @@ class menuController extends Controller
          $menus= Menu::
         //  where("user_id" ,"=", \Auth::id())
          whereNull("deleted_at")
+         ->select("menus.id","menus.user_id","menus.name")
          ->orderby('created_at','DESC')
          ->get();
  

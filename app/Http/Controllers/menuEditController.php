@@ -44,16 +44,18 @@ class menuEditController extends Controller
 
         $food_menu = FoodMenu::whereNull("food_menus.deleted_at")
         ->where("food_menus.menu_id","=",$menu_id)
-        ->leftjoin("food","food_menus.food_id","=","food.id");
+        ->leftjoin("food","food_menus.food_id","=","food.id")
+        ->whereNull("food.deleted_at");
         
 
         $food_menu_data= $food_menu ->select("food.name","food_menus.food_amount","food.id")->get();
 
         $food_menus= $food_menu->select("food.name","food.id") -> get()->pluck("name")->toArray();
         // return $food_menus;
-        $food = Food::select('food.name',"food.id")->get()->pluck("name")->toArray();
+        $food = Food::select('food.name',"food.id")->whereNull("food.deleted_at")->get()->pluck("name")->toArray();
         // return $food;
         $unused_food = array_diff($food,$food_menus);
+        // return $unused_food;
 
         $unused=[];
         foreach ($unused_food  as $key =>$value){
@@ -68,6 +70,7 @@ class menuEditController extends Controller
         }
 
         $food_array  = array_merge( $food_menu_data->toArray(),$unused);
+        // return $food_array;
 
         // return [$menu_name,$food_menu_data];
 

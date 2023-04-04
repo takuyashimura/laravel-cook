@@ -1,12 +1,24 @@
-import { Button, ChakraProvider, useToast } from "@chakra-ui/react";
+import {
+    useToast,
+    Button,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+} from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { memo, useState, VFC } from "react";
 import { useNavigate } from "react-router-dom";
 
 type FoodData = string;
 
-const NewFood = () => {
+type Props = { isOpen: boolean; onClose: () => void };
+
+const NewFood: VFC<Props> = memo((props) => {
     const [foodData, setFoodData] = useState<FoodData>("食品名");
+    const { isOpen, onClose } = props;
 
     const OnChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFoodData(e.target.value);
@@ -43,38 +55,48 @@ const NewFood = () => {
             .catch((error) => {
                 console.error(error);
             });
+        onClose();
+        window.location.reload();
     };
 
     const toast = useToast();
 
     return (
         <>
-            <ChakraProvider>
-                {/* レイアウトを整えるのにstackを使う 
+            {/* レイアウトを整えるのにstackを使う 
                     時間に余裕があればmodalを用いたい。*/}
-                <form onSubmit={HandleSubmit}>
-                    <div>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder={foodData || "食品名"}
-                            onChange={OnChangeName}
-                        />
-                    </div>
 
-                    {foodData === "食品名" ||
-                    foodData === "" ||
-                    foodData.length === 0 ? (
-                        <p>食材名を記入してください</p>
-                    ) : (
-                        <Button type="submit" isDisabled={!foodData}>
-                            新規食材追加
-                        </Button>
-                    )}
-                </form>
-            </ChakraProvider>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>新規食材追加</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <form onSubmit={HandleSubmit}>
+                            <div>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="食品名"
+                                    onChange={OnChangeName}
+                                />
+                            </div>
+
+                            {foodData === "食品名" ||
+                            foodData === "" ||
+                            foodData.length === 0 ? (
+                                <p>食材名を記入してください</p>
+                            ) : (
+                                <Button type="submit" isDisabled={!foodData}>
+                                    新規食材追加
+                                </Button>
+                            )}
+                        </form>{" "}
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </>
     );
-};
+});
 
 export default NewFood;
