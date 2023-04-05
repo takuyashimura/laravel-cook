@@ -56,7 +56,6 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
                 const res = await axios.get(url);
 
                 setFood(res.data.food);
-                console.log("food", food);
 
                 return;
             } catch (e) {
@@ -64,7 +63,6 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
             }
         })();
     }, []);
-    console.log("food２", food);
     //↑GET受信関係 ----------------------------------------------------------------------------------------------
 
     useEffect(() => {

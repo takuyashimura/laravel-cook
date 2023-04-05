@@ -56,15 +56,17 @@ const Menu = () => {
         onClose: endChoice,
     } = useDisclosure();
 
+    console.log("aaaa");
+
     // get↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     useEffect(() => {
         (async () => {
             try {
                 const res = await axios.get("http://localhost:8888/api/menu");
+                console.log(res);
 
                 setMenus(res.data.menus);
                 //サイトで拾ってきたコードにはconsoleのコードはなかったので自分で追記
-                console.log(res);
 
                 return;
             } catch (e) {
@@ -72,6 +74,7 @@ const Menu = () => {
             }
         })();
     }, []);
+
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
     // post↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     const navigate = useNavigate();
@@ -93,12 +96,13 @@ const Menu = () => {
             .post("http://localhost:8888/api/menu_cook", { menu })
             .then((response) => {
                 setChoiceMenu(response.data);
-                onChoice();
+                // onChoice();
             })
             .catch((error) => {
                 console.error(error);
             });
     };
+    console.log("choiceMenu", choiceMenu);
 
     const handlePost1 = (menu: any) => {
         axios
@@ -133,6 +137,7 @@ const Menu = () => {
                 console.error(error);
             });
     };
+    // console.log("menus", menus);
 
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
@@ -200,11 +205,11 @@ const Menu = () => {
                 menuData={menuData}
             />
             <NewMenuModal isOpen={isNew} onClose={endNew} />
-            <MenuCookModal
+            {/* <MenuCookModal
                 isOpen={isChoice}
                 onClose={endChoice}
                 choiceMenu={choiceMenu}
-            />
+            /> */}
         </div>
     );
 };

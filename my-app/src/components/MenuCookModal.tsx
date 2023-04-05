@@ -90,7 +90,7 @@ export const MenuCookModal: VFC<Props> = memo((props) => {
 
                                     {choiceMenu && choiceMenu[0] && (
                                         <Button type="submit">
-                                            購入リストに追加する
+                                            買い物リストに追加する
                                         </Button>
                                     )}
                                 </VStack>

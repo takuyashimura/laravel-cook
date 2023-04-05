@@ -118,8 +118,29 @@ class cookingListController extends Controller
         // dd($on_stocks_data);
         
         //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
+        //cooking_listに何人前登録したか調査する ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        $cooking_list_name_array = $cooking_list->pluck('name')->toArray();
+        // return $cooking_list_name_array;
+        $how_many_food=array_count_values($cooking_list_name_array);
+        
+
+        $cooking_list_name_counts=[];
+        foreach($how_many_food as $key => $value){
+            $cooking_list_name_counts []=[
+                "name"=> $key,
+                "count"=>$value
+            ];
+        }
+        $cooking_list_name_count = array_unique($cooking_list_name_counts,SORT_REGULAR);
+        
+        
+        // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+        
+        
         
         return response()->json([
+            "cooking_list_name_count"=>$cooking_list_name_count,
             "cooking_list"=>$cooking_list,            
             "non_stocks_data"=>$non_stocks_data,            
             "on_stocks_data"=>$on_stocks_data,            
