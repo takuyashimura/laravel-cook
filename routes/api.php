@@ -20,6 +20,7 @@ use App\Http\Controllers\boughtFoodController;
 use App\Http\Controllers\cookingListFoodAmountController;
 use App\Http\Controllers\cookingListdeleteController;
 use App\Http\Controllers\addBuyListByCoookingListController;
+use App\Http\Controllers\foodCheckController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -65,3 +66,4 @@ Route::get('/cookingListdelete/{id}', [cookingListdeleteController::class, 'cook
 Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::class, 'addBuyListByCoookingList'])->name('addBuyListByCoookingList');
 Route::post('/cooking', [cookingController::class, 'cooking'])->name('cooking');
 Route::post('/food_delete', [deleteController::class, 'food_delete'])->name('food_delete');
+Route::post('/foodCheck', [foodCheckController::class, 'foodCheck'])->name('foodCheck');

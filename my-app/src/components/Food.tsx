@@ -1,4 +1,10 @@
-import { Button, Wrap, WrapItem, useDisclosure } from "@chakra-ui/react";
+import {
+    Button,
+    Wrap,
+    WrapItem,
+    useDisclosure,
+    useToast,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -70,9 +76,28 @@ const Food = () => {
     }, []);
 
     const onCheckOpen = (food_stock: any) => {
-        setModalData(food_stock);
-        console.log("modaldata", modaldata);
-        onCheck();
+        axios
+            .post("http://localhost:8888/api/foodCheck", food_stock)
+            .then((response) => {
+                if (
+                    response.data ===
+                    "メニューの材料として登録されているため削除できません"
+                ) {
+                    toast({
+                        title: `${response.data}`,
+                        status: "error",
+                        isClosable: true,
+                    });
+                } else {
+                    setModalData(food_stock);
+                    console.log("modaldata", modaldata);
+                    onCheck();
+                }
+                console.log("post", response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const handlePostModal = (food_stock: any) => {
@@ -87,6 +112,8 @@ const Food = () => {
             });
         onOpenFoodToMenuModal();
     };
+
+    const toast = useToast();
 
     const navigate = useNavigate();
 
