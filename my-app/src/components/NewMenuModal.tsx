@@ -44,8 +44,6 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
 
     const toast = useToast();
 
-    const navigation = useNavigate();
-
     //↓GET受信関係 ----------------------------------------------------------------------------------------------
 
     const url = "http://localhost:8888/api/add_menu";
@@ -102,7 +100,16 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
                 console.log("post", response.data);
                 if (response.data === "登録完了") {
                     onClose();
-                    window.location.reload();
+                    toast({
+                        title: "メニューが登録さてました。3秒後にリロードされます",
+                        description: "メニューページを確認してください",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
                 } else {
                     HandleAddFood2();
                 }

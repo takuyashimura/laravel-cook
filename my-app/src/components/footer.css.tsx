@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Text } from "@chakra-ui/react";
 
 export const Footer = () => {
     return (
@@ -10,7 +11,10 @@ export const Footer = () => {
                 <SPtagu>メニュー</SPtagu>
             </SMenu>
             <SMenu href="/buyList/">
-                <SPtagu>買い物リスト</SPtagu>
+                <SPtagu>
+                    <Text>買い物</Text>
+                    <Text>リスト</Text>
+                </SPtagu>
             </SMenu>
             <SMenu href="/cookingList/">
                 <SPtagu>調理リスト</SPtagu>

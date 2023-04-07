@@ -1,4 +1,13 @@
-import { Button, Wrap, WrapItem, useDisclosure } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    StackDivider,
+    VStack,
+    WrapItem,
+    useDisclosure,
+    Text,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +46,9 @@ const Menu = () => {
     );
     const [menuName, setMenuName] = useState<MenuName[] | undefined>(undefined);
     const [menuData, setMenuData] = useState<MenuData[] | undefined>(undefined);
-    const [choiceMenu, setChoiceMenu] = useState<any>();
+    const [choiceMenu, setChoiceMenu] = useState<MenuData[] | undefined>(
+        undefined
+    );
 
     const {
         isOpen: isAlert,
@@ -55,8 +66,6 @@ const Menu = () => {
         onOpen: onChoice,
         onClose: endChoice,
     } = useDisclosure();
-
-    console.log("aaaa");
 
     // get↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     useEffect(() => {
@@ -77,39 +86,17 @@ const Menu = () => {
 
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
     // post↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-    const navigate = useNavigate();
-    // 食材選択画面へ
-    const handlePost = (menu: any) => {
-        axios
-            .post("http://localhost:8888/api/menu_cook", { menu })
-            .then((response) => {
-                console.log("post", response.data);
-                navigate("/MenuCook/", { state: response.data });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
 
     const ClickChoice = (menu: any) => {
+        console.log("menu", menu);
+
         axios
             .post("http://localhost:8888/api/menu_cook", { menu })
             .then((response) => {
                 setChoiceMenu(response.data);
-                // onChoice();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-    console.log("choiceMenu", choiceMenu);
+                console.log("choiceMenu", choiceMenu);
 
-    const handlePost1 = (menu: any) => {
-        axios
-            .post("http://localhost:8888/api/menu_edit", { menu })
-            .then((response) => {
-                console.log("post1", response.data);
-                navigate("/EditMenu/", { state: response.data });
+                onChoice();
             })
             .catch((error) => {
                 console.error(error);
@@ -143,56 +130,69 @@ const Menu = () => {
 
     return (
         <div className="Food">
-            <Button onClick={onNew}>新規メニュー追加</Button>
+            <Button m={2} onClick={onNew}>
+                新規メニュー追加
+            </Button>
 
-            <Wrap>
+            <VStack
+                divider={<StackDivider borderColor="gray.200" />}
+                spacing={2}
+                align="stretch"
+            >
+                {" "}
                 {menus &&
                     menus.map((menu) => (
-                        <WrapItem key={menu.menu_id}>
-                            <>
-                                <SCord>
-                                    <p>{menu.name}</p>
+                        <>
+                            <Flex
+                                ml={2}
+                                mr={2}
+                                justify="space-between"
+                                height={"40px"}
+                                key={menu.menu_id}
+                                alignItems="center"
+                            >
+                                <Text>{menu.name}</Text>
+                                <Box>
+                                    {" "}
                                     <Button
-                                        style={{ border: "1px solid black" }}
-                                        // onClick={() => handlePost(menu)}
+                                        colorScheme="teal"
                                         onClick={() => ClickChoice(menu)}
                                         _hover={{
                                             cursor: "pointer",
                                             opacity: 0.8,
                                         }}
                                     >
-                                        選択する
-                                    </Button>
-                                    <br></br>
-                                    <Button
-                                        colorScheme="teal"
-                                        style={{ border: "1px solid black" }}
-                                        // onClick={() => handlePost1(menu)}
-                                        onClick={() => clickEdit(menu)}
-                                        _hover={{
-                                            cursor: "pointer",
-                                            opacity: 0.8,
-                                        }}
-                                    >
-                                        編集
+                                        調理
                                     </Button>
                                     <Button
                                         colorScheme="red"
-                                        style={{ border: "1px solid black" }}
-                                        // onClick={() => handlePost2(menu)}
                                         onClick={() => ClickAlert(menu)}
                                         _hover={{
                                             cursor: "pointer",
                                             opacity: 0.8,
                                         }}
                                     >
-                                        削除
+                                        ×
                                     </Button>
-                                </SCord>
-                            </>
-                        </WrapItem>
+                                    <Button
+                                        onClick={() => clickEdit(menu)}
+                                        _hover={{
+                                            cursor: "pointer",
+                                            opacity: 0.8,
+                                        }}
+                                    >
+                                        <Text fontSize={"8px"}>
+                                            {" "}
+                                            使用食材を
+                                            <br />
+                                            編集編集する
+                                        </Text>
+                                    </Button>
+                                </Box>
+                            </Flex>
+                        </>
                     ))}
-            </Wrap>
+            </VStack>
             <AlertDialogPageMenu
                 isOpen={isAlert}
                 onClose={endAlert}
@@ -205,11 +205,11 @@ const Menu = () => {
                 menuData={menuData}
             />
             <NewMenuModal isOpen={isNew} onClose={endNew} />
-            {/* <MenuCookModal
+            <MenuCookModal
                 isOpen={isChoice}
                 onClose={endChoice}
                 choiceMenu={choiceMenu}
-            /> */}
+            />
         </div>
     );
 };

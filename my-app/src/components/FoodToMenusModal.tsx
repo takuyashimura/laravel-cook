@@ -6,10 +6,12 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { VFC, memo } from "react";
+import { VFC, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MenuCookModal } from "./MenuCookModal";
 type ModalFoodStocks = {
     id: number;
     name: string;
@@ -23,10 +25,23 @@ type Props = {
     modalFoodStocks: ModalFoodStocks[] | undefined;
 };
 
+type MenuData = {
+    id: number;
+    name: string;
+    food_amount: number;
+};
+
 export const FoodToMenusModal: VFC<Props> = memo((props) => {
     console.log("props", props);
     const { isOpen, onClose, modalFoodStocks } = props;
-    const navigate = useNavigate();
+    const [choiceMenu, setChoiceMenu] = useState<MenuData[] | undefined>(
+        undefined
+    );
+    const {
+        isOpen: isChoice,
+        onOpen: onChoice,
+        onClose: endChoice,
+    } = useDisclosure();
 
     if (modalFoodStocks) {
         console.log("modalFoodStocks", modalFoodStocks[0]);
@@ -35,50 +50,61 @@ export const FoodToMenusModal: VFC<Props> = memo((props) => {
         console.log("length", !!length);
     }
 
-    const onClickFpodData = (d: any) => {
+    const ClickChoice = (menu: any) => {
+        console.log("menu", menu);
         axios
-            .post("http://localhost:8888/api/menu_cook", { menu: d })
+            .post("http://localhost:8888/api/menu_cook", { menu })
             .then((response) => {
-                console.log("post", response.data);
-                navigate("/MenuCook/", { state: response.data });
+                setChoiceMenu(response.data);
+                console.log("choiceMenu", choiceMenu);
+                onChoice();
             })
             .catch((error) => {
                 console.error(error);
             });
     };
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>
-                    <div>
-                        <h1>
+        <>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>
+                        <div>
+                            <h1>
+                                {modalFoodStocks &&
+                                    modalFoodStocks[0] &&
+                                    `${modalFoodStocks[0]}を使うメニュー`}
+                            </h1>
+                        </div>
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <div>
                             {modalFoodStocks &&
-                                modalFoodStocks[0] &&
-                                `${modalFoodStocks[0]}を使うメニュー`}
-                        </h1>
-                    </div>
-                </ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                    <div>
-                        {modalFoodStocks &&
-                        Array.isArray(modalFoodStocks[1]) &&
-                        modalFoodStocks[1].length > 0 ? (
-                            modalFoodStocks[1].map((d: any) => (
-                                <Button
-                                    key={d.id}
-                                    onClick={() => onClickFpodData(d)}
-                                >
-                                    <p>{d.name}</p>
-                                </Button>
-                            ))
-                        ) : (
-                            <p>使用するメニューがありません</p>
-                        )}
-                    </div>
-                </ModalBody>
-            </ModalContent>
-        </Modal>
+                            Array.isArray(modalFoodStocks[1]) &&
+                            modalFoodStocks[1].length > 0 ? (
+                                modalFoodStocks[1].map((menu: any) => (
+                                    <Button
+                                        key={menu.id}
+                                        m={1}
+                                        onClick={() => ClickChoice(menu)}
+                                    >
+                                        <p>{menu.name}</p>
+                                    </Button>
+                                ))
+                            ) : (
+                                <p>使用するメニューがありません</p>
+                            )}
+                        </div>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+            <MenuCookModal
+                isOpen={isChoice}
+                onClose={endChoice}
+                choiceMenu={choiceMenu}
+            />
+        </>
     );
 });

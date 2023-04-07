@@ -11,9 +11,10 @@ import {
     VStack,
     Text,
     Flex,
+    useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { VFC, memo } from "react";
+import { FC, memo } from "react";
 
 type Props = {
     isOpen: boolean;
@@ -21,11 +22,10 @@ type Props = {
     choiceMenu: any;
 };
 
-export const MenuCookModal: VFC<Props> = memo((props) => {
+export const MenuCookModal: FC<Props> = memo((props) => {
     const { isOpen, onClose, choiceMenu } = props;
-    if (choiceMenu) {
-        console.log("choiceMenu", choiceMenu);
-    }
+
+    const toast = useToast();
 
     const handlePost = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,6 +33,13 @@ export const MenuCookModal: VFC<Props> = memo((props) => {
             .post("http://localhost:8888/api/add_buy_list", choiceMenu)
             .then((response) => {
                 console.log("post", response.data);
+                toast({
+                    title: "不足している食材が買い物リストに追加されました",
+                    description: "買い物リストをご確認ください",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 onClose();
             })
             .catch((error) => {
@@ -45,6 +52,13 @@ export const MenuCookModal: VFC<Props> = memo((props) => {
             .post("http://localhost:8888/api/add_cooking_list", choiceMenu[1])
             .then((response) => {
                 console.log("response", response.data);
+                toast({
+                    title: `${choiceMenu[1]["name"]}が調理リストに追加されました`,
+                    description: "調理リストをご確認ください",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 onClose();
             })
             .catch((error) => {
@@ -61,9 +75,6 @@ export const MenuCookModal: VFC<Props> = memo((props) => {
                 <ModalBody>
                     <>
                         <div>
-                            <Button onClick={handlePost1}>
-                                調理リストへ追加する
-                            </Button>
                             <Box fontWeight={700}>不足数</Box>
                             <form onSubmit={handlePost}>
                                 <VStack
@@ -120,6 +131,9 @@ export const MenuCookModal: VFC<Props> = memo((props) => {
                                     ))}
                             </VStack>
                         </div>
+                        <Button onClick={handlePost1}>
+                            調理リストへ追加する
+                        </Button>
                     </>
                 </ModalBody>
             </ModalContent>
