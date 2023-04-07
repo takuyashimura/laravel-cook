@@ -10,6 +10,8 @@ class Menu extends Model
 {
     protected $table = 'menus';
     use HasFactory;
+    use SoftDeletes;   
+
     protected $fillable = ['name','user_id'];
 
     public function users()
@@ -22,7 +24,6 @@ class Menu extends Model
     }
     public function food_menus()
     {
-        return $this->hasMany(FoodMenu::class);
+        return $this->hasMany(FoodMenu::class,"menu_id");
     }
-  
 }

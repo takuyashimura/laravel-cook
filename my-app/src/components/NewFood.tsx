@@ -33,15 +33,18 @@ const NewFood: VFC<Props> = memo((props) => {
             .then((response) => {
                 console.log(response.data);
                 if (response.data === "登録完了") {
-                    navigation("/Food/");
                     //画面遷移するとトーストが表示されない
+                    onClose();
                     toast({
-                        title: "正常に登録されました",
+                        title: "正常に登録されました。3秒後にリロードされます",
                         description: "食材ページを確認してください",
                         status: "success",
                         duration: 9000,
                         isClosable: true,
                     });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
                 } else {
                     toast({
                         title: "既に登録されています",
@@ -55,8 +58,6 @@ const NewFood: VFC<Props> = memo((props) => {
             .catch((error) => {
                 console.error(error);
             });
-        onClose();
-        window.location.reload();
     };
 
     const toast = useToast();

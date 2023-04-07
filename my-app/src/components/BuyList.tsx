@@ -7,6 +7,7 @@ import {
     Textarea,
     VStack,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -32,6 +33,8 @@ const BuyList = () => {
         onClose: endEdit,
     } = useDisclosure();
 
+    const toast = useToast();
+
     useEffect(() => {
         (async () => {
             try {
@@ -53,6 +56,13 @@ const BuyList = () => {
             .post("http://localhost:8888/api/boughtFood", shoppingItems)
             .then((response) => {
                 console.log("shoppingItems", shoppingItems);
+                toast({
+                    title: "在庫に追加しました",
+                    description: "食材ページで在庫数をご確認ください",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 navigation("/Food/");
             })
             .catch((error) => {
@@ -74,17 +84,9 @@ const BuyList = () => {
 
     const navigation = useNavigate();
 
-    const ToEditBuyList = () => {
-        navigation("/editBuyList/");
-    };
-
     return (
         <>
-            <Button
-                m={1}
-                // onClick={ToEditBuyList}
-                onClick={onEdit}
-            >
+            <Button m={2} onClick={onEdit}>
                 購入リストを編集する
             </Button>
 
@@ -93,22 +95,22 @@ const BuyList = () => {
                     divider={<StackDivider borderColor="gray.200" />}
                     spacing={2}
                     align="stretch"
+                    mr={2}
+                    ml={2}
                 >
                     {shoppingItems &&
                         shoppingItems.map((shoppingItem) => (
-                            <Flex justify="space-between" bg="yellow.200">
+                            <Flex justify="space-between">
                                 <Text>{shoppingItem.name}</Text>
                                 <Text>{shoppingItem.total_amount}個</Text>
                             </Flex>
                         ))}
                 </VStack>
                 {shoppingItems && shoppingItems.length > 0 && (
-                    <Button m={5} type="submit">
+                    <Button m={5} ml={2} type="submit">
                         購入する
                     </Button>
                 )}
-
-                {!shoppingItems && <p>購入リストは空です</p>}
             </form>
 
             <form onSubmit={HnadleSubmit}>
@@ -121,7 +123,7 @@ const BuyList = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />
-                <Button m={5} type="submit">
+                <Button m={5} ml={2} type="submit">
                     メモを保存
                 </Button>
             </form>

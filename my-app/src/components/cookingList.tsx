@@ -5,6 +5,7 @@ import {
     StackDivider,
     Text,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -42,6 +43,7 @@ const CookingList = () => {
         undefined
     );
     const navigate = useNavigate();
+    const toast = useToast();
 
     useEffect(() => {
         (async () => {
@@ -79,7 +81,13 @@ const CookingList = () => {
                 toBuyList
             )
             .then((response) => {
-                console.log("帰ってきたお", response.data);
+                toast({
+                    title: "不足している食材を買い物リストに追加しました。",
+                    description: "買い物リストへ移動します",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 navigate("/buylist/");
             })
             .catch((error) => {
@@ -92,6 +100,13 @@ const CookingList = () => {
             .post("http://localhost:8888/api/cooking", { useList, cookingList })
             .then((response) => {
                 console.log("帰ってきたお", response.data);
+                toast({
+                    title: "使用する食材を消費しました。",
+                    description: "在庫数をご確認ください",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 navigate("/food/");
             })
             .catch((error) => {
@@ -105,37 +120,41 @@ const CookingList = () => {
         <>
             {nameCount && nameCount.length > 0 ? (
                 <>
+                    {" "}
+                    <Text m={2} fontSize={20} fontWeight={800}>
+                        メニュー
+                    </Text>
                     <VStack
                         divider={<StackDivider borderColor="gray.200" />}
                         spacing={2}
                         align="stretch"
                     >
-                        <Text fontSize={20} fontWeight={800}>
-                            調理するメニュー
-                        </Text>
                         {nameCount.map((c, index) => (
                             <Flex
+                                ml={2}
+                                mr={2}
                                 justify="space-between"
-                                bg="yellow.200"
                                 key={index}
                             >
                                 <Text>{c.name}</Text>
                                 <Text>{c.count}人前</Text>
                             </Flex>
-                        ))}
+                        ))}{" "}
+                        <Text m={2} fontSize={20} fontWeight={700}>
+                            使用食材
+                        </Text>
                     </VStack>
-
                     {useList && (
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
                             spacing={2}
                             align="stretch"
                         >
-                            <Text>使用する食材</Text>
                             {useList.map((u) => (
                                 <Flex
+                                    ml={2}
+                                    mr={2}
                                     justify="space-between"
-                                    bg="yellow.200"
                                     key={u.id}
                                 >
                                     <Text>{u.food_name}</Text>
@@ -146,23 +165,27 @@ const CookingList = () => {
                     )}
                 </>
             ) : (
-                <Flex align="center" justify="center">
-                    <Text fontSize={25}>メニューを追加してください</Text>
-                </Flex>
+                <Box mt={"30px"} justifyContent="center" alignItems="center">
+                    <Text fontSize={25} textAlign="center">
+                        調理リストが空です
+                    </Text>
+                    <Text fontSize={25} textAlign="center">
+                        メニューを追加してください
+                    </Text>
+                </Box>
             )}
             <form onSubmit={HandleSubmit}>
                 {nonStocksData && onStocksData && !!length ? (
                     <>
-                        <Box>
-                            <Text fontSize={20} fontWeight={700}>
-                                不足食材名と分量
-                            </Text>
-                        </Box>
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
                             spacing={2}
                             align="stretch"
                         >
+                            <Text m={2} fontSize={20} fontWeight={700}>
+                                不足食材
+                            </Text>
+
                             {nonStocksData.map((d) => (
                                 <Flex
                                     justify="space-between"
@@ -170,7 +193,10 @@ const CookingList = () => {
                                     key={d.id}
                                 >
                                     <Text>{d.food_name}</Text>
-                                    <Text>{d.amount}個</Text>
+                                    <Flex>
+                                        <Text color={"red"}>{d.amount}</Text>
+                                        <Text>個</Text>
+                                    </Flex>{" "}
                                 </Flex>
                             ))}
                             {onStocksData.map((d) => (
@@ -180,20 +206,24 @@ const CookingList = () => {
                                     key={d.id}
                                 >
                                     <Text>{d.food_name}</Text>
-                                    <Text>{d.amount}個</Text>
+                                    <Flex>
+                                        <Text color={"red"}>{d.amount}</Text>
+                                        <Text>個</Text>
+                                    </Flex>
                                 </Flex>
                             ))}
                         </VStack>
 
-                        <Button m={5} type="submit">
+                        <Button mt={5} ml={2} type="submit">
                             <Text>不足分を買い物リストに追加する</Text>
                         </Button>
                     </>
                 ) : (
                     <>
-                        <Text>不足している食材はありません</Text>
                         {cookingList && cookingList.length > 0 && (
-                            <Button onClick={HandlePost}>調理をする</Button>
+                            <Button mt={2} ml={2} onClick={HandlePost}>
+                                調理をする
+                            </Button>
                         )}
                     </>
                 )}

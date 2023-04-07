@@ -54,15 +54,14 @@ class menu_cookController extends Controller
         $post_data=[];
 
         foreach($menu_food_data as $i){
-            return $i;
+            // return $i;
             if(Stock::select("stocks.food_id")->whereNull("deleted_at")->where("food_id",'=',$i['food_id'])->exists() !== true){
                 // return $i;
                  $post_data [] = $i;
-                 return $post_data;
+                //  return $post_data;
             }else{
                 // return $i["food_amount"];
                 if($i["food_amount"]>$stocks[$i["food_id"]]["total_amount"]){
-                    // return $i;
                     $post_data[] = [
                     "name"=>$i["name"],
                     "food_id"=>$i["food_id"],
@@ -72,7 +71,6 @@ class menu_cookController extends Controller
 
             }
         }
-        return $post_data;
 
 
         return [$post_data,$posts ['menu'], $menu_food_data];

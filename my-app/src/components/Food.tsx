@@ -4,6 +4,11 @@ import {
     WrapItem,
     useDisclosure,
     useToast,
+    Text,
+    VStack,
+    StackDivider,
+    Box,
+    Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -120,20 +125,34 @@ const Food = () => {
     return (
         <div className="Food">
             {/* <Button as={Link} to="/newFood/"> */}
-            <Button onClick={onOpenAddFoodModal}>新規食材追加</Button>
-            <Wrap>
+            <Button m={2} onClick={onOpenAddFoodModal}>
+                新規食材追加
+            </Button>
+            <VStack
+                divider={<StackDivider borderColor="gray.200" />}
+                spacing={2}
+                align="stretch"
+            >
+                {" "}
                 {foodStocks &&
                     foodStocks.map((food_stock) => (
-                        <WrapItem key={food_stock.id}>
-                            <SCord>
-                                <p>{food_stock.name}</p>
-                                <p>
-                                    在庫数
-                                    {food_stock.total_amount === null
-                                        ? 0
-                                        : food_stock.total_amount}
-                                    個
-                                </p>
+                        <Flex
+                            ml={2}
+                            mr={2}
+                            justify="space-between"
+                            height={"40px"}
+                            key={food_stock.id}
+                            alignItems="center"
+                        >
+                            <Text>
+                                {food_stock.name}：在庫数
+                                {food_stock.total_amount === null
+                                    ? 0
+                                    : food_stock.total_amount}
+                                個
+                            </Text>
+
+                            <Box>
                                 <Button
                                     colorScheme="teal"
                                     onClick={() => handlePostModal(food_stock)}
@@ -143,7 +162,11 @@ const Food = () => {
                                         opacity: 0.8,
                                     }}
                                 >
-                                    選択
+                                    <Text fontSize={"8px"}>
+                                        メニューを
+                                        <br />
+                                        選択する
+                                    </Text>
                                 </Button>
                                 <Button
                                     colorScheme="red"
@@ -155,12 +178,12 @@ const Food = () => {
                                         opacity: 0.8,
                                     }}
                                 >
-                                    削除
+                                    ×
                                 </Button>
-                            </SCord>
-                        </WrapItem>
+                            </Box>
+                        </Flex>
                     ))}
-            </Wrap>
+            </VStack>
             <NewFood isOpen={isOpenAddFoodModal} onClose={CloseAddFoodModal} />
             <FoodToMenusModal
                 isOpen={isOpenFoodToMenuModal}
@@ -175,11 +198,5 @@ const Food = () => {
         </div>
     );
 };
-
-const SCord = styled.div`
-    border: solid 1px #ccc;
-    border-radius: 8px;
-    padding: 10px;
-`;
 
 export default Food;
