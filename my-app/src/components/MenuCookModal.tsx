@@ -84,22 +84,26 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                     spacing={1}
                                     align="stretch"
                                 >
-                                    {choiceMenu && choiceMenu[0] ? (
+                                    {choiceMenu && choiceMenu[0].length > 0 ? (
                                         choiceMenu[0].map((f: any) => (
                                             <Flex
                                                 justify="space-between"
-                                                bg={"red.50"}
                                                 key={f.id}
                                             >
                                                 <Text>{f.name}</Text>
-                                                <Text>{f.food_amount}個</Text>
+                                                <Flex>
+                                                    <Text color={"red"}>
+                                                        {f.food_amount}
+                                                    </Text>
+                                                    <Text>個</Text>
+                                                </Flex>
                                             </Flex>
                                         ))
                                     ) : (
                                         <Text>不足分はありません</Text>
                                     )}
 
-                                    {choiceMenu && choiceMenu[0] && (
+                                    {choiceMenu && choiceMenu[0].length > 0 && (
                                         <Button type="submit">
                                             買い物リストに追加する
                                         </Button>
@@ -121,7 +125,6 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                         <>
                                             <Flex
                                                 justify="space-between"
-                                                bg={"teal.50"}
                                                 key={f.food_id}
                                             >
                                                 <Text>{f.name}</Text>
