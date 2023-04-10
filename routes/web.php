@@ -39,6 +39,10 @@ Route::get('/{any}', function () {
     return view('index');
 })->where('any', '.*');
 
+
+
+// いいいいい
+
 Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
 // Route::get('/home', [HomeController::class, 'home'])->name('home');//①
