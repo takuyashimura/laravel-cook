@@ -1,18 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-type LoginInput = {
+type RegisterInput = {
+    name: string;
     email: string;
     password: string;
     error_list: any;
 };
 
-function Login() {
+function Register() {
     const navigation = useNavigate();
 
-    const [loginInput, setLogin] = useState<LoginInput>({
+    const [registerInput, setRegister] = useState<RegisterInput>({
+        name: "",
         email: "",
         password: "",
         error_list: [],
@@ -20,30 +22,28 @@ function Login() {
 
     const handleInput = (e: any) => {
         e.persist();
-        setLogin({ ...loginInput, [e.target.name]: e.target.value });
+        setRegister({ ...registerInput, [e.target.name]: e.target.value });
     };
 
-    const loginSubmit = (e: any) => {
+    const registerSubmit = (e: any) => {
         e.preventDefault();
 
         const data = {
-            email: loginInput.email,
-            password: loginInput.password,
+            name: registerInput.name,
+            email: registerInput.email,
+            password: registerInput.password,
         };
 
         axios.get("/sanctum/csrf-cookie").then((response) => {
-            axios.post(`api/login`, data).then((res) => {
+            axios.post(`/api/register`, data).then((res) => {
                 if (res.data.status === 200) {
                     localStorage.setItem("auth_token", res.data.token);
                     localStorage.setItem("auth_name", res.data.username);
-                    swal("ログイン成功", res.data.message, "success");
+                    swal("Success", res.data.message, "success");
                     navigation("/");
-                    window.location.reload();
-                } else if (res.data.status === 401) {
-                    swal("注意", res.data.message, "warning");
                 } else {
-                    setLogin({
-                        ...loginInput,
+                    setRegister({
+                        ...registerInput,
                         error_list: res.data.validation_errors,
                     });
                 }
@@ -57,32 +57,45 @@ function Login() {
                 <div className="col-md-6 col-lg-6 mx-auto">
                     <div className="card">
                         <div className="card-header">
-                            <h4>Login</h4>
+                            <h4>Register</h4>
                         </div>
                         <div className="card-body">
-                            <form onSubmit={loginSubmit}>
+                            <form onSubmit={registerSubmit}>
+                                <div className="form-group mb-3">
+                                    <label>User Name</label>
+                                    <input
+                                        type=""
+                                        name="name"
+                                        onChange={handleInput}
+                                        value={registerInput.name}
+                                        className="form-control"
+                                    />
+                                    <span>{registerInput.error_list.name}</span>
+                                </div>
                                 <div className="form-group mb-3">
                                     <label>Mail Address</label>
                                     <input
-                                        type="email"
+                                        type=""
                                         name="email"
                                         onChange={handleInput}
-                                        value={loginInput.email}
+                                        value={registerInput.email}
                                         className="form-control"
                                     />
-                                    <span>{loginInput.error_list.email}</span>
+                                    <span>
+                                        {registerInput.error_list.email}
+                                    </span>
                                 </div>
                                 <div className="form-group mb-3">
                                     <label>Password</label>
                                     <input
-                                        type="password"
+                                        type=""
                                         name="password"
                                         onChange={handleInput}
-                                        value={loginInput.password}
+                                        value={registerInput.password}
                                         className="form-control"
                                     />
                                     <span>
-                                        {loginInput.error_list.password}
+                                        {registerInput.error_list.password}
                                     </span>
                                 </div>
                                 <div className="form-group mb-3">
@@ -90,7 +103,7 @@ function Login() {
                                         type="submit"
                                         className="btn btn-primary"
                                     >
-                                        Login
+                                        Register
                                     </button>
                                 </div>
                             </form>
@@ -102,4 +115,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Register;
