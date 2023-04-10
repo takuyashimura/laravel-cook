@@ -41,7 +41,6 @@ Route::get('/{any}', function () {
 
 
 
-// いいいいい
 
 Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
