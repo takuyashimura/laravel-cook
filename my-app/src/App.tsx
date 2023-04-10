@@ -14,7 +14,7 @@ import EditBuyList from "./components/editBuyList";
 import FoodToMenus from "./components/FoodToMenus";
 import MenuCook from "./components/MenuCook";
 import EditMenu from "./components/EditMenu";
-import { Box, ChakraProvider, Switch } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 
 import GlobalNav from "./components/GlobalNav";
 import Top from "./components/Top";
@@ -33,6 +33,7 @@ const App = () => {
 
                         <Routes>
                             <Route path={"/"} element={<Top />} />
+                            <Route path={"/about"} element={<About />} />
                             <Route path={`/register/`} element={<Register />} />
                             <Route path={`/login/`} element={<Login />} />
                             <Route path={`/Food/`} element={<Food />} />
