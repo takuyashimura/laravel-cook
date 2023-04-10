@@ -38,7 +38,6 @@ use App\Http\Controllers\addBuyListByCoookingListController;
 Route::get('/{any}', function () {
     return view('index');
 })->where('any', '.*');
-// コンフリクトチェック
 
 
 
