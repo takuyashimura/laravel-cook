@@ -38,6 +38,7 @@ use App\Http\Controllers\addBuyListByCoookingListController;
 Route::get('/{any}', function () {
     return view('index');
 })->where('any', '.*');
+// コンフリクトチェック
 
 Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
