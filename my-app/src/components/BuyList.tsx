@@ -86,9 +86,11 @@ const BuyList = () => {
 
     return (
         <>
-            <Button m={2} onClick={onEdit}>
-                購入リストを編集する
-            </Button>
+            <Box w={"100%"} textAlign={"right"}>
+                <Button m={2} onClick={onEdit}>
+                    購入リストを編集する
+                </Button>
+            </Box>
 
             <form onSubmit={HnadleSubmit1}>
                 <VStack
@@ -107,9 +109,11 @@ const BuyList = () => {
                         ))}
                 </VStack>
                 {shoppingItems && shoppingItems.length > 0 && (
-                    <Button m={5} ml={2} type="submit">
-                        購入する
-                    </Button>
+                    <Box w={"100%"} textAlign={"right"}>
+                        <Button m={5} ml={2} type="submit">
+                            購入する
+                        </Button>
+                    </Box>
                 )}
             </form>
 
@@ -123,9 +127,11 @@ const BuyList = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />
-                <Button m={5} ml={2} type="submit">
-                    メモを保存
-                </Button>
+                <Box w={"100%"} textAlign={"right"}>
+                    <Button m={5} ml={2} type="submit">
+                        メモを保存
+                    </Button>
+                </Box>
             </form>
             <EditBuyListModal isOpen={isEdit} onClose={endEdit} />
         </>

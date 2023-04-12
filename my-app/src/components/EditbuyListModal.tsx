@@ -98,7 +98,12 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
                 <ModalBody>
                     {" "}
                     <form onSubmit={handleSubmit}>
-                        <Button type="submit">買い物リストを更新する</Button>
+                        <Box w={"100%"} textAlign={"right"}>
+                            <Button type="submit">
+                                買い物リストを更新する
+                            </Button>
+                        </Box>
+
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
                             spacing={4}

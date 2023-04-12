@@ -87,7 +87,14 @@ export const EditMenuModal: VFC<Props> = memo((props) => {
                 <ModalCloseButton />
                 <ModalBody>
                     <form onSubmit={handlePost}>
-                        <Button type="submit"> 使用する食材を変更する </Button>
+                        <Box w={"100%"} textAlign={"right"}>
+                            {" "}
+                            <Button type="submit">
+                                {" "}
+                                使用する食材を変更する{" "}
+                            </Button>
+                        </Box>
+
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
                             spacing={4}

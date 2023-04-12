@@ -104,9 +104,11 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                     )}
 
                                     {choiceMenu && choiceMenu[0].length > 0 && (
-                                        <Button type="submit">
-                                            買い物リストに追加する
-                                        </Button>
+                                        <Box w={"100%"} textAlign={"right"}>
+                                            <Button type="submit">
+                                                買い物リストに追加する
+                                            </Button>{" "}
+                                        </Box>
                                     )}
                                 </VStack>
                             </form>
@@ -134,9 +136,12 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                     ))}
                             </VStack>
                         </div>
-                        <Button onClick={handlePost1}>
-                            調理リストへ追加する
-                        </Button>
+                        <Box w={"100%"} textAlign={"right"}>
+                            {" "}
+                            <Button onClick={handlePost1}>
+                                調理リストへ追加する
+                            </Button>
+                        </Box>
                     </>
                 </ModalBody>
             </ModalContent>

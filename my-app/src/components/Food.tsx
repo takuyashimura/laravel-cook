@@ -125,9 +125,13 @@ const Food = () => {
     return (
         <div className="Food">
             {/* <Button as={Link} to="/newFood/"> */}
-            <Button m={2} onClick={onOpenAddFoodModal}>
-                新規食材追加
-            </Button>
+            <Box w={"100%"} textAlign={"right"}>
+                {" "}
+                <Button m={2} onClick={onOpenAddFoodModal}>
+                    新規食材追加
+                </Button>
+            </Box>
+
             <VStack
                 divider={<StackDivider borderColor="gray.200" />}
                 spacing={2}

@@ -130,9 +130,11 @@ const Menu = () => {
 
     return (
         <div className="Food">
-            <Button m={2} onClick={onNew}>
-                新規メニュー追加
-            </Button>
+            <Box w={"100%"} textAlign={"right"}>
+                <Button m={2} onClick={onNew}>
+                    新規メニュー追加
+                </Button>
+            </Box>
 
             <VStack
                 divider={<StackDivider borderColor="gray.200" />}

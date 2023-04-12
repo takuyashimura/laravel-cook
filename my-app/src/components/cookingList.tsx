@@ -213,17 +213,20 @@ const CookingList = () => {
                                 </Flex>
                             ))}
                         </VStack>
-
-                        <Button mt={5} ml={2} type="submit">
-                            <Text>不足分を買い物リストに追加する</Text>
-                        </Button>
+                        <Box w={"100%"} textAlign={"right"}>
+                            <Button mt={5} ml={2} type="submit">
+                                <Text>不足分を買い物リストに追加する</Text>
+                            </Button>
+                        </Box>
                     </>
                 ) : (
                     <>
                         {cookingList && cookingList.length > 0 && (
-                            <Button mt={2} ml={2} onClick={HandlePost}>
-                                調理をする
-                            </Button>
+                            <Box w={"100%"} textAlign={"right"}>
+                                <Button mt={2} ml={2} onClick={HandlePost}>
+                                    調理をする
+                                </Button>{" "}
+                            </Box>
                         )}
                     </>
                 )}
