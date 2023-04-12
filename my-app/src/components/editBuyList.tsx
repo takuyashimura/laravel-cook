@@ -100,7 +100,7 @@ const EditBuyList = () => {
                                         onChangeFoodNumber(e, f.name, f.id)
                                     }
                                 >
-                                    <NumberInputField />
+                                    <NumberInputField textAlign={"right"} />{" "}
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
                                         <NumberDecrementStepper />
@@ -120,7 +120,7 @@ const EditBuyList = () => {
                                         onChangeFoodNumber(e, l.name, l.food_id)
                                     }
                                 >
-                                    <NumberInputField />
+                                    <NumberInputField textAlign={"right"} />{" "}
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
                                         <NumberDecrementStepper />

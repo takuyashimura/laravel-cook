@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CustomButtom } from "../tags/buttom";
 
 type MenuName = string;
 
@@ -28,7 +29,6 @@ const NewMenu = () => {
     const [food, setFood] = useState<Food[] | undefined>(undefined);
 
     const url = "http://localhost:8888/api/add_menu";
-
     useEffect(() => {
         (async () => {
             try {
@@ -115,8 +115,6 @@ const NewMenu = () => {
 
     return (
         <>
-            {/* レイアウトを整えるのにstackを使う 
-                    時間に余裕があればmodalを用いたい。*/}
             <form onSubmit={HandleSubmit}>
                 <div>
                     <input
@@ -132,9 +130,9 @@ const NewMenu = () => {
                     // menuName === 0
                     <p>食材名を記入してください</p>
                 ) : (
-                    <Button type="submit" isDisabled={!menuName}>
+                    <CustomButtom type="submit" isDisabled={!menuName}>
                         新規メニュー追加
-                    </Button>
+                    </CustomButtom>
                 )}
                 {food &&
                     food.map((f) => (

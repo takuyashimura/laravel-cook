@@ -100,7 +100,7 @@ const EditMenu = () => {
                                         onChangeFoodNumber(e, m.name, m.id)
                                     }
                                 >
-                                    <NumberInputField />
+                                    <NumberInputField textAlign={"right"} />{" "}
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
                                         <NumberDecrementStepper />

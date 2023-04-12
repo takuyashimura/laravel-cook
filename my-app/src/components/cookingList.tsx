@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CustomButtom } from "../tags/buttom";
 
 type cookingList = {
     id: number;
@@ -214,18 +215,22 @@ const CookingList = () => {
                             ))}
                         </VStack>
                         <Box w={"100%"} textAlign={"right"}>
-                            <Button mt={5} ml={2} type="submit">
+                            <CustomButtom mt={5} ml={2} type="submit">
                                 <Text>不足分を買い物リストに追加する</Text>
-                            </Button>
+                            </CustomButtom>
                         </Box>
                     </>
                 ) : (
                     <>
                         {cookingList && cookingList.length > 0 && (
                             <Box w={"100%"} textAlign={"right"}>
-                                <Button mt={2} ml={2} onClick={HandlePost}>
+                                <CustomButtom
+                                    mt={2}
+                                    ml={2}
+                                    onClick={HandlePost}
+                                >
                                     調理をする
-                                </Button>{" "}
+                                </CustomButtom>{" "}
                             </Box>
                         )}
                     </>

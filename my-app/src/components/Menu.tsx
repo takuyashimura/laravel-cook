@@ -16,6 +16,7 @@ import { AlertDialogPageMenu } from "./AlertDialogPageMenu";
 import { EditMenuModal } from "./EditMenuModal";
 import { NewMenuModal } from "./NewMenuModal";
 import { MenuCookModal } from "./MenuCookModal";
+import { CustomButtom } from "../tags/buttom";
 
 type Menus = {
     menu_id: number;
@@ -131,9 +132,9 @@ const Menu = () => {
     return (
         <div className="Food">
             <Box w={"100%"} textAlign={"right"}>
-                <Button m={2} onClick={onNew}>
+                <CustomButtom m={2} onClick={onNew}>
                     新規メニュー追加
-                </Button>
+                </CustomButtom>
             </Box>
 
             <VStack
@@ -157,6 +158,20 @@ const Menu = () => {
                                 <Box>
                                     {" "}
                                     <Button
+                                        onClick={() => clickEdit(menu)}
+                                        _hover={{
+                                            cursor: "pointer",
+                                            opacity: 0.8,
+                                        }}
+                                    >
+                                        <Text fontSize={"8px"}>
+                                            {" "}
+                                            使用食材を
+                                            <br />
+                                            編集編集する
+                                        </Text>
+                                    </Button>
+                                    <Button
                                         colorScheme="teal"
                                         onClick={() => ClickChoice(menu)}
                                         _hover={{
@@ -175,20 +190,6 @@ const Menu = () => {
                                         }}
                                     >
                                         ×
-                                    </Button>
-                                    <Button
-                                        onClick={() => clickEdit(menu)}
-                                        _hover={{
-                                            cursor: "pointer",
-                                            opacity: 0.8,
-                                        }}
-                                    >
-                                        <Text fontSize={"8px"}>
-                                            {" "}
-                                            使用食材を
-                                            <br />
-                                            編集編集する
-                                        </Text>
                                     </Button>
                                 </Box>
                             </Flex>

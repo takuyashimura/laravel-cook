@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { memo, useState, VFC } from "react";
 import { useNavigate } from "react-router-dom";
+import { CustomButtom } from "../tags/buttom";
 
 type FoodData = string;
 
@@ -96,12 +97,12 @@ const NewFood: VFC<Props> = memo((props) => {
                                 foodData.length === 0 ? (
                                     <p>食材名を記入してください</p>
                                 ) : (
-                                    <Button
+                                    <CustomButtom
                                         type="submit"
                                         isDisabled={!foodData}
                                     >
                                         新規食材追加
-                                    </Button>
+                                    </CustomButtom>
                                 )}
                             </Flex>
                         </form>{" "}

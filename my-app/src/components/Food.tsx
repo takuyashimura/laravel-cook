@@ -18,6 +18,7 @@ import styled from "styled-components";
 import NewFood from "./NewFood";
 import { FoodToMenusModal } from "./FoodToMenusModal";
 import { AlertDialogPage } from "./AlertDialogPage";
+import { CustomButtom } from "../tags/buttom";
 type FoodStocks = {
     id: number;
     name: string;
@@ -127,9 +128,9 @@ const Food = () => {
             {/* <Button as={Link} to="/newFood/"> */}
             <Box w={"100%"} textAlign={"right"}>
                 {" "}
-                <Button m={2} onClick={onOpenAddFoodModal}>
+                <CustomButtom m={2} onClick={onOpenAddFoodModal}>
                     新規食材追加
-                </Button>
+                </CustomButtom>
             </Box>
 
             <VStack
@@ -160,7 +161,6 @@ const Food = () => {
                                 <Button
                                     colorScheme="teal"
                                     onClick={() => handlePostModal(food_stock)}
-                                    // onClick={() => handlePost(food_stock)}
                                     _hover={{
                                         cursor: "pointer",
                                         opacity: 0.8,

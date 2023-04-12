@@ -1,5 +1,8 @@
 import {
+    Box,
+    Text,
     Button,
+    Flex,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -16,6 +19,7 @@ import {
 import axios from "axios";
 import { VFC, memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CustomButtom } from "../tags/buttom";
 
 type Props = { isOpen: boolean; onClose: () => void };
 
@@ -127,6 +131,7 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
             });
         };
     };
+    console.log("menuName", menuName);
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -136,24 +141,34 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
                 <ModalCloseButton />
                 <ModalBody>
                     <form onSubmit={HandleSubmit}>
-                        <div>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder={menuName || "メニュー名"}
-                                onChange={OnChangeName}
-                            />
-                        </div>
+                        <Flex justify="space-between">
+                            <Box>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder={menuName || "メニュー名"}
+                                    onChange={OnChangeName}
+                                />
+                            </Box>
+                            <Box>
+                                {" "}
+                                {menuName === "メニュー名" ||
+                                menuName === "" ||
+                                menuName === undefined ? (
+                                    //  ||
+                                    // menuName === 0
+                                    <Text>食材名を記入してください</Text>
+                                ) : (
+                                    <CustomButtom
+                                        type="submit"
+                                        isDisabled={!menuName}
+                                    >
+                                        新規メニュー追加
+                                    </CustomButtom>
+                                )}
+                            </Box>
+                        </Flex>
 
-                        {menuName === "メニュー名" || menuName === "" ? (
-                            //  ||
-                            // menuName === 0
-                            <p>食材名を記入してください</p>
-                        ) : (
-                            <Button type="submit" isDisabled={!menuName}>
-                                新規メニュー追加
-                            </Button>
-                        )}
                         {food &&
                             food.map((f) => (
                                 <div key={f.id}>

@@ -13,6 +13,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EditBuyListModal } from "./EditbuyListModal";
+import { CustomButtom } from "../tags/buttom";
 
 type shopingItem = {
     food_id: number;
@@ -87,9 +88,9 @@ const BuyList = () => {
     return (
         <>
             <Box w={"100%"} textAlign={"right"}>
-                <Button m={2} onClick={onEdit}>
+                <CustomButtom m={2} onClick={onEdit}>
                     購入リストを編集する
-                </Button>
+                </CustomButtom>
             </Box>
 
             <form onSubmit={HnadleSubmit1}>
@@ -110,9 +111,9 @@ const BuyList = () => {
                 </VStack>
                 {shoppingItems && shoppingItems.length > 0 && (
                     <Box w={"100%"} textAlign={"right"}>
-                        <Button m={5} ml={2} type="submit">
+                        <CustomButtom m={5} ml={2} type="submit">
                             購入する
-                        </Button>
+                        </CustomButtom>
                     </Box>
                 )}
             </form>
@@ -128,9 +129,9 @@ const BuyList = () => {
                     onChange={(e) => setText(e.target.value)}
                 />
                 <Box w={"100%"} textAlign={"right"}>
-                    <Button m={5} ml={2} type="submit">
+                    <CustomButtom m={5} ml={2} type="submit">
                         メモを保存
-                    </Button>
+                    </CustomButtom>
                 </Box>
             </form>
             <EditBuyListModal isOpen={isEdit} onClose={endEdit} />

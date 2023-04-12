@@ -1,6 +1,6 @@
 import {
     Box,
-    Button,
+    Text,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -15,9 +15,11 @@ import {
     NumberInputStepper,
     VStack,
     useDisclosure,
+    Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { VFC, memo, useEffect, useState } from "react";
+import { CustomButtom } from "../tags/buttom";
 
 type Props = {
     isOpen: boolean;
@@ -82,17 +84,17 @@ export const EditMenuModal: VFC<Props> = memo((props) => {
                 <ModalHeader>
                     {menuName &&
                         menuName.name &&
-                        `${menuName.name}で使用する食材をを編集する`}
+                        `${menuName.name}で使用する食材`}
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <form onSubmit={handlePost}>
                         <Box w={"100%"} textAlign={"right"}>
                             {" "}
-                            <Button type="submit">
+                            <CustomButtom mb={2} type="submit">
                                 {" "}
                                 使用する食材を変更する{" "}
-                            </Button>
+                            </CustomButtom>
                         </Box>
 
                         <VStack
@@ -104,30 +106,42 @@ export const EditMenuModal: VFC<Props> = memo((props) => {
                                 menuData.length > 0 &&
                                 menuData.map((m: any) => (
                                     <>
-                                        <Box
-                                            key={m.id}
-                                            h="40px"
-                                            bg="yellow.200"
-                                        >
-                                            <p>{m.name}</p>
-                                        </Box>
-                                        <NumberInput
-                                            defaultValue={m.food_amount}
-                                            min={0}
-                                            onChange={(e) =>
-                                                onChangeFoodNumber(
-                                                    e,
-                                                    m.name,
-                                                    m.id
-                                                )
-                                            }
-                                        >
-                                            <NumberInputField />
-                                            <NumberInputStepper>
-                                                <NumberIncrementStepper />
-                                                <NumberDecrementStepper />
-                                            </NumberInputStepper>
-                                        </NumberInput>
+                                        <Flex justify="space-between">
+                                            <Box
+                                                key={m.id}
+                                                h="40px"
+                                                width={"50%"}
+                                            >
+                                                <Text
+                                                    display={"flex"}
+                                                    alignItems={"center"}
+                                                    height={"100%"}
+                                                >
+                                                    {m.name}
+                                                </Text>
+                                            </Box>
+                                            <Box width={"50%"}>
+                                                <NumberInput
+                                                    defaultValue={m.food_amount}
+                                                    min={0}
+                                                    onChange={(e) =>
+                                                        onChangeFoodNumber(
+                                                            e,
+                                                            m.name,
+                                                            m.id
+                                                        )
+                                                    }
+                                                >
+                                                    <NumberInputField
+                                                        textAlign={"right"}
+                                                    />
+                                                    <NumberInputStepper>
+                                                        <NumberIncrementStepper />
+                                                        <NumberDecrementStepper />
+                                                    </NumberInputStepper>
+                                                </NumberInput>
+                                            </Box>
+                                        </Flex>
                                     </>
                                 ))}
                         </VStack>
