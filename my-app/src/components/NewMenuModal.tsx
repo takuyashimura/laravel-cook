@@ -108,7 +108,7 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
                         title: "メニューが登録さてました。3秒後にリロードされます",
                         description: "メニューページを確認してください",
                         status: "success",
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     });
                     setTimeout(() => {
@@ -126,7 +126,7 @@ export const NewMenuModal: VFC<Props> = memo((props) => {
                 title: "既に登録されています",
                 description: "メニューページを確認してください",
                 status: "error",
-                duration: 9000,
+                duration: 3000,
                 isClosable: true,
             });
         };

@@ -92,6 +92,7 @@ const Food = () => {
                     toast({
                         title: `${response.data}`,
                         status: "error",
+                        duration: 3000,
                         isClosable: true,
                     });
                 } else {
@@ -166,11 +167,7 @@ const Food = () => {
                                         opacity: 0.8,
                                     }}
                                 >
-                                    <Text fontSize={"8px"}>
-                                        メニューを
-                                        <br />
-                                        選択する
-                                    </Text>
+                                    <img src="https://img.icons8.com/ios-filled/50/null/frying-pan.png" />
                                 </Button>
                                 <Button
                                     colorScheme="red"

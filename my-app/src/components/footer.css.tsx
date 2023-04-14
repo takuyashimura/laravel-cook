@@ -6,7 +6,7 @@ import { FooterElement } from "../tags/FooterElement";
 export const Footer = () => {
     return (
         <FooterTagu>
-            <FooterElement href="/Food/">
+            <FooterElement href="/food/">
                 <SPtagu>食材</SPtagu>
             </FooterElement>
             <FooterElement href="/menu/">

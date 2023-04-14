@@ -28,7 +28,7 @@ export const AlertDialogPageMenu: VFC<Props> = memo((props) => {
                     title: "正常に削除されました。3秒後にリロードされます",
                     description: "メニューページを確認してください",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
                 setTimeout(() => {
@@ -59,14 +59,14 @@ export const AlertDialogPageMenu: VFC<Props> = memo((props) => {
                     </AlertDialogBody>
                     <AlertDialogFooter>
                         <Button ref={cancelRef} onClick={onClose}>
-                            いいえ
+                            キャンセル
                         </Button>
                         <Button
                             colorScheme="red"
                             ml={3}
                             onClick={() => handlePost2(deleteMenu)}
                         >
-                            はい
+                            削除
                         </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>

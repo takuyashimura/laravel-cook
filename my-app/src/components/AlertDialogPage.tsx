@@ -51,14 +51,14 @@ export const AlertDialogPage: VFC<Props> = memo((props) => {
                     </AlertDialogBody>
                     <AlertDialogFooter>
                         <Button ref={cancelRef} onClick={onClose}>
-                            いいえ
+                            キャンセル
                         </Button>
                         <Button
                             colorScheme="red"
                             ml={3}
                             onClick={() => handlePost1(modaldata)}
                         >
-                            はい
+                            削除
                         </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>

@@ -38,7 +38,7 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                     title: "不足している食材が買い物リストに追加されました",
                     description: "買い物リストをご確認ください",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
                 onClose();
@@ -57,7 +57,7 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                     title: `${choiceMenu[1]["name"]}が調理リストに追加されました`,
                     description: "調理リストをご確認ください",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
                 onClose();

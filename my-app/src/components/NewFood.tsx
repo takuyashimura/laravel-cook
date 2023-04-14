@@ -42,7 +42,7 @@ const NewFood: VFC<Props> = memo((props) => {
                         title: "正常に登録されました。3秒後にリロードされます",
                         description: "食材ページを確認してください",
                         status: "success",
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     });
                     setTimeout(() => {
@@ -53,7 +53,7 @@ const NewFood: VFC<Props> = memo((props) => {
                         title: "既に登録されています",
                         description: "食材ページを確認してください",
                         status: "error",
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     });
                 }

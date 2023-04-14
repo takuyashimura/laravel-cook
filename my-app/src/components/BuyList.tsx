@@ -61,10 +61,10 @@ const BuyList = () => {
                     title: "在庫に追加しました",
                     description: "食材ページで在庫数をご確認ください",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
-                navigation("/Food/");
+                navigation("/food/");
             })
             .catch((error) => {
                 console.error(error);
@@ -111,7 +111,7 @@ const BuyList = () => {
                 </VStack>
                 {shoppingItems && shoppingItems.length > 0 && (
                     <Box w={"100%"} textAlign={"right"}>
-                        <CustomButtom m={5} ml={2} type="submit">
+                        <CustomButtom m={2} ml={2} type="submit">
                             購入する
                         </CustomButtom>
                     </Box>
@@ -129,7 +129,7 @@ const BuyList = () => {
                     onChange={(e) => setText(e.target.value)}
                 />
                 <Box w={"100%"} textAlign={"right"}>
-                    <CustomButtom m={5} ml={2} type="submit">
+                    <CustomButtom m={2} ml={2} type="submit">
                         メモを保存
                     </CustomButtom>
                 </Box>
