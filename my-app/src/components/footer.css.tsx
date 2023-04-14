@@ -1,30 +1,44 @@
-import styled from "styled-components";
 import { Box, Text } from "@chakra-ui/react";
 import { FooterTagu } from "../tags/Footer";
 import { FooterElement } from "../tags/FooterElement";
+
+import Icon from "../icon/mapper";
 
 export const Footer = () => {
     return (
         <FooterTagu>
             <FooterElement href="/food/">
-                <SPtagu>食材</SPtagu>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="home" />
+                    </Box>
+                    <Text fontSize={10}>食材</Text>
+                </Box>
             </FooterElement>
             <FooterElement href="/menu/">
-                <SPtagu>メニュー</SPtagu>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="menu" />{" "}
+                    </Box>
+                    <Text fontSize={10}>メニュー</Text>{" "}
+                </Box>
             </FooterElement>
             <FooterElement href="/buyList/">
-                <SPtagu>
-                    <Text>買い物</Text>
-                    <Text>リスト</Text>
-                </SPtagu>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="cart" />{" "}
+                    </Box>
+                    <Text fontSize={10}>カート</Text>{" "}
+                </Box>
             </FooterElement>
             <FooterElement href="/cookingList/">
-                <SPtagu>調理リスト</SPtagu>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="cook" />{" "}
+                    </Box>
+                    <Text fontSize={10}>調理リスト</Text>{" "}
+                </Box>
             </FooterElement>
         </FooterTagu>
     );
 };
-
-const SPtagu = styled.p`
-    color: black;
-`;

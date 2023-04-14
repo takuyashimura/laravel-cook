@@ -8,7 +8,7 @@ export const FooterElement = (props: any) => {
             width={"25%"}
             justifyContent={"center"}
             alignItems={"center"}
-            textDecoration={"none"}
+            textDecoration={"column"}
             height={"50px"}
             {...props}
         >

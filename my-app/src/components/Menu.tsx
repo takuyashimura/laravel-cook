@@ -17,6 +17,7 @@ import { EditMenuModal } from "./EditMenuModal";
 import { NewMenuModal } from "./NewMenuModal";
 import { MenuCookModal } from "./MenuCookModal";
 import { CustomButtom } from "../tags/buttom";
+import Icon from "../icon/mapper";
 
 type Menus = {
     menu_id: number;
@@ -158,20 +159,19 @@ const Menu = () => {
                                 <Box>
                                     {" "}
                                     <Button
+                                        m={1}
                                         onClick={() => clickEdit(menu)}
                                         _hover={{
                                             cursor: "pointer",
                                             opacity: 0.8,
                                         }}
                                     >
-                                        <Text fontSize={"8px"}>
-                                            {" "}
-                                            使用食材を
-                                            <br />
-                                            編集編集する
+                                        <Text>
+                                            <Icon name="setting" />
                                         </Text>
                                     </Button>
                                     <Button
+                                        m={1}
                                         colorScheme="teal"
                                         onClick={() => ClickChoice(menu)}
                                         _hover={{
@@ -179,9 +179,10 @@ const Menu = () => {
                                             opacity: 0.8,
                                         }}
                                     >
-                                        調理
+                                        <Icon name="pot" />
                                     </Button>
                                     <Button
+                                        m={1}
                                         colorScheme="red"
                                         onClick={() => ClickAlert(menu)}
                                         _hover={{
@@ -189,7 +190,7 @@ const Menu = () => {
                                             opacity: 0.8,
                                         }}
                                     >
-                                        ×
+                                        <Icon name="trashcan" />
                                     </Button>
                                 </Box>
                             </Flex>

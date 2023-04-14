@@ -10,6 +10,8 @@ import {
     Box,
     Flex,
 } from "@chakra-ui/react";
+import Icon from "../icon/mapper";
+
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -150,24 +152,28 @@ const Food = () => {
                             key={food_stock.id}
                             alignItems="center"
                         >
-                            <Text>
-                                {food_stock.name}：在庫数
-                                {food_stock.total_amount === null
-                                    ? 0
-                                    : food_stock.total_amount}
-                                個
-                            </Text>
+                            <Text>{food_stock.name}</Text>
 
-                            <Box>
+                            <Box display={"flex"} alignItems={"center"}>
+                                <Box mr={1}>
+                                    <Text>
+                                        {food_stock.total_amount === null
+                                            ? 0
+                                            : food_stock.total_amount}
+                                        個
+                                    </Text>
+                                </Box>
+
                                 <Button
                                     colorScheme="teal"
+                                    mr={1}
                                     onClick={() => handlePostModal(food_stock)}
                                     _hover={{
                                         cursor: "pointer",
                                         opacity: 0.8,
                                     }}
                                 >
-                                    <img src="https://img.icons8.com/ios-filled/50/null/frying-pan.png" />
+                                    <Icon name="pot" />
                                 </Button>
                                 <Button
                                     colorScheme="red"
@@ -179,7 +185,7 @@ const Food = () => {
                                         opacity: 0.8,
                                     }}
                                 >
-                                    ×
+                                    <Icon name="trashcan" />
                                 </Button>
                             </Box>
                         </Flex>
