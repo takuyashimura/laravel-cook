@@ -203,7 +203,7 @@ const CookingList = () => {
                             {onStocksData.map((d) => (
                                 <Flex
                                     justify="space-between"
-                                    bg="yellow.200"
+                                    bg="red.200"
                                     key={d.id}
                                 >
                                     <Text>{d.food_name}</Text>

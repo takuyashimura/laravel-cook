@@ -93,6 +93,7 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                         choiceMenu[0].map((f: any) => (
                                             <>
                                                 <Flex
+                                                    bg={"red.200"}
                                                     justify="space-between"
                                                     key={f.id}
                                                 >
@@ -114,7 +115,7 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                 </VStack>
                                 {choiceMenu && choiceMenu[0].length > 0 && (
                                     <Box w={"100%"} textAlign={"right"}>
-                                        <CustomButtom type="submit">
+                                        <CustomButtom mt={1} type="submit">
                                             {" "}
                                             買い物リストに追加する
                                         </CustomButtom>
