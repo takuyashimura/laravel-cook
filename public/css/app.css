@@ -86,17 +86,6 @@
   }
 }
 
-/* 自作css */
-.blue_elea{
-  background-color: #0dcaf0;
-  margin-top: 1px;
-}
-
-.new_add_food {
-  font-size: 4px;
-}
-/* ここまで */
-
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -5814,8 +5803,7 @@ textarea.form-control-lg {
   float: left;
   width: 100%;
   margin-right: -100%;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
