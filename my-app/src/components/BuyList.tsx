@@ -13,6 +13,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EditBuyListModal } from "./EditbuyListModal";
+import { CustomButtom } from "../tags/buttom";
+import Icon from "../icon/mapper";
 
 type shopingItem = {
     food_id: number;
@@ -57,13 +59,12 @@ const BuyList = () => {
             .then((response) => {
                 console.log("shoppingItems", shoppingItems);
                 toast({
-                    title: "在庫に追加しました",
-                    description: "食材ページで在庫数をご確認ください",
+                    title: "購入しました",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
-                navigation("/Food/");
+                navigation("/food/");
             })
             .catch((error) => {
                 console.error(error);
@@ -86,9 +87,11 @@ const BuyList = () => {
 
     return (
         <>
-            <Button m={2} onClick={onEdit}>
-                購入リストを編集する
-            </Button>
+            <Box w={"100%"} textAlign={"right"}>
+                <CustomButtom m={2} onClick={onEdit}>
+                    <Icon name="setting" />
+                </CustomButtom>
+            </Box>
 
             <form onSubmit={HnadleSubmit1}>
                 <VStack
@@ -107,9 +110,11 @@ const BuyList = () => {
                         ))}
                 </VStack>
                 {shoppingItems && shoppingItems.length > 0 && (
-                    <Button m={5} ml={2} type="submit">
-                        購入する
-                    </Button>
+                    <Box w={"100%"} textAlign={"right"}>
+                        <CustomButtom m={2} ml={2} type="submit">
+                            購入する
+                        </CustomButtom>
+                    </Box>
                 )}
             </form>
 
@@ -123,9 +128,11 @@ const BuyList = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                 />
-                <Button m={5} ml={2} type="submit">
-                    メモを保存
-                </Button>
+                <Box w={"100%"} textAlign={"right"}>
+                    <CustomButtom m={2} ml={2} type="submit">
+                        <Icon name="keep" />
+                    </CustomButtom>
+                </Box>
             </form>
             <EditBuyListModal isOpen={isEdit} onClose={endEdit} />
         </>

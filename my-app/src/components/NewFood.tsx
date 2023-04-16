@@ -7,10 +7,13 @@ import {
     ModalHeader,
     ModalCloseButton,
     ModalBody,
+    Flex,
+    Box,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { memo, useState, VFC } from "react";
 import { useNavigate } from "react-router-dom";
+import { CustomButtom } from "../tags/buttom";
 
 type FoodData = string;
 
@@ -39,7 +42,7 @@ const NewFood: VFC<Props> = memo((props) => {
                         title: "正常に登録されました。3秒後にリロードされます",
                         description: "食材ページを確認してください",
                         status: "success",
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     });
                     setTimeout(() => {
@@ -50,7 +53,7 @@ const NewFood: VFC<Props> = memo((props) => {
                         title: "既に登録されています",
                         description: "食材ページを確認してください",
                         status: "error",
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                     });
                 }
@@ -74,24 +77,34 @@ const NewFood: VFC<Props> = memo((props) => {
                     <ModalCloseButton />
                     <ModalBody>
                         <form onSubmit={HandleSubmit}>
-                            <div>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="食品名"
-                                    onChange={OnChangeName}
-                                />
-                            </div>
+                            <Flex
+                                ml={2}
+                                mr={2}
+                                justify="space-between"
+                                alignItems="center"
+                            >
+                                <Box>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="食品名"
+                                        onChange={OnChangeName}
+                                    />
+                                </Box>
 
-                            {foodData === "食品名" ||
-                            foodData === "" ||
-                            foodData.length === 0 ? (
-                                <p>食材名を記入してください</p>
-                            ) : (
-                                <Button type="submit" isDisabled={!foodData}>
-                                    新規食材追加
-                                </Button>
-                            )}
+                                {foodData === "食品名" ||
+                                foodData === "" ||
+                                foodData.length === 0 ? (
+                                    <p>食材名を記入してください</p>
+                                ) : (
+                                    <CustomButtom
+                                        type="submit"
+                                        isDisabled={!foodData}
+                                    >
+                                        新規食材追加
+                                    </CustomButtom>
+                                )}
+                            </Flex>
                         </form>{" "}
                     </ModalBody>
                 </ModalContent>

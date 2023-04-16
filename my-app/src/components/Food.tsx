@@ -10,6 +10,8 @@ import {
     Box,
     Flex,
 } from "@chakra-ui/react";
+import Icon from "../icon/mapper";
+
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +20,7 @@ import styled from "styled-components";
 import NewFood from "./NewFood";
 import { FoodToMenusModal } from "./FoodToMenusModal";
 import { AlertDialogPage } from "./AlertDialogPage";
+import { CustomButtom } from "../tags/buttom";
 type FoodStocks = {
     id: number;
     name: string;
@@ -91,6 +94,7 @@ const Food = () => {
                     toast({
                         title: `${response.data}`,
                         status: "error",
+                        duration: 3000,
                         isClosable: true,
                     });
                 } else {
@@ -125,9 +129,13 @@ const Food = () => {
     return (
         <div className="Food">
             {/* <Button as={Link} to="/newFood/"> */}
-            <Button m={2} onClick={onOpenAddFoodModal}>
-                新規食材追加
-            </Button>
+            <Box w={"100%"} textAlign={"right"}>
+                {" "}
+                <CustomButtom m={2} onClick={onOpenAddFoodModal}>
+                    新規食材追加
+                </CustomButtom>
+            </Box>
+
             <VStack
                 divider={<StackDivider borderColor="gray.200" />}
                 spacing={2}
@@ -144,29 +152,28 @@ const Food = () => {
                             key={food_stock.id}
                             alignItems="center"
                         >
-                            <Text>
-                                {food_stock.name}：在庫数
-                                {food_stock.total_amount === null
-                                    ? 0
-                                    : food_stock.total_amount}
-                                個
-                            </Text>
+                            <Text>{food_stock.name}</Text>
 
-                            <Box>
+                            <Box display={"flex"} alignItems={"center"}>
+                                <Box mr={1}>
+                                    <Text>
+                                        {food_stock.total_amount === null
+                                            ? 0
+                                            : food_stock.total_amount}
+                                        個
+                                    </Text>
+                                </Box>
+
                                 <Button
                                     colorScheme="teal"
+                                    mr={1}
                                     onClick={() => handlePostModal(food_stock)}
-                                    // onClick={() => handlePost(food_stock)}
                                     _hover={{
                                         cursor: "pointer",
                                         opacity: 0.8,
                                     }}
                                 >
-                                    <Text fontSize={"8px"}>
-                                        メニューを
-                                        <br />
-                                        選択する
-                                    </Text>
+                                    <Icon name="pot" />
                                 </Button>
                                 <Button
                                     colorScheme="red"
@@ -178,7 +185,7 @@ const Food = () => {
                                         opacity: 0.8,
                                     }}
                                 >
-                                    ×
+                                    <Icon name="trashcan" />
                                 </Button>
                             </Box>
                         </Flex>

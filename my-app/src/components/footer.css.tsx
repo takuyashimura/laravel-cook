@@ -1,46 +1,44 @@
-import styled from "styled-components";
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+import { FooterTagu } from "../tags/Footer";
+import { FooterElement } from "../tags/FooterElement";
+
+import Icon from "../icon/mapper";
 
 export const Footer = () => {
     return (
-        <SContainer>
-            <SMenu href="/Food/">
-                <SPtagu>食材</SPtagu>
-            </SMenu>
-            <SMenu href="/menu/">
-                <SPtagu>メニュー</SPtagu>
-            </SMenu>
-            <SMenu href="/buyList/">
-                <SPtagu>
-                    <Text>買い物</Text>
-                    <Text>リスト</Text>
-                </SPtagu>
-            </SMenu>
-            <SMenu href="/cookingList/">
-                <SPtagu>調理リスト</SPtagu>
-            </SMenu>
-        </SContainer>
+        <FooterTagu>
+            <FooterElement href="/food/">
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="home" />
+                    </Box>
+                    <Text fontSize={10}>食材</Text>
+                </Box>
+            </FooterElement>
+            <FooterElement href="/menu/">
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="menu" />{" "}
+                    </Box>
+                    <Text fontSize={10}>メニュー</Text>{" "}
+                </Box>
+            </FooterElement>
+            <FooterElement href="/buyList/">
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="cart" />{" "}
+                    </Box>
+                    <Text fontSize={10}>カート</Text>{" "}
+                </Box>
+            </FooterElement>
+            <FooterElement href="/cookingList/">
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <Box fontSize={30}>
+                        <Icon name="cook" />{" "}
+                    </Box>
+                    <Text fontSize={10}>調理リスト</Text>{" "}
+                </Box>
+            </FooterElement>
+        </FooterTagu>
     );
 };
-const SContainer = styled.footer`
-    background-color: #eeeeee;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    height: 50px;
-`;
-
-const SMenu = styled.a`
-    display: flex;
-    width: 25%;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    border: 1px solid #333;
-    height: 50px;
-`;
-const SPtagu = styled.p`
-    color: black;
-`;

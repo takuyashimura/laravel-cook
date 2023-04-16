@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CustomButtom } from "../tags/buttom";
 
 type cookingList = {
     id: number;
@@ -82,10 +83,10 @@ const CookingList = () => {
             )
             .then((response) => {
                 toast({
-                    title: "不足している食材を買い物リストに追加しました。",
-                    description: "買い物リストへ移動します",
+                    title: "不足している食材をカートに追加しました。",
+                    description: "カートへ移動します",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
                 navigate("/buylist/");
@@ -104,7 +105,7 @@ const CookingList = () => {
                     title: "使用する食材を消費しました。",
                     description: "在庫数をご確認ください",
                     status: "success",
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                 });
                 navigate("/food/");
@@ -121,7 +122,7 @@ const CookingList = () => {
             {nameCount && nameCount.length > 0 ? (
                 <>
                     {" "}
-                    <Text m={2} fontSize={20} fontWeight={800}>
+                    <Text m={2} fontSize={30} fontWeight={800}>
                         メニュー
                     </Text>
                     <VStack
@@ -140,10 +141,10 @@ const CookingList = () => {
                                 <Text>{c.count}人前</Text>
                             </Flex>
                         ))}{" "}
-                        <Text m={2} fontSize={20} fontWeight={700}>
-                            使用食材
-                        </Text>
-                    </VStack>
+                    </VStack>{" "}
+                    <Text m={2} fontSize={30} fontWeight={700}>
+                        使用食材
+                    </Text>
                     {useList && (
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
@@ -177,15 +178,14 @@ const CookingList = () => {
             <form onSubmit={HandleSubmit}>
                 {nonStocksData && onStocksData && !!length ? (
                     <>
+                        <Text m={2} fontSize={30} fontWeight={700}>
+                            不足食材
+                        </Text>
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
                             spacing={2}
                             align="stretch"
                         >
-                            <Text m={2} fontSize={20} fontWeight={700}>
-                                不足食材
-                            </Text>
-
                             {nonStocksData.map((d) => (
                                 <Flex
                                     justify="space-between"
@@ -202,7 +202,7 @@ const CookingList = () => {
                             {onStocksData.map((d) => (
                                 <Flex
                                     justify="space-between"
-                                    bg="yellow.200"
+                                    bg="red.200"
                                     key={d.id}
                                 >
                                     <Text>{d.food_name}</Text>
@@ -213,17 +213,24 @@ const CookingList = () => {
                                 </Flex>
                             ))}
                         </VStack>
-
-                        <Button mt={5} ml={2} type="submit">
-                            <Text>不足分を買い物リストに追加する</Text>
-                        </Button>
+                        <Box w={"100%"} textAlign={"right"}>
+                            <CustomButtom mt={5} ml={2} type="submit">
+                                <Text>不足分をカートに追加する</Text>
+                            </CustomButtom>
+                        </Box>
                     </>
                 ) : (
                     <>
                         {cookingList && cookingList.length > 0 && (
-                            <Button mt={2} ml={2} onClick={HandlePost}>
-                                調理をする
-                            </Button>
+                            <Box w={"100%"} textAlign={"right"}>
+                                <CustomButtom
+                                    mt={2}
+                                    ml={2}
+                                    onClick={HandlePost}
+                                >
+                                    調理をする
+                                </CustomButtom>{" "}
+                            </Box>
                         )}
                     </>
                 )}

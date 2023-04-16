@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    Flex,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -14,6 +15,7 @@ import {
     NumberInputStepper,
     StackDivider,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { VFC, memo, useEffect, useState } from "react";
@@ -35,6 +37,7 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
     const { isOpen, onClose } = props;
     const [nonFood, setNonFood] = useState<[Nonfood] | undefined>(undefined);
     const [sList, setSList] = useState<ShoppingItem[] | undefined>(undefined);
+    const toast = useToast();
 
     useEffect(() => {
         (async () => {
@@ -60,8 +63,16 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
             .then((response) => {
                 console.log("post", response.data);
                 onClose();
-                window.location.reload();
-                // navigation("/buyList/");
+                toast({
+                    title: "カートを更新しました",
+                    description: "3秒後にリロードします",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             })
             .catch((error) => {
                 console.error(error);
@@ -98,7 +109,20 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
                 <ModalBody>
                     {" "}
                     <form onSubmit={handleSubmit}>
-                        <Button type="submit">買い物リストを更新する</Button>
+                        <Box w={"100%"} textAlign={"right"}>
+                            <Button
+                                bg={"red.400"}
+                                color={"white"}
+                                mb={2}
+                                _hover={{
+                                    opacity: 0.8,
+                                }}
+                                type="submit"
+                            >
+                                カートを更新する
+                            </Button>
+                        </Box>
+
                         <VStack
                             divider={<StackDivider borderColor="gray.200" />}
                             spacing={4}
@@ -107,57 +131,69 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
                             {nonFoodArray &&
                                 nonFoodArray.map((f) => (
                                     <>
-                                        <Box
-                                            key={f.id}
-                                            h="40px"
-                                            bg="yellow.200"
-                                        >
-                                            <p>{f.name}</p>
-                                        </Box>
-                                        <NumberInput
-                                            min={0}
-                                            onChange={(e) =>
-                                                onChangeFoodNumber(
-                                                    e,
-                                                    f.name,
-                                                    f.id
-                                                )
-                                            }
-                                        >
-                                            <NumberInputField />
-                                            <NumberInputStepper>
-                                                <NumberIncrementStepper />
-                                                <NumberDecrementStepper />
-                                            </NumberInputStepper>
-                                        </NumberInput>
+                                        <Flex justify="space-between">
+                                            <Box
+                                                width={"50%"}
+                                                key={f.id}
+                                                h="40px"
+                                            >
+                                                <p>{f.name}</p>
+                                            </Box>
+                                            <Box width={"50%"}>
+                                                <NumberInput
+                                                    min={0}
+                                                    onChange={(e) =>
+                                                        onChangeFoodNumber(
+                                                            e,
+                                                            f.name,
+                                                            f.id
+                                                        )
+                                                    }
+                                                >
+                                                    <NumberInputField
+                                                        textAlign={"right"}
+                                                    />
+                                                    <NumberInputStepper>
+                                                        <NumberIncrementStepper />
+                                                        <NumberDecrementStepper />
+                                                    </NumberInputStepper>
+                                                </NumberInput>
+                                            </Box>
+                                        </Flex>
                                     </>
                                 ))}
                             {sList &&
                                 sList.map((l) => (
                                     <>
-                                        <Box
-                                            key={l.food_id}
-                                            h="40px"
-                                            bg="yellow.200"
-                                        >
-                                            <p>{l.name}</p>
-                                        </Box>
-                                        <NumberInput
-                                            defaultValue={l.amount}
-                                            onChange={(e) =>
-                                                onChangeFoodNumber(
-                                                    e,
-                                                    l.name,
-                                                    l.food_id
-                                                )
-                                            }
-                                        >
-                                            <NumberInputField />
-                                            <NumberInputStepper>
-                                                <NumberIncrementStepper />
-                                                <NumberDecrementStepper />
-                                            </NumberInputStepper>
-                                        </NumberInput>
+                                        <Flex justify="space-between">
+                                            <Box
+                                                width={"50%"}
+                                                key={l.food_id}
+                                                h="40px"
+                                            >
+                                                <p>{l.name}</p>
+                                            </Box>
+                                            <Box width={"50%"}>
+                                                <NumberInput
+                                                    defaultValue={l.amount}
+                                                    onChange={(e) =>
+                                                        onChangeFoodNumber(
+                                                            e,
+                                                            l.name,
+                                                            l.food_id
+                                                        )
+                                                    }
+                                                >
+                                                    <NumberInputField
+                                                        textAlign={"right"}
+                                                    />
+                                                    <NumberInputStepper>
+                                                        <NumberIncrementStepper />
+                                                        <NumberDecrementStepper />
+                                                    </NumberInputStepper>
+                                                </NumberInput>
+                                            </Box>
+                                        </Flex>
                                     </>
                                 ))}
                         </VStack>
