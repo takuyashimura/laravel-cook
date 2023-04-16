@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EditBuyListModal } from "./EditbuyListModal";
 import { CustomButtom } from "../tags/buttom";
+import Icon from "../icon/mapper";
 
 type shopingItem = {
     food_id: number;
@@ -58,8 +59,7 @@ const BuyList = () => {
             .then((response) => {
                 console.log("shoppingItems", shoppingItems);
                 toast({
-                    title: "在庫に追加しました",
-                    description: "食材ページで在庫数をご確認ください",
+                    title: "購入しました",
                     status: "success",
                     duration: 3000,
                     isClosable: true,
@@ -89,7 +89,7 @@ const BuyList = () => {
         <>
             <Box w={"100%"} textAlign={"right"}>
                 <CustomButtom m={2} onClick={onEdit}>
-                    購入リストを編集する
+                    <Icon name="setting" />
                 </CustomButtom>
             </Box>
 
@@ -130,7 +130,7 @@ const BuyList = () => {
                 />
                 <Box w={"100%"} textAlign={"right"}>
                     <CustomButtom m={2} ml={2} type="submit">
-                        メモを保存
+                        <Icon name="keep" />
                     </CustomButtom>
                 </Box>
             </form>

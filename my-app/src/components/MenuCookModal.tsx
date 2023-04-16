@@ -35,8 +35,8 @@ export const MenuCookModal: FC<Props> = memo((props) => {
             .then((response) => {
                 console.log("post", response.data);
                 toast({
-                    title: "不足している食材が買い物リストに追加されました",
-                    description: "買い物リストをご確認ください",
+                    title: "不足している食材がカートに追加されました",
+                    description: "カートをご確認ください",
                     status: "success",
                     duration: 3000,
                     isClosable: true,
@@ -117,7 +117,7 @@ export const MenuCookModal: FC<Props> = memo((props) => {
                                     <Box w={"100%"} textAlign={"right"}>
                                         <CustomButtom mt={1} type="submit">
                                             {" "}
-                                            買い物リストに追加する
+                                            カートに追加する
                                         </CustomButtom>
                                     </Box>
                                 )}
