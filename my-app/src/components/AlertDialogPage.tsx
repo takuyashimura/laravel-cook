@@ -18,8 +18,6 @@ export const AlertDialogPage: VFC<Props> = memo((props) => {
     const cancelRef = useRef<HTMLButtonElement | null>(null);
     const toast = useToast();
 
-    const toast = useToast();
-
     const handlePost1 = (modaldata: any) => {
         axios
             .post("http://localhost:8888/api/food_delete", { modaldata })
