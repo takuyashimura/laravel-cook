@@ -216,7 +216,8 @@ const CookingList = () => {
                         </VStack>
                         <Box w={"100%"} textAlign={"right"}>
                             <CustomButtom mt={5} ml={2} type="submit">
-                                <Text>不足分をカートに追加する</Text>{" "}
+
+                                <Text>不足分をカートに追加する</Text>
                             </CustomButtom>
                         </Box>
                     </>

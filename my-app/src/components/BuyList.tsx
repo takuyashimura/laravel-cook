@@ -90,6 +90,7 @@ const BuyList = () => {
             <Box w={"100%"} textAlign={"right"}>
                 <CustomButtom m={2} onClick={onEdit}>
                     <Icon name="setting" />{" "}
+
                 </CustomButtom>
             </Box>
 
@@ -131,6 +132,7 @@ const BuyList = () => {
                 <Box w={"100%"} textAlign={"right"}>
                     <CustomButtom m={2} ml={2} type="submit">
                         <Icon name="keep" />{" "}
+
                     </CustomButtom>
                 </Box>
             </form>

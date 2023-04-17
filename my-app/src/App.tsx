@@ -2,6 +2,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
+
 import Food from "./components/Food";
 import { Footer } from "./components/footer.css";
 import Menu from "./components/Menu";
@@ -9,6 +10,10 @@ import BuyList from "./components/BuyList";
 import CookingList from "./components/cookingList";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
+
+import GlobalNav from "./components/GlobalNav";
+import Top from "./components/Top";
+import About from "./components/About";
 
 import theme from "./theme/theme";
 import GlobalNav from "./GlobalNav";
@@ -29,6 +34,7 @@ axios.interceptors.request.use(function (config) {
     return config;
 });
 
+
 const App = () => {
     return (
         <div className="App">
@@ -44,6 +50,7 @@ const App = () => {
 
                             <Route path={`/about/`} element={<About />} />
                             <Route path={`/food/`} element={<Food />} />
+
                             <Route path={`/menu/`} element={<Menu />} />
                             <Route path={`/buyList/`} element={<BuyList />} />
                             <Route
@@ -60,6 +67,9 @@ const App = () => {
         </div>
     );
 };
+if (document.getElementById("nav")) {
+    ReactDOM.render(<App />, document.getElementById("nav"));
+}
 
 if (document.getElementById("nav")) {
     ReactDOM.render(<App />, document.getElementById("nav"));

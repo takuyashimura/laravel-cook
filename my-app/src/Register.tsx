@@ -4,6 +4,7 @@ import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 
 type registerInput = {
+
     name: string;
     email: string;
     password: string;
@@ -14,6 +15,7 @@ function Register() {
     const navigation = useNavigate();
 
     const [registerInput, setRegister] = useState<registerInput>({
+
         name: "",
         email: "",
         password: "",
