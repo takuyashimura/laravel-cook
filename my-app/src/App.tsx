@@ -11,10 +11,6 @@ import CookingList from "./components/cookingList";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
-import GlobalNav from "./components/GlobalNav";
-import Top from "./components/Top";
-import About from "./components/About";
-
 import theme from "./theme/theme";
 import GlobalNav from "./GlobalNav";
 import Top from "./Top";
@@ -33,7 +29,6 @@ axios.interceptors.request.use(function (config) {
     config.headers.Authorization = token ? `Bearer ${token}` : "";
     return config;
 });
-
 
 const App = () => {
     return (
