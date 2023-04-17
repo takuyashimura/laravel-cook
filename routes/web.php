@@ -32,9 +32,13 @@ use App\Http\Controllers\addBuyListByCoookingListController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/{any}', function () {
+    return view('index');
+})->where('any', '.*');
 
 Auth::routes();
 // コントローラー、URLには基本的に_を使用しないので編集して無くす

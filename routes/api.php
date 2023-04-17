@@ -21,6 +21,8 @@ use App\Http\Controllers\cookingListFoodAmountController;
 use App\Http\Controllers\cookingListdeleteController;
 use App\Http\Controllers\addBuyListByCoookingListController;
 use App\Http\Controllers\foodCheckController;
+
+use App\Http\Controllers\API\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -67,3 +69,14 @@ Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::cl
 Route::post('/cooking', [cookingController::class, 'cooking'])->name('cooking');
 Route::post('/food_delete', [deleteController::class, 'food_delete'])->name('food_delete');
 Route::post('/foodCheck', [foodCheckController::class, 'foodCheck'])->name('foodCheck');
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('logout', [AuthController::class, 'logout']);
+});
