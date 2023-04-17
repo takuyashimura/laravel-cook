@@ -8,11 +8,11 @@ import { Footer } from "./components/footer.css";
 import Menu from "./components/Menu";
 import BuyList from "./components/BuyList";
 import CookingList from "./components/cookingList";
-import EditBuyList from "./components/editBuyList";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
 import theme from "./theme/theme";
+import ReactDOM from "react-dom";
 
 const App = () => {
     return (
@@ -22,21 +22,18 @@ const App = () => {
                     <BrowserRouter>
                         {" "}
                         <Routes>
+                            <Route path={`/register/`} element={<Register />} />
+                            <Route path={`/login/`} element={<Login />} />
+                            <Route path={`/Food/`} element={<Food />} />
+
                             <Route path={`/`} element={<Food />} />
-                            {/* <Route path={`/`} element={<Hoem />} /> */}
-                            {/* <Route path={`/register/`} element={<Register />} />
-                            <Route path={`/login/`} element={<Login />} /> */}
+
                             <Route path={`/food/`} element={<Food />} />
-                            {/* <Route path={`/newFood/`} element={<NewFood />} /> */}
                             <Route path={`/menu/`} element={<Menu />} />
                             <Route path={`/buyList/`} element={<BuyList />} />
                             <Route
                                 path={`/cookingList/`}
                                 element={<CookingList />}
-                            />
-                            <Route
-                                path={`/editBuyList/`}
-                                element={<EditBuyList />}
                             />
                         </Routes>
                     </BrowserRouter>{" "}

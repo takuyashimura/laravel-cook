@@ -83,8 +83,9 @@ const CookingList = () => {
             )
             .then((response) => {
                 toast({
-                    title: "不足している食材を買い物リストに追加しました。",
-                    description: "買い物リストへ移動します",
+                    title: "不足している食材をカートに追加しました。",
+                    description: "カートへ移動します",
+
                     status: "success",
                     duration: 3000,
                     isClosable: true,
@@ -215,7 +216,7 @@ const CookingList = () => {
                         </VStack>
                         <Box w={"100%"} textAlign={"right"}>
                             <CustomButtom mt={5} ml={2} type="submit">
-                                <Text>不足分を買い物リストに追加する</Text>
+                                <Text>不足分をカートに追加する</Text>{" "}
                             </CustomButtom>
                         </Box>
                     </>

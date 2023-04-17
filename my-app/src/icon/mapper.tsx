@@ -4,6 +4,7 @@ import { GoTrashcan } from "react-icons/go";
 import { TfiShoppingCart } from "react-icons/tfi";
 import { MdMenuBook, MdOutlineWarehouse } from "react-icons/md";
 import { AiFillSetting } from "react-icons/ai";
+import { RxTextAlignBottom } from "react-icons/rx";
 
 const Icon = ({ name }: any) => {
     switch (name) {
@@ -21,6 +22,8 @@ const Icon = ({ name }: any) => {
             return <MdOutlineWarehouse />;
         case "setting":
             return <AiFillSetting />;
+        case "keep":
+            return <RxTextAlignBottom />;
 
         default:
             return null;

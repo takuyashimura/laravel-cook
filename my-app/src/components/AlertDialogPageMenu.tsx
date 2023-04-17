@@ -25,7 +25,7 @@ export const AlertDialogPageMenu: VFC<Props> = memo((props) => {
                 console.log("response", response.data);
                 onClose();
                 toast({
-                    title: "正常に削除されました。3秒後にリロードされます",
+                    title: "削除されました。3秒後にリロードされます",
                     description: "メニューページを確認してください",
                     status: "success",
                     duration: 3000,

@@ -15,7 +15,9 @@ import {
     NumberInputStepper,
     StackDivider,
     VStack,
+    useToast,
 } from "@chakra-ui/react";
+
 import axios from "axios";
 import { VFC, memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +38,7 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
     const { isOpen, onClose } = props;
     const [nonFood, setNonFood] = useState<[Nonfood] | undefined>(undefined);
     const [sList, setSList] = useState<ShoppingItem[] | undefined>(undefined);
+    const toast = useToast();
 
     useEffect(() => {
         (async () => {
@@ -61,8 +64,16 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
             .then((response) => {
                 console.log("post", response.data);
                 onClose();
-                window.location.reload();
-                // navigation("/buyList/");
+                toast({
+                    title: "カートを更新しました",
+                    description: "3秒後にリロードします",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             })
             .catch((error) => {
                 console.error(error);
@@ -109,7 +120,7 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
                                 }}
                                 type="submit"
                             >
-                                買い物リストを更新する
+                                カートを更新する{" "}
                             </Button>
                         </Box>
 

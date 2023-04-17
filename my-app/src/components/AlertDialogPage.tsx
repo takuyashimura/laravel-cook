@@ -6,6 +6,7 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
     Button,
+    useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { VFC, memo, useRef } from "react";
@@ -15,6 +16,7 @@ type Props = { isOpen: boolean; onClose: () => void; modaldata: any };
 export const AlertDialogPage: VFC<Props> = memo((props) => {
     const { isOpen, onClose, modaldata } = props;
     const cancelRef = useRef<HTMLButtonElement | null>(null);
+    const toast = useToast();
 
     const handlePost1 = (modaldata: any) => {
         axios
@@ -22,7 +24,17 @@ export const AlertDialogPage: VFC<Props> = memo((props) => {
             .then((response) => {
                 console.log("response", response.data);
                 onClose();
-                window.location.reload();
+                toast({
+                    title: "削除しました",
+                    description: "3秒後にリロードされます",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
             })
             .catch((error) => {
                 console.error(error);

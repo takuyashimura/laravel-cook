@@ -67,9 +67,6 @@ const NewFood: VFC<Props> = memo((props) => {
 
     return (
         <>
-            {/* レイアウトを整えるのにstackを使う 
-                    時間に余裕があればmodalを用いたい。*/}
-
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
