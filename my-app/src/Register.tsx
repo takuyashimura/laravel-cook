@@ -3,7 +3,8 @@ import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 
-type RegisterInput = {
+type registerInput = {
+
     name: string;
     email: string;
     password: string;
@@ -13,7 +14,8 @@ type RegisterInput = {
 function Register() {
     const navigation = useNavigate();
 
-    const [registerInput, setRegister] = useState<RegisterInput>({
+    const [registerInput, setRegister] = useState<registerInput>({
+
         name: "",
         email: "",
         password: "",

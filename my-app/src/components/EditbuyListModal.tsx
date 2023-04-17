@@ -17,6 +17,7 @@ import {
     VStack,
     useToast,
 } from "@chakra-ui/react";
+
 import axios from "axios";
 import { VFC, memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -119,7 +120,8 @@ export const EditBuyListModal: VFC<Props> = memo((props) => {
                                 }}
                                 type="submit"
                             >
-                                カートを更新する
+                                カートを更新する{" "}
+
                             </Button>
                         </Box>
 

@@ -85,7 +85,7 @@ const Food = () => {
 
     const onCheckOpen = (food_stock: any) => {
         axios
-            .post("http://localhost:8888/api/foodCheck", food_stock)
+            .post("api/foodCheck", food_stock)
             .then((response) => {
                 if (
                     response.data ===

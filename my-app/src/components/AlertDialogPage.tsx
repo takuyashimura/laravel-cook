@@ -16,6 +16,7 @@ type Props = { isOpen: boolean; onClose: () => void; modaldata: any };
 export const AlertDialogPage: VFC<Props> = memo((props) => {
     const { isOpen, onClose, modaldata } = props;
     const cancelRef = useRef<HTMLButtonElement | null>(null);
+    const toast = useToast();
 
     const toast = useToast();
 

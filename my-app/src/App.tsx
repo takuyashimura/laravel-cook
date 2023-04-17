@@ -1,7 +1,6 @@
 // import { AssertionError } from "assert";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
-import Register from "./Register";
 import Login from "./Login";
 
 import Food from "./components/Food";
@@ -17,7 +16,24 @@ import Top from "./components/Top";
 import About from "./components/About";
 
 import theme from "./theme/theme";
+import GlobalNav from "./GlobalNav";
+import Top from "./Top";
+import About from "./About";
+import Register from "./Register";
+
+import axios from "axios";
 import ReactDOM from "react-dom";
+
+axios.defaults.baseURL = "http://localhost:8888/";
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.post["Accept"] = "application/json";
+axios.defaults.withCredentials = true;
+axios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem("auth_token");
+    config.headers.Authorization = token ? `Bearer ${token}` : "";
+    return config;
+});
+
 
 const App = () => {
     return (
@@ -25,16 +41,16 @@ const App = () => {
             <ChakraProvider theme={theme}>
                 <Box mb={"55px"}>
                     <BrowserRouter>
-                        <GlobalNav />
-
+                        <GlobalNav />{" "}
                         <Routes>
-                       
-                           
-                            <Route path={"/"} element={<Top />} />
-                            <Route path={"/about"} element={<About />} />
+                            <Route path={`/`} element={<Top />} />
                             <Route path={`/register/`} element={<Register />} />
                             <Route path={`/login/`} element={<Login />} />
                             <Route path={`/Food/`} element={<Food />} />
+
+                            <Route path={`/about/`} element={<About />} />
+                            <Route path={`/food/`} element={<Food />} />
+
                             <Route path={`/menu/`} element={<Menu />} />
                             <Route path={`/buyList/`} element={<BuyList />} />
                             <Route
@@ -51,6 +67,10 @@ const App = () => {
         </div>
     );
 };
+if (document.getElementById("nav")) {
+    ReactDOM.render(<App />, document.getElementById("nav"));
+}
+
 if (document.getElementById("nav")) {
     ReactDOM.render(<App />, document.getElementById("nav"));
 }
