@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 
 type registerInput = {
-
     name: string;
     email: string;
     password: string;
@@ -15,7 +15,6 @@ function Register() {
     const navigation = useNavigate();
 
     const [registerInput, setRegister] = useState<registerInput>({
-
         name: "",
         email: "",
         password: "",
@@ -38,6 +37,7 @@ function Register() {
 
         axios.get("/sanctum/csrf-cookie").then((response) => {
             axios.post(`/api/register`, data).then((res) => {
+                console.log("res.data", res.data);
                 if (res.data.status === 200) {
                     localStorage.setItem("auth_token", res.data.token);
                     localStorage.setItem("auth_name", res.data.username);
@@ -52,68 +52,139 @@ function Register() {
             });
         });
     };
+    console.log("registerInput.error_list", registerInput.error_list);
 
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-6 col-lg-6 mx-auto">
-                    <div className="card">
-                        <div className="card-header">
-                            <h4>Register</h4>
-                        </div>
-                        <div className="card-body">
-                            <form onSubmit={registerSubmit}>
-                                <div className="form-group mb-3">
-                                    <label>User Name</label>
-                                    <input
+        <>
+            <Box
+                mt={"50px"}
+                className="container"
+                display={"flex"}
+                justifyContent={"center"}
+            >
+                <Box
+                    display={"flex"}
+                    borderRadius={"8px"}
+                    justifyContent={"center"}
+                    width={"75%"}
+                >
+                    <Box width={"100%"}>
+                        <form onSubmit={registerSubmit}>
+                            {" "}
+                            <Box textAlign={"center"} mb={"10px"}>
+                                <Text fontSize={"30px"}>ユーザー登録</Text>
+                            </Box>
+                            {registerInput.error_list.name ? (
+                                <>
+                                    <Box display="flex" alignItems="center">
+                                        <Input
+                                            textAlign={"center"}
+                                            type=""
+                                            placeholder="name"
+                                            name="name"
+                                            onChange={handleInput}
+                                            value={registerInput.name}
+                                        />
+                                    </Box>
+                                    <Text color="red.300">
+                                        {registerInput.error_list.name}
+                                    </Text>
+                                </>
+                            ) : (
+                                <Box display="flex" alignItems="center">
+                                    <Input
+                                        textAlign={"center"}
+                                        mb={"24px"}
                                         type=""
+                                        placeholder="name"
                                         name="name"
                                         onChange={handleInput}
                                         value={registerInput.name}
-                                        className="form-control"
                                     />
-                                    <span>{registerInput.error_list.name}</span>
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label>Mail Address</label>
-                                    <input
+                                </Box>
+                            )}
+                            {registerInput.error_list.email ? (
+                                <>
+                                    <Box display="flex" alignItems="center">
+                                        <Input
+                                            textAlign={"center"}
+                                            float={"right"}
+                                            type=""
+                                            placeholder="email"
+                                            name="email"
+                                            onChange={handleInput}
+                                            value={registerInput.email}
+                                        />
+                                    </Box>
+                                    <Text color="red.300">
+                                        {registerInput.error_list.email}
+                                    </Text>
+                                </>
+                            ) : (
+                                <Box display="flex" alignItems="center">
+                                    <Input
+                                        textAlign={"center"}
+                                        mb={"24px"}
                                         type=""
+                                        placeholder="email"
                                         name="email"
                                         onChange={handleInput}
                                         value={registerInput.email}
-                                        className="form-control"
                                     />
-                                    <span>
-                                        {registerInput.error_list.email}
-                                    </span>
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label>Password</label>
-                                    <input
+                                </Box>
+                            )}
+                            {registerInput.error_list.password ? (
+                                <>
+                                    <Box display="flex" alignItems="center">
+                                        <Input
+                                            textAlign={"center"}
+                                            float={"right"}
+                                            type=""
+                                            placeholder="password"
+                                            name="password"
+                                            onChange={handleInput}
+                                            value={registerInput.password}
+                                        />
+                                    </Box>
+                                    <Text color="red.300">
+                                        {registerInput.error_list.password}
+                                    </Text>
+                                </>
+                            ) : (
+                                <Box display="flex" alignItems="center">
+                                    <Input
+                                        textAlign={"center"}
+                                        mb={"24px"}
                                         type=""
+                                        placeholder="password"
                                         name="password"
                                         onChange={handleInput}
                                         value={registerInput.password}
-                                        className="form-control"
                                     />
-                                    <span>
-                                        {registerInput.error_list.password}
-                                    </span>
-                                </div>
-                                <div className="form-group mb-3">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
+                                </Box>
+                            )}
+                            <Box textAlign={"center"}>
+                                <Button
+                                    type="submit"
+                                    bg={"white"}
+                                    _hover={{ opacity: 1 }}
+                                >
+                                    <Text
+                                        color={"blue.500"}
+                                        fontWeight={"200"}
+                                        _hover={{
+                                            borderBottom: "1px solid #3B82F6",
+                                        }}
                                     >
-                                        Register
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        サインアップ
+                                    </Text>
+                                </Button>
+                            </Box>
+                        </form>
+                    </Box>
+                </Box>
+            </Box>
+        </>
     );
 }
 

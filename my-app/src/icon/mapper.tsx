@@ -5,6 +5,7 @@ import { TfiShoppingCart } from "react-icons/tfi";
 import { MdMenuBook, MdOutlineWarehouse } from "react-icons/md";
 import { AiFillSetting } from "react-icons/ai";
 import { RxTextAlignBottom } from "react-icons/rx";
+import { MdLogout, MdLogin } from "react-icons/md";
 
 const Icon = ({ name }: any) => {
     switch (name) {
@@ -24,6 +25,10 @@ const Icon = ({ name }: any) => {
             return <AiFillSetting />;
         case "keep":
             return <RxTextAlignBottom />;
+        case "logout":
+            return <MdLogout />;
+        case "login":
+            return <MdLogin />;
 
         default:
             return null;
