@@ -13,7 +13,6 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 
 import theme from "./theme/theme";
 import GlobalNav from "./GlobalNav";
-import Top from "./Top";
 import About from "./About";
 import Register from "./Register";
 
@@ -38,13 +37,12 @@ const App = () => {
                     <BrowserRouter>
                         <GlobalNav />{" "}
                         <Routes>
-                            <Route path={`/`} element={<Top />} />
                             <Route path={`/register/`} element={<Register />} />
                             <Route path={`/login/`} element={<Login />} />
-                            <Route path={`/Food/`} element={<Food />} />
+                            <Route path={`/food/`} element={<Food />} />
 
                             <Route path={`/about/`} element={<About />} />
-                            <Route path={`/food/`} element={<Food />} />
+                            <Route path={`/`} element={<Food />} />
 
                             <Route path={`/menu/`} element={<Menu />} />
                             <Route path={`/buyList/`} element={<BuyList />} />

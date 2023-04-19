@@ -177,7 +177,6 @@ const Food = () => {
                                 </Button>
                                 <Button
                                     colorScheme="red"
-                                    // onClick={() => handlePost1(food_stock)}
                                     onClick={() => onCheckOpen(food_stock)}
                                     _hover={{
                                         cursor: "pointer",
