@@ -22,7 +22,7 @@ class CreateShoppingItemsTable extends Migration
             $table->softDeletes();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->foreign('list_id')->references('id')->on('shopping_lists');
+            // $table->foreign('list_id')->references('id')->on('shopping_lists');
             $table->foreign('food_id')->references('id')->on('food');
         });
     }
