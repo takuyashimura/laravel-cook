@@ -66,7 +66,7 @@ Route::get('/add_menu_edit/{menu_id}', [addMenuEditController::class, 'add_menu_
 Route::post('/add_menu_food', [addMenuFoodController::class, 'add_menu_food'])->name('add_menu_food');
 Route::get('/add_menu_edit_completion/{menu_id}', [addMenuEditController::class, 'add_menu_edit_completion'])->name('add_menu_edit_completion');
 Route::get('/foodToMenu/{food_id}', [foodToMenuController::class, 'foodToMenu'])->name('foodToMenu');
-Route::post('/boughtFood', [boug飯htFoodController::class, 'boughtFood'])->name('boughtFood');
+Route::post('/boughtFood', [boughtFoodController::class, 'boughtFood'])->name('boughtFood');
 Route::get('/cookingListFoodAmount/{menu_id}', [cookingListFoodAmountController::class, 'cookingListFoodAmount'])->name('cookingListFoodAmount');
 Route::get('/cookingListdelete/{id}', [cookingListdeleteController::class, 'cookingListdelete'])->name('cookingListdelete');
 Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::class, 'addBuyListByCoookingList'])->name('addBuyListByCoookingList');
