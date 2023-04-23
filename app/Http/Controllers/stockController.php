@@ -50,7 +50,7 @@ class stockController extends Controller
     {
         $post =$request->all();
         return $post;
-        $foodName = key($post);
+        // $foodName = key($post);
 
         // $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
         // if ($food === false) {
