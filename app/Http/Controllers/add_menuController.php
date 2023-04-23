@@ -81,9 +81,7 @@ class add_menuController extends Controller
         
        
 
-        //存在していなければメニュー登録して、iDを取得
-        // 取得したidを含めてfoodmenusテーブルにcreate
-
+       
 
         
         $menu_id=Menu::insertGetId(

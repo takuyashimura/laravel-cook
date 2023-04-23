@@ -49,20 +49,20 @@ class stockController extends Controller
     public function add(Request $request)
     {
         $post =$request->all();
-        $foodName = key($post);
-        // return $foodName;
+        return $post;
+        // $foodName = key($post);
 
-        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
-        if ($food === false) {
-            Food::create([
-                "user_id"=>1,
-                "name"=>$foodName
-                ])
-            ->save();
-            return "登録完了";
-        } else {
-            return "この食材はすでに登録されています。";
-        }
+        // $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
+        // if ($food === false) {
+        //     Food::create([
+        //         "user_id"=>1,
+        //         "name"=>$foodName
+        //         ])
+        //     ->save();
+        //     return "登録完了";
+        // } else {
+        //     return "この食材はすでに登録されています。";
+        // }
     }
 }
 
