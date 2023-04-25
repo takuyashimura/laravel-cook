@@ -146,6 +146,7 @@ class buyController extends Controller
         //sListからamountが0の要素を消す
         foreach($posts["sList"] as $key => $value){
             if ($value["amount"] == 0){
+                ShoppingItem::whereNull("deleted_at")->where("food_id","=",$value["food_id"])->update(["deleted_at" => now()]);
                 unset($posts["sList"][$key]);
             }
         }
@@ -159,6 +160,7 @@ class buyController extends Controller
                 ];
             }
         }
+
             
 
 
