@@ -77,6 +77,6 @@ class add_menuController extends Controller
             };
             return"登録完了";
         }
- 
+
     }
 }
