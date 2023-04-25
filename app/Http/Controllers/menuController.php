@@ -30,9 +30,8 @@ class menuController extends Controller
      
 
      //メニュー画面 メニューコントローラを作成し追加する
-     public function menu()
+     public function menu()//済み
      {
-         //ここでメニュー名を取得
          $menus= Menu::
         //  where("user_id" ,"=", \Auth::id())
          whereNull("deleted_at")

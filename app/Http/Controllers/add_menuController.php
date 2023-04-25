@@ -31,7 +31,7 @@ class add_menuController extends Controller
      
 
     // 食材購入画面
-    public function add_menu()
+    public function add_menu() //済み
     {
         $food = Food::select('food.*')
         ->whereNull("deleted_at")
@@ -50,7 +50,7 @@ class add_menuController extends Controller
 
     }
 
-    public function add_menu_register(Request $request)
+    public function add_menu_register(Request $request)  //済み
     {
         $posts=$request->all();
         // メニュー名の存在確認
@@ -78,31 +78,5 @@ class add_menuController extends Controller
             return"登録完了";
         }
 
-        
-       
-
-       
-
-        
-        $menu_id=Menu::insertGetId(
-            [
-                'name' => $posts['menu_name'] , 
-                'user_id' => \Auth::id()
-            ]
-        );
-        foreach($posts["food_ids"] as $food_id => $amount){
-            if($amount == Null){
-                continue;
-            }
-            FoodMenu::create(
-                [
-                    "food_amount" => $amount,
-                    "food_id" => $food_id,
-                    'menu_id' => $menu_id 
-                    
-                ]);
-        }
-
-       return redirect(route('menu'));  
     }
 }

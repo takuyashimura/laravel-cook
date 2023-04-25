@@ -30,7 +30,7 @@ class foodCheckController extends Controller
      */
 
      //食材画面
-    public function foodCheck(Request $request)
+    public function foodCheck(Request $request)//済み
     {
         $posts = $request->all();
 
@@ -44,24 +44,6 @@ class foodCheckController extends Controller
 
 
 
-        // $text = Text::select("texts.*")
-        // ->get();
-        // if($posts["text"]!=null){
-        //     if(isset($text)){
-        //         Text::create([
-        //             "user_id" => \Auth::id(),
-        //             "text" => $posts["text"]
-        //         ]);
-        //     }else{
-        //         Text::where("user_id", "=", \Auth::id())
-        //         ->save([
-        //             "text" => $posts["text"]
-        //         ]);
-        //     }
-        // }
 
-        // //データベースのデータ量がずっと増え続けるので、コードを変えた方がいいか相談
-
-        // return redirect( route('buy_list') );
     }
 }

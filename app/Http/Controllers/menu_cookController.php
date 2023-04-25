@@ -32,7 +32,7 @@ class menu_cookController extends Controller
      
 
     // メニュー確定画面
-    public function menu_cook(Request $request)
+    public function menu_cook(Request $request) //確認済み
     {
         $posts = $request->all();
 
@@ -78,44 +78,5 @@ class menu_cookController extends Controller
 
 
 
-        //menuテーブルから$menu_idに格納されてる番号がid_のデータを取得
-        $menu_name = Menu::find($posts);
-
-        //foodテーブルのデータをidをキーとし、配列して取得
-        $food = Food::select('food.*')
-        ->orderby('created_at','DESC')
-        ->get()
-        ->keyby("id");
-
-
-        //名前が表示されてるメニューで使用される食材の使用量を取得
-        $food_menus = FoodMenu::select("food_menus.*")
-        ->where("menu_id", "=" ,$posts)
-        ->whereNull('deleted_at')
-        ->orderby('food_id','DESC')
-        ->get();
-
-        $food_menus_amount = FoodMenu::select("food_id")
-        ->where("menu_id", "=" ,$posts)
-        ->whereNull('deleted_at')
-        ->selectRaw('SUM(food_amount) AS total_amount')
-        ->groupBy('food_id')        
-        ->get()
-        ->keyby("food_id");
-        // dd($food_menus_amount);
-
-        // 食材の在庫をキーをfood_idとし、配列にして取得
-        $stocks = Stock::select('food_id')
-        ->selectRaw('SUM(amount) AS total_amount')
-        ->groupBy('food_id')
-        ->get()
-        ->keyby("food_id");
-        // dd($stocks);
-
-        $shopping_items = ShoppingItem::select("shopping_items.*")
-        ->get()
-        ->keyby("food_id");
-        
-        return view('menu_cook',compact('menu_name',"food","food_menus","stocks","menu_id","shopping_items","food_menus_amount"));
-    }
+  }
 }

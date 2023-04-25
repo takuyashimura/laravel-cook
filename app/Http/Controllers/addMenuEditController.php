@@ -29,14 +29,13 @@ class addMenuEditController extends Controller
      */
 
      //食材画面
-    public function add_menu_edit(Request $request)
+    public function add_menu_edit(Request $request) //確認済み
     {
         $posts = $request->all();
         // return $posts;
         $food_data = $posts['postMenuData'];
         $menu_id =$posts["menuName"]["id"];
  
-        //編集しているメニューに使用する食材のfood_idを配列として取得
 
         foreach($food_data as $i){
             if($i['food_amount']!==null){
@@ -69,30 +68,6 @@ class addMenuEditController extends Controller
 
         return "編集完了";
 
-        
-
-        $menus = Menu::select("menus.*")
-        ->orderby("id","DESC")
-        ->get()
-        ->keyby("id");
-
-        //食材のidを配列として取得
-        $food_array=Food::select("id")
-        ->get()
-        ->pluck("id")
-        ->toArray();
-
-        $food = Food::select("food.*")
-        ->orderby("id","DESC")
-        ->get()
-        ->keyby("id");
-
-        // 選択されたメニューに使用されていないfood_id
-        $results = array_diff($food_array,$food_menus);
-        // dd($results);
-
-
-        return view("add_menu_edit",compact("results","food","menu_id","food_menus","menus"));
     }
     
 }
