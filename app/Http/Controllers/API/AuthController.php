@@ -35,6 +35,7 @@ class AuthController extends Controller
                 'status'=>200,
                 'username'=>$user->name,
                 'token'=>$token,
+                "userId"=>$user->id,
                 'message'=>'Registerd Successfully'
             ]);
         }
@@ -60,10 +61,12 @@ class AuthController extends Controller
             } else {
                 $token = $user->createToken($user->email.'_Token')->plainTextToken;
 
+
                 return response()->json([
                     'status'=>200,
                     'username'=>$user->name,
                     'token'=>$token,
+                    "userId"=> $user -> id,
                     'message'=>'ログインに成功しました。'
                 ]);
             }

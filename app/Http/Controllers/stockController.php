@@ -30,16 +30,17 @@ class stockController extends Controller
     //食材を追加した時の処理
     public function add(Request $request) //確認済み
     {
-        $post =$request->all();
+        
 
+        $post =$request->all();
+        return $post;
         $foodName = $post[0];
 
-
-        $food =Food::whereNUll("deleted_at")->where("name", "=", $post)->exists();
+        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
         if ($food === false) {
             Food::create([
                 "user_id"=>1,
-                "name"=>$post
+                "name"=>$foodName
                 ])
             ->save();
             return "登録完了";
