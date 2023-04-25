@@ -32,7 +32,7 @@ class textController extends Controller
     public function text(Request $request)
     {
         $posts=$request->all();
-        $text = key($posts);
+        $text = $posts[0];
 
         $textTable = Text::exists();
         if($textTable){

@@ -30,12 +30,9 @@ class boughtFoodController extends Controller
      */
 
      //食材画面
-     public function boughtFood(Request $request)
+     public function boughtFood(Request $request)//済み
      {
          $posts=$request->all();
-        //  dd($posts);
-        
-        // dd($post);
 
          foreach($posts as $post){
             Stock::create([
@@ -51,7 +48,7 @@ class boughtFoodController extends Controller
          
          
  
-        return redirect(route('home'));  
+        return "購入しました";  
      }
 
 

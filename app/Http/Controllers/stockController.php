@@ -27,30 +27,11 @@ class stockController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-    //食材画面
-    public function index()
-    {
-        //ここで食材名を取得する
-        $food = Food::select('food.*')
-        ->where('user_id', '=', \Auth::id())
-        ->orderby('created_at', 'DESC')
-        ->get();
-        $menus = User::find(1)->get();
-
-        return view('create', compact('food'));
-    }
-
-    //メニュー画面 フードコントローラーを作成し追加する
-    public function add_food()
-    {
-        return view('add_food');
-    }
     //食材を追加した時の処理
-    public function add(Request $request)
+    public function add(Request $request) //確認済み
     {
         $post =$request->all();
         $foodName = $post[0];
-        // return $foodName;
 
         $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
         if ($food === false) {

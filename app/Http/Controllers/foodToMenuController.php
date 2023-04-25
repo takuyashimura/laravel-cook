@@ -31,7 +31,7 @@ class foodToMenuController extends Controller
      
 
      //メニュー画面 メニューコントローラを作成し追加する
-     public function foodToMenu(Request $request)
+     public function foodToMenu(Request $request)//済み
      {
         $posts =$request->all();
 
@@ -42,25 +42,6 @@ class foodToMenuController extends Controller
         ->get();
         
         return [$posts["food_stock"]["name"],$menu];
-        // dd($food_id);
-         //ここでメニュー名を取得
-         $menus= Menu::where("user_id" ,"=", \Auth::id())
-         ->whereNull("deleted_at")
-         ->orderby('created_at','DESC')
-         ->get()
-         ->keyby("id");
-
-         $food_menus=FoodMenu::select("food_menus.*")
-         ->where("food_id","=",$food_id)
-         ->whereNull("deleted_at")
-         ->orderby("menu_id")
-         ->get()
-         ->keyby("menu_id");
-        //  dd($food_menus);
- 
-         //食材を取得
- 
-         return view('foodToMenu',compact('menus','food_menus'));
-     }
+        }
     
 }

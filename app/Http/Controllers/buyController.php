@@ -32,30 +32,11 @@ class buyController extends Controller
 
      
 
-    // 食材購入画面
-    public function buy()
-    {
-        $food = Food::select('food.*')
-        ->orderby('created_at','DESC')
-        ->get()
-        ->keyby('id');
-        $food_array = $food->pluck('id')->toArray();
-
-        $stocks = Stock::select('food_id')
-        ->selectRaw('SUM(amount) AS total_amount')
-        ->groupBy('food_id')
-        ->get();
-        $stocks_array = $stocks->pluck('food_id')->toArray();
-        
-        $array= array_diff($food_array,$stocks_array);
-
-
-        return view('buy',compact('food','stocks','array'));  
-    }
-    public function add_buy_list(Request $request)
+   
+    public function add_buy_list(Request $request)//済み
     {
         $posts = $request->all();
-        $food = $posts[2];
+        $food = $posts[0];
 
         foreach($food as $f){
             if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("food_id",'='.$f["food_id"])->exists()){
@@ -70,97 +51,21 @@ class buyController extends Controller
         }
         return "購入リストへ追加完了";
 
-        $menu_id = $food["menu_id"];
-
-        $food = Food::select('food.*')
-        ->orderby('created_at','DESC')
-        ->get()
-        ->keyby("id");
-
-         // food_menusテーブルのfood_idを取得
-        $food_menus = FoodMenu::select("food_menus.*")
-        ->where("menu_id", "=" , $menu_id)
-        ->orderby('food_id','DESC')
-        ->get();
- 
-        // stocksテーブルを取得。amountを合計し、キーをfood_idに指定した配列作成した
-        $stocks = Stock::select('food_id')
-        ->selectRaw('SUM(amount) AS total_amount')
-        ->groupBy('food_id')
-        ->get()
-        ->keyby("food_id");
-
-
-        $shopping_items=ShoppingItem::select("shopping_items.*")
-        ->whereNull("deleted_at")
-        ->get()
-        ->keyby("food_id");
-
-        $shopping_item=$shopping_items
-        ->pluck("food_id")
-        ->toArray();
-        // dd($shopping_items);
         
-        foreach($food_menus as $food_menu){
-            //もし$stocks[$food_menu->food_id]で値が返ってきたら→在庫の登録があれば
-            if(isset($stocks[$food_menu->food_id])){
-                  //もし$stocksテーブルにメニューで使用する食材のデータがないか、在庫数よりメニューに使用する食材の方が多い＝在庫不足なら
-                if($stocks[$food_menu->food_id]["total_amoumt"]< $food_menu->food_amount){
-                    //$food[$food_menu->food_id]['id']の配列内に$shppping_itemがあれば
-                    if(in_array($food[$food_menu->food_id]['id'], $shopping_item)){
-                        //$food_amount＝メニューに使うその食材の総数ーその食材の在庫数＝不足数
-                        $food_amount=$food_menu->food_amount - $stocks[$food_menu->food_id]["total_amoumt"];
-                        ShoppingItem::where("food_id", "=", $food[$food_menu->food_id]['id'])
-                        ->update([                        
-                            "amount" => $shopping_items[$food_menu->food_id]->amount += $food_amount
-                        ]);
-                    }
-                    else{ 
-                        ShoppingItem::create([
-                        'user_id' => \Auth::id(),
-                        'food_id' => $food[$food_menu->food_id]->id,
-                        "amount" => $food_menu->food_amount - $stocks[$food_menu->food_id]["total_amoumt"]
-                        ]);
-                    }
-                    }
-                else{
-                    continue;
-                }
-            //在庫の登録がなければ
-            }else{
-                //$food[$food_menu->food_id]['id']の配列内に$shppping_itemがあれば
-                if(in_array($food[$food_menu->food_id]['id'], $shopping_item)){
-                    ShoppingItem::where("food_id", "=", $food[$food_menu->food_id]['id'])
-                        ->update([                        
-                            "amount" => $shopping_items[$food_menu->food_id]->amount += $food_menu->food_amount
-                        ]);
-                }else{ 
-                    ShoppingItem::create([
-                    'user_id' => \Auth::id(),
-                    'food_id' => $food[$food_menu->food_id]->id,
-                    "amount" => $food_menu->food_amount
-                    ]);
-
-                }
-
-            }
         }
 
-        return redirect()->route('buy_list');
-    }
+    
 
-    public function buy_list()
+    public function buy_list() //済み
     {
         $shopping_items = ShoppingItem::whereNull("shopping_items.deleted_at")
+        ->where("amount","!=",0)
         ->leftjoin("food","shopping_items.food_id" ,"=" ,"food.id")
         ->select("shopping_items.food_id","food.name")
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy("shopping_items.food_id","food.name")
         ->get();
        
-
-        
-
         $texts = Text::select("texts.text")
         ->where("user_id" , "=" , 1)
         ->get();
@@ -169,7 +74,6 @@ class buyController extends Controller
         return response()->json([
             "shopping_items"=>$shopping_items,
             "texts"=>$texts
-            
         ],
         200,
         [],
@@ -177,11 +81,10 @@ class buyController extends Controller
         );
 
 
-        // return view('add_buy_list',compact("shopping_items","food","texts",));  
     }
 
     
-    public function edit_buy_list()
+    public function edit_buy_list()//済み
     {
         $shopping_items = ShoppingItem::select("food_id")
         ->selectRaw('SUM(amount) AS total_amount')
@@ -197,6 +100,7 @@ class buyController extends Controller
         
 
         $food = Food::select('food.*')
+        ->whereNull("deleted_at")
         // ->where('user_id', '=' , \Auth::id())
         ->orderby('created_at','DESC')
         ->get();
@@ -206,12 +110,10 @@ class buyController extends Controller
         $foods_id = $food
         ->pluck('id')
         ->toArray();
-            // dd($foods_id);
         // $shopping_listsのfood_idの配列を取得し
         $shopping_items_food_id = $shopping_items
         ->pluck("food_id")
         ->toArray();
-            // dd($shopping_items_food_id);
         // array_diffで重複していない＝$shopping_listsにない食材のidのみの配列を作成する
         $non_food = array_diff($foods_id,$shopping_items_food_id);
 
@@ -240,9 +142,27 @@ class buyController extends Controller
     public function reply_buy_list(Request $request)
     {
         $posts= $request->all();
+        
+        //sListからamountが0の要素を消す
+        foreach($posts["sList"] as $key => $value){
+            if ($value["amount"] == 0){
+                unset($posts["sList"][$key]);
+            }
+        }
+        //$posts["nonFood"]のamountが１以上のレコードで配列を構成する
+        foreach($posts["nonFood"] as $i ){
+            if($i["amount"]>0){
+                $posts["sList"][]=[
+                    "food_id" => $i["id"],
+                    "name" => $i["name"],
+                    "amount" => $i["amount"]
+                ];
+            }
+        }
+            
 
 
-        foreach($posts as $post){
+        foreach($posts["sList"] as $post){
             if(ShoppingItem::whereNull("deleted_at")->where("food_id","=" ,$post["food_id"])->exists()){
                 ShoppingItem::where("food_id",'=',$post['food_id'])
                 ->whereNull('deleted_at')
@@ -260,46 +180,6 @@ class buyController extends Controller
         return $posts;
 
 
-        $post = array_filter($posts, function($key) {
-            return is_int($key);
-        }, ARRAY_FILTER_USE_KEY);
-        // dd($post);
-        // dd($posts);
-        //if文で$shopping_itemsにないfood_idの食材は新しくDBをcreateするコーディングをする
-        $shopping_items = ShoppingItem::select("food_id")
-        ->where("user_id","=",\Auth::id())
-        ->whereNull("deleted_at")
-        ->get()
-        ->pluck("food_id")
-        ->toArray();
-        // dd($shopping_items);
-        
-        // dd($non_shoppning_items);
-
-        foreach($post as $key => $value){
-            // もしshopping_itemのfood_idに$keyがあれば
-            if(in_array($key,$shopping_items) && $value != 0){
-                ShoppingItem::where("food_id", "=", $key)
-                ->update([
-                    "amount" => $value
-                ]);
-            // なければ
-            }elseif($value == 0){
-                ShoppingItem::where("food_id","=", $key)
-                ->update([
-                    "deleted_at" => now()
-                ]);
-            }
-            else{
-                ShoppingItem::create([
-                    "user_id"=>\Auth::id(),
-                    "food_id"=>$key,
-                    "amount"=>$value
-                ]);
-            }
-
-        }
-        return redirect(route('buy_list'));  
     }
     
    

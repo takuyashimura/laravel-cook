@@ -78,7 +78,7 @@ class deleteController extends Controller
         return view('menu_cook',compact("menu_name","food_menus","food","food_menus_amount","menu_id"));
     }
 
-    public function menu_delete(Request $request )
+    public function menu_delete(Request $request ) //済み
     {
         $posts = $request->all();
         $menu_id = $posts["deleteMenu"]['id'];
@@ -95,7 +95,7 @@ class deleteController extends Controller
 
     }
     
-    public function food_delete(Request $request )
+    public function food_delete(Request $request ) //確認済み
     {
         $posts = $request ->all();
         $food_id = $posts["modaldata"]['id'];

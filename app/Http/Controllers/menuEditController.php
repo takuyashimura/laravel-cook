@@ -29,7 +29,7 @@ class menuEditController extends Controller
      */
 
      //食材画面
-    public function menu_edit(Request $request)
+    public function menu_edit(Request $request)//済み
     {
         $posts=$request->all();
         
@@ -86,7 +86,6 @@ class menuEditController extends Controller
         
 
 
-        return view('menu_edit',compact("menus","menu_id","food","food_menus"));
     }
 
    
