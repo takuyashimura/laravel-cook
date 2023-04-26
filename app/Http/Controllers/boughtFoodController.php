@@ -34,17 +34,17 @@ class boughtFoodController extends Controller
      {
          $posts=$request->all();
 
-         foreach($posts as $post){
+         foreach($posts["shoppingItems"] as $post){
             Stock::create([
                 "food_id" => $post['food_id'],
-                "user_id" => 1,
+                "user_id" => $posts["userId"],
                 "amount" => $post["total_amount"]
             ]);
 
             
          }
          ShoppingItem::whereNull("deleted_at")
-         ->update(["deleted_at" => now()]);
+         ->delete();
          
          
  

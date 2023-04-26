@@ -34,7 +34,7 @@ class addMenuEditController extends Controller
         $posts = $request->all();
         // return $posts;
         $food_data = $posts['postMenuData'];
-        $menu_id =$posts["menuName"]["id"];
+        $menu_id =$posts["menuName"]["menu"]["id"];
  
 
         foreach($food_data as $i){

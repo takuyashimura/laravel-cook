@@ -34,15 +34,13 @@ class cookingController extends Controller
     {
         $posts = $request->all();
         
-        CookingList::whereNull("deleted_at")->update([
-            "deleted_at"=> now()
-        ]);
+        CookingList::where("user_id",'=',$posts["userId"])->delete();
 
         foreach($posts["useList"] as $i){
             
             $remaining_amount = $i["amount"];
             while($remaining_amount != 0){
-               $stock = Stock::whereNull("deleted_at")->where("food_id",'=', $i['id'])->where("user_id","=",1)->orderby("created_at","ASC")->first();
+               $stock = Stock::whereNull("deleted_at")->where("food_id",'=', $i['id'])->orderby("created_at","ASC")->first();
                // 在庫数を充足して消せた場合の処理
                 if(isset($stock)){
                     if($stock["amount"] - $remaining_amount >= 0){

@@ -31,10 +31,11 @@ class add_menuController extends Controller
      
 
     // 食材購入画面
-    public function add_menu() //済み
+    public function add_menu(Request $request , $id) //済み
     {
         $food = Food::select('food.*')
         ->whereNull("deleted_at")
+        ->where("user_id","=",$id)
         ->orderby('created_at','DESC')
         ->get();
 
@@ -54,10 +55,10 @@ class add_menuController extends Controller
     {
         $posts=$request->all();
         // メニュー名の存在確認
-        $exists = Menu::where("name", "=", $posts[0])
+        $exists = Menu::where("name", "=", $posts["postData"][0])
         ->whereNull("deleted_at")
         ->exists();
-        $post = $posts[1];
+        $post = $posts["postData"][1];
 
         if($exists === true){
 
@@ -65,8 +66,8 @@ class add_menuController extends Controller
 
         }else{
             $menu_id = Menu::insertGetId([
-                "name" => $posts[0],
-                "user_id" => 1
+                "name" => $posts["postData"][0],
+                "user_id" => $posts["userId"]
             ]);
             foreach($post as $value){
                 FoodMenu::create([

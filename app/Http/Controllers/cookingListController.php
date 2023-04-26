@@ -30,37 +30,42 @@ class cookingListController extends Controller
      */
 
      //食材画面
-    public function cooking_list() //済み
+    public function cooking_list(Request $request,$id) //済み
     {
         $cooking_list = CookingList::whereNull("cooking_lists.deleted_at")
+        ->where("cooking_lists.user_id","=",$id)
         ->leftjoin("menus","cooking_lists.menu_id" ,"=", "menus.id")
         ->select("menus.id","menus.name","cooking_lists.id")
         ->orderby("cooking_lists.id","DESC")
         ->get();
+        // return $cooking_list;
 
         $stocks = Stock::select("food_id")
-        // ->where("user_id","=",\Auth::id())
+        ->where("user_id","=",$id)
         ->whereNull("deleted_at")
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy('food_id')
         ->orderby("food_id","DESC")
         ->get()
         ->keyby("food_id");
+        // return $stocks;
         
         $cooking_list_food_array =CookingList::whereNull("cooking_lists.deleted_at")
+        ->where("cooking_lists.user_id","=",$id)
         ->leftjoin("food_menus","cooking_lists.menu_id" ,"=", "food_menus.menu_id")
         ->leftjoin("food","food_menus.food_id","=","food.id")
-        ->select("food_menus.menu_id","food_menus.food_id","cooking_lists.id","food_menus.deleted_at","food_menus.food_amount","food.name","food.id",)
+        ->select("food_menus.menu_id","food_menus.food_id","cooking_lists.id","food_menus.deleted_at","food_menus.food_amount","food.name")
         ->whereNull("food_menus.deleted_at")
-        // ->where("user_id","=",\Auth::id())
         ->select("food_menus.food_id")
         ->selectRaw('SUM(food_menus.food_amount) AS total_amount')
         ->groupBy('food_menus.food_id')
         ->orderby("food_menus.food_id","DESC");
+        // return $cooking_list_food_array;
 
         $cooking_list_food_data = $cooking_list_food_array
         ->get()
         ->keyby("food_id");
+        // return $cooking_list_food_data;
 
         $cooking_list_food_name=$cooking_list_food_array
         ->select("food_menus.food_id","food.name")
@@ -136,7 +141,7 @@ class cookingListController extends Controller
         
         
         return response()->json([
-            "cooking_list_name_count"=>$cooking_list_name_count,
+            "cooking_list_name_count"=>$cooking_list_name_count,//作るメニューと数量
             "cooking_list"=>$cooking_list,            
             "non_stocks_data"=>$non_stocks_data,            
             "on_stocks_data"=>$on_stocks_data,            
@@ -155,11 +160,10 @@ class cookingListController extends Controller
     public function add_cooking_list(Request $request) //済み
     {
         $posts=$request->all();
-        $menu_id =  $posts["id"];
-
+       
         Cookinglist::create([
-            "menu_id" => $menu_id,
-            "user_id" => 1,
+            "menu_id" => $posts["choiceMenu"]["id"],
+            "user_id" => $posts["userId"],
         ]);
 
         return "調理リストへ登録完了";

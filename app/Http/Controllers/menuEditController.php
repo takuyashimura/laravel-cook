@@ -35,13 +35,6 @@ class menuEditController extends Controller
         
         $menu_id = $posts["menu"]["id"];
 
-        $menu_data = [
-            "id"=>$menu_id,
-            "name"=>$posts["menu"]["name"]
-        ];
-
-
-
         $food_menu = FoodMenu::whereNull("food_menus.deleted_at")
         ->where("food_menus.menu_id","=",$menu_id)
         ->leftjoin("food","food_menus.food_id","=","food.id")
@@ -52,14 +45,17 @@ class menuEditController extends Controller
 
         $food_menus= $food_menu->select("food.name","food.id") -> get()->pluck("name")->toArray();
         // return $food_menus;
-        $food = Food::select('food.name',"food.id")->whereNull("food.deleted_at")->get()->pluck("name")->toArray();
+        $food = Food::select('food.name',"food.id")
+        ->whereNull("food.deleted_at")
+        ->where("user_id","=",$posts["menu"]["user_id"])
+        ->get()->pluck("name")->toArray();
         // return $food;
         $unused_food = array_diff($food,$food_menus);
         // return $unused_food;
 
         $unused=[];
         foreach ($unused_food  as $key =>$value){
-            $foods=Food::select("food.name","food.id")->whereNull("deleted_at")->get();
+            $foods=Food::select("food.name","food.id")->where("user_id" ,"=",$posts["menu"]["user_id"])->whereNull("deleted_at")->get();
             foreach($foods as $f)
             if($f["name"]===$value)
                 $unused[]= [
@@ -75,7 +71,7 @@ class menuEditController extends Controller
         // return [$menu_name,$food_menu_data];
 
         return response()->json([
-            "menuData"=>$menu_data,
+            "menuData"=>$posts,
             "foodArray"=>$food_array
             
         ],
