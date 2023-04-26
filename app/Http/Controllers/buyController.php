@@ -36,16 +36,17 @@ class buyController extends Controller
     public function add_buy_list(Request $request)//済み
     {
         $posts = $request->all();
-        $food = $posts[0];
+        $food = $posts["choiceMenu"][0];
+        $userId = $posts["userId"];
 
         foreach($food as $f){
-            if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("food_id",'='.$f["food_id"])->exists()){
+            if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("user_id","=",$userId)->where("food_id",'='.$f["food_id"])->exists()){
                 ShoppingItem::whereNull("deleted_at")->where("food_id",'='.$f["food_id"])->increment("amount",$f["food_amount"]);
             }else{
                 ShoppingItem::create([
                     "food_id"=> $f['food_id'],
                     "amount"=> $f["food_amount"],
-                    "user_id"=>1
+                    "user_id"=>$userId
                 ]);
             }
         }
@@ -56,10 +57,11 @@ class buyController extends Controller
 
     
 
-    public function buy_list() //済み
+    public function buy_list(Request $request,$id) //済み
     {
         $shopping_items = ShoppingItem::whereNull("shopping_items.deleted_at")
-        ->where("amount","!=",0)
+        ->where("shopping_items.amount","!=",0)
+        ->where("shopping_items.user_id","=",$id)
         ->leftjoin("food","shopping_items.food_id" ,"=" ,"food.id")
         ->select("shopping_items.food_id","food.name")
         ->selectRaw('SUM(amount) AS total_amount')
@@ -84,15 +86,18 @@ class buyController extends Controller
     }
 
     
-    public function edit_buy_list()//済み
+    public function edit_buy_list(Request $request,$id)//済み
     {
-        $shopping_items = ShoppingItem::select("food_id")
+        //
+        $shopping_items = ShoppingItem::where("user_id","=",$id)
+        ->select("food_id")
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy('food_id')
         ->whereNull("deleted_at")
         ->get();
 
         $shopping_item = ShoppingItem::whereNull("shopping_items.deleted_at")
+        ->where("shopping_items.user_id","=",$id)
         ->leftjoin("food","shopping_items.food_id" ,"=" ,"food.id")
         ->select("shopping_items.food_id","food.name","shopping_items.amount")
         ->get();
@@ -101,7 +106,7 @@ class buyController extends Controller
 
         $food = Food::select('food.*')
         ->whereNull("deleted_at")
-        // ->where('user_id', '=' , \Auth::id())
+        ->where('user_id', '=' ,$id)
         ->orderby('created_at','DESC')
         ->get();
 
@@ -165,7 +170,7 @@ class buyController extends Controller
 
 
         foreach($posts["sList"] as $post){
-            if(ShoppingItem::whereNull("deleted_at")->where("food_id","=" ,$post["food_id"])->exists()){
+            if(ShoppingItem::whereNull("deleted_at")->where("user_id","=",$posts["userId"])->where("food_id","=" ,$post["food_id"])->exists()){
                 ShoppingItem::where("food_id",'=',$post['food_id'])
                 ->whereNull('deleted_at')
                 ->update([
@@ -173,7 +178,7 @@ class buyController extends Controller
                 ]);
             }else{
                 ShoppingItem::create([
-                    "user_id" => 1,
+                    "user_id" => $posts["userId"],
                     "food_id" => $post["food_id"],
                     'amount' => $post["amount"]
                 ]);

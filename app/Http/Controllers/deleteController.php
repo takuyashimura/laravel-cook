@@ -85,10 +85,10 @@ class deleteController extends Controller
     
         
         Menu::where("id","=",$menu_id)
-        ->update(["deleted_at" => now()]);
+        ->delete();
 
         FoodMenu::where('menu_id','=',$menu_id)
-        ->update(["deleted_at" => now()]);
+        ->delete();
 
      
         return "削除完了";
@@ -98,12 +98,9 @@ class deleteController extends Controller
     public function food_delete(Request $request ) //確認済み
     {
         $posts = $request ->all();
-        $food_id = $posts["modaldata"]['id'];
     
-        
-        Food::where("id","=",$food_id)
+        Food::where("id","=",$posts["modaldata"]['id'])
         ->update(["deleted_at" => now()]);
-
 
         return "削除完了";
     }

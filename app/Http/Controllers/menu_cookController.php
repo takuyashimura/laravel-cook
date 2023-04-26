@@ -44,7 +44,8 @@ class menu_cookController extends Controller
         ->get();
         // return $menu_food_data;
 
-        $stocks = Stock::select('food_id')
+        $stocks = Stock::where("user_id","=",$posts["menu"]["user_id"])
+        ->select('food_id')
         ->selectRaw('SUM(amount) AS total_amount')
         ->groupBy('food_id')
         ->get()
@@ -55,7 +56,7 @@ class menu_cookController extends Controller
 
         foreach($menu_food_data as $i){
             // return $i;
-            if(Stock::select("stocks.food_id")->whereNull("deleted_at")->where("food_id",'=',$i['food_id'])->exists() !== true){
+            if(Stock::select("stocks.food_id")->whereNull("deleted_at")->where("user_id","=", $posts["menu"]["user_id"]) ->where("food_id",'=',$i['food_id'])->exists() !== true){
                 // return $i;
                  $post_data [] = $i;
                 //  return $post_data;

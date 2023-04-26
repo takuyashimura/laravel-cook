@@ -28,11 +28,10 @@ class HomeController extends Controller
      */
 
     //食材画面
-    public function home()
+    public function home(Request $request,$id)
     {
-
     $food_stocks = Food::whereNull("food.deleted_at")
-    // ->where("food.user_id","=",\Auth::id())
+    ->where("food.user_id","=",$id)
     ->leftjoin("stocks","food.id","=","stocks.food_id")
     ->select("food.id","food.name")
     ->selectRaw('SUM(amount) AS total_amount')

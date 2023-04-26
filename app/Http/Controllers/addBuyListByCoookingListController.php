@@ -36,7 +36,7 @@ class addBuyListByCoookingListController extends Controller
 
         $post=[];
         //配列を１次元にする
-        foreach($posts as $I){
+        foreach($posts["toBuyList"] as $I){
             foreach($I as $i)
             $post [] = [
                 "id"=> $i["id"],
@@ -45,13 +45,13 @@ class addBuyListByCoookingListController extends Controller
             ];
         }   
         foreach($post as $i){
-            if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("user_id","=",1)
+            if(ShoppingItem::select("shopping_items.*")->whereNull("deleted_at")->where("user_id","=",$posts["userId"])
                 ->where("food_id","=",$i["id"])->exists()){
                     ShoppingItem::where("food_id","=",$i["id"])
                     ->increment("amount",$i["amount"]);
             }else{
                 ShoppingItem::create([
-                    "user_id"=>1,
+                    "user_id"=>$posts["userId"],
                     "food_id"=>$i["id"],
                     "amount"=>$i["amount"]
                 ]);

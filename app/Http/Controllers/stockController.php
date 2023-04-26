@@ -33,13 +33,13 @@ class stockController extends Controller
         
 
         $post =$request->all();
-        return $post;
-        $foodName = $post[0];
+        $foodName = $post["foodData"];
+        $userId = $post["userId"];
 
-        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->exists();
+        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->where("user_id",'=',$userId)->exists();
         if ($food === false) {
             Food::create([
-                "user_id"=>1,
+                "user_id"=>$userId,
                 "name"=>$foodName
                 ])
             ->save();
