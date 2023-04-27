@@ -69,7 +69,7 @@ class buyController extends Controller
         ->get();
        
         $texts = Text::select("texts.text")
-        ->where("user_id" , "=" , 1)
+        ->where("user_id" , "=" , $id)
         ->get();
 
         
