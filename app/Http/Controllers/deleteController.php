@@ -9,6 +9,7 @@ use App\Models\Stock;
 use App\Models\User;
 use App\Models\FoodMenu;
 use App\Models\ShoppingItem;
+use App\Models\CookingList;
 use DB;
 
 class deleteController extends Controller
@@ -35,7 +36,7 @@ class deleteController extends Controller
 
         FoodMenu::select("food_menus.*")
         ->where("id","=",$food_menu_id)
-        ->update(["deleted_at" => now()]);
+        ->delete();
 
         //menuテーブルから$menu_idに格納されてる番号がid_のデータを取得
         $menu_name = Menu::find($menu_id);
@@ -87,10 +88,15 @@ class deleteController extends Controller
         Menu::where("id","=",$menu_id)
         ->delete();
 
-        FoodMenu::where('menu_id','=',$menu_id)
-        ->delete();
+        if(FoodMenu::where('menu_id', '=', $menu_id)->exists()) {
+            FoodMenu::where('menu_id', '=', $menu_id)
+            ->delete();
+        }
 
-     
+        if(CookingList::where('menu_id', '=', $menu_id)->exists()) {
+            CookingList::where('menu_id', '=', $menu_id)
+            ->delete();
+        }
         return "削除完了";
 
     }
@@ -100,7 +106,8 @@ class deleteController extends Controller
         $posts = $request ->all();
     
         Food::where("id","=",$posts["modaldata"]['id'])
-        ->update(["deleted_at" => now()]);
+        ->delete();
+
 
         return "削除完了";
     }

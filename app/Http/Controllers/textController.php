@@ -32,13 +32,19 @@ class textController extends Controller
     public function text(Request $request)
     {
         $posts=$request->all();
-
-        $textTable = Text::where("user_id","=",$posts["userId"])->exists();
-        if($textTable){
-            Text::where("user_id" ,"=", $posts["userId"])
-            ->update([
+        
+        if(Text::where("user_id","=",$posts["userId"])->exists()){
+            if($posts["text"] ===null){
+                Text::where("user_id" ,"=", $posts["userId"])
+                ->update([
+                    "text" =>""
+                ]);  
+            }else{
+                Text::where("user_id", "=", $posts["userId"])
+                ->update([
                 "text" =>$posts["text"]
-            ]);
+                ]);
+            }
             return "textを更新しました";
         }else{
             Text::create([
