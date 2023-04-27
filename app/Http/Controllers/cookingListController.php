@@ -36,9 +36,7 @@ class cookingListController extends Controller
         ->where("cooking_lists.user_id","=",$id)
         ->leftjoin("menus","cooking_lists.menu_id" ,"=", "menus.id")
         ->select("menus.id","menus.name","cooking_lists.id")
-        ->orderby("cooking_lists.id","DESC")
-        ->get();
-        // return $cooking_list;
+        ->orderby("cooking_lists.id","DESC");
 
         $stocks = Stock::select("food_id")
         ->where("user_id","=",$id)
@@ -48,7 +46,6 @@ class cookingListController extends Controller
         ->orderby("food_id","DESC")
         ->get()
         ->keyby("food_id");
-        // return $stocks;
         
         $cooking_list_food_array =CookingList::whereNull("cooking_lists.deleted_at")
         ->where("cooking_lists.user_id","=",$id)
@@ -60,19 +57,17 @@ class cookingListController extends Controller
         ->selectRaw('SUM(food_menus.food_amount) AS total_amount')
         ->groupBy('food_menus.food_id')
         ->orderby("food_menus.food_id","DESC");
-        // return $cooking_list_food_array;
 
         $cooking_list_food_data = $cooking_list_food_array
         ->get()
         ->keyby("food_id");
-        // return $cooking_list_food_data;
 
         $cooking_list_food_name=$cooking_list_food_array
         ->select("food_menus.food_id","food.name")
         ->get()
         ->keyby("food_id");
 
-        // cooking_listで使う食材の名前、数量を取得し、表示する  →  DBを作成した方がいいか↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        // 使用食材と個数 (total_amountがeloquentのselectで取得できないため) ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $cooking_list_food_name_amount=[];
         foreach($cooking_list_food_data as $i){
             $cooking_list_food_name_amount[]=[
@@ -81,20 +76,19 @@ class cookingListController extends Controller
                 "amount"=>$i["total_amount"]
             ];
         }
+        
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
      
         // cooking_listにあるメニューで使用する食材がstocksテーブルにあるか判断する↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $stocks_id = $stocks->pluck("food_id")->toArray();
-        // dd($stocks_id);
         $cooking_list_food_data_id = $cooking_list_food_data->pluck("food_id")->toArray();
-        // dd($cooking_list_food_data_id);
             // stockテーブルにある食材
-        $on_stocks_id_data=array_intersect($stocks_id,$cooking_list_food_data_id);
+            $on_stocks_id_data=array_intersect($stocks_id,$cooking_list_food_data_id);
             // stocksテーブルにない食材
-        $non_stocks_id_data = array_diff($cooking_list_food_data_id,$stocks_id);
-      
+            $non_stocks_id_data = array_diff($cooking_list_food_data_id,$stocks_id);
+        
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-        //stocksテーブルにデータのない食材の不足分を描画する配列を作成↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        //不足食材名とその数量（stocksテーブルにない）↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $non_stocks_data =[];
         foreach($non_stocks_id_data as $id){
             $non_stocks_data []= [
@@ -106,7 +100,7 @@ class cookingListController extends Controller
         // dd($non_stocks_data);
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-        //stocksテーブルにデータがある食材のうち、在庫不足の食材で配列を作成↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        //不足食材名とその数量（stocksテーブルにある）↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $on_stocks_data=[];
         foreach($on_stocks_id_data as $id){
             if($stocks[$id]["total_amount"] < $cooking_list_food_data[$id]["total_amount"])
@@ -115,37 +109,35 @@ class cookingListController extends Controller
                 "food_name"=>$cooking_list_food_name[$id]->name,
                 "amount"=>$cooking_list_food_data[$id]->total_amount - $stocks[$id]["total_amount"]
             ];
-        }
-        // dd($on_stocks_data);
-        
+        }        
         //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
-        //cooking_listに何人前登録したか調査する ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-        $cooking_list_name_array = $cooking_list->pluck('name')->toArray();
-        // return $cooking_list_name_array;
-        $how_many_food=array_count_values($cooking_list_name_array);
-        
+        //作るメニューと数量とメニューID ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        $cooking_list_menu_ids = $cooking_list->select("menu_id","name")->get()->toArray();
+        $cooking_list_name_array = $cooking_list->get()->pluck("name")->toArray();
+        $cooking_list_menu_id = array_unique($cooking_list_menu_ids,SORT_REGULAR);
+
+        $how_many_food=array_count_values($cooking_list_name_array);        
 
         $cooking_list_name_counts=[];
         foreach($how_many_food as $key => $value){
+            foreach($cooking_list_menu_id as $i)
+            if($i["name"] === $key)
             $cooking_list_name_counts []=[
                 "name"=> $key,
-                "count"=>$value
+                "count"=>$value,
+                "menu_id"=>$i["menu_id"]
             ];
-        }
-        $cooking_list_name_count = array_unique($cooking_list_name_counts,SORT_REGULAR);
-        
-        
+        } 
         // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
         
         
         
         return response()->json([
-            "cooking_list_name_count"=>$cooking_list_name_count,//作るメニューと数量
-            "cooking_list"=>$cooking_list,            
-            "non_stocks_data"=>$non_stocks_data,            
-            "on_stocks_data"=>$on_stocks_data,            
-            "cooking_list_food_name_amount"=>$cooking_list_food_name_amount,            
+            "cooking_list_name_counts"=>$cooking_list_name_counts,//作るメニューと数量とメニューID
+            "non_stocks_data"=>$non_stocks_data,//不足食材名とその数量（stocksテーブルにない）            
+            "on_stocks_data"=>$on_stocks_data,//不足食材名とその数量（stocksテーブルにある）            
+            "cooking_list_food_name_amount"=>$cooking_list_food_name_amount,//使用食材と個数        
         ],
         200,
         [],
@@ -169,7 +161,23 @@ class cookingListController extends Controller
         return "調理リストへ登録完了";
 
 
-        return redirect( route('cooking_list') );  
+    }
+    public function editCookingList(Request $request) //済み
+    {
+        $posts=$request->all();
+
+        CookingList::where("user_id","=", $posts["userId"])->delete();
+        
+        foreach($posts["editCookingList"] as $post){
+            for($i=1;$i<=$post["count"];$i++){
+                CookingList::create([
+                    "menu_id"=>$post["menu_id"],
+                    "user_id"=>$posts["userId"]
+                ]);
+            }
+        }
+        return "変更完了";
+
     }
 
    

@@ -60,6 +60,7 @@ Route::post('/addBuyListByCoookingList', [addBuyListByCoookingListController::cl
 Route::post('/cooking', [cookingController::class, 'cooking'])->name('cooking');//済み ユーザー認証済み
 Route::post('/food_delete', [deleteController::class, 'food_delete'])->name('food_delete'); //済み ユーザー認証なし
 Route::post('/foodCheck', [foodCheckController::class, 'foodCheck'])->name('foodCheck');//済み ユーザー認証なし
+Route::post('/editCookingList', [cookingListController::class, 'editCookingList'])->name('editCookingList');//済み ユーザー認証なし
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
