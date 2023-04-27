@@ -36,9 +36,7 @@ class cookingListdeleteController extends Controller
     {        
         CookingList::where('user_id','=', \Auth::id())
         ->where("id",'=',$id)
-        ->update([
-            "deleted_at" => now()
-        ]);
+        ->delete();
 
         
         return redirect( route('cooking_list') );  
@@ -46,5 +44,3 @@ class cookingListdeleteController extends Controller
 
     
 }
-
-
