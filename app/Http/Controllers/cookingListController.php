@@ -70,6 +70,7 @@ class cookingListController extends Controller
         // 使用食材と個数 (total_amountがeloquentのselectで取得できないため) ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $cooking_list_food_name_amount=[];
         foreach($cooking_list_food_data as $i){
+            if($i["total_amount"] !== null)
             $cooking_list_food_name_amount[]=[
                 "id"=>$i["food_id"],
                 "food_name"=>$cooking_list_food_name[$i["food_id"]]["name"],
@@ -91,6 +92,7 @@ class cookingListController extends Controller
         //不足食材名とその数量（stocksテーブルにない）↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $non_stocks_data =[];
         foreach($non_stocks_id_data as $id){
+            if($cooking_list_food_data[$id]->total_amount !== null)
             $non_stocks_data []= [
                 "id"=>$id,
                 "food_name"=>$cooking_list_food_name[$id]->name,
