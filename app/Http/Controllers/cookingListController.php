@@ -166,7 +166,7 @@ class cookingListController extends Controller
     {
         $posts=$request->all();
 
-        CookingList::where("user_id","=", $posts["userId"])->delete();
+        CookingList::where("user_id","=", $posts["userId"])->forceDelete();
         
         foreach($posts["editCookingList"] as $post){
             for($i=1;$i<=$post["count"];$i++){

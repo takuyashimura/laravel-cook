@@ -44,7 +44,7 @@ class boughtFoodController extends Controller
             
          }
          ShoppingItem::whereNull("deleted_at")
-         ->delete();
+         ->forceDelete();
          
          
  
