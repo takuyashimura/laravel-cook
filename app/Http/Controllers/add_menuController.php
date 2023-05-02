@@ -55,12 +55,13 @@ class add_menuController extends Controller
     {
         $posts=$request->all();
         // メニュー名の存在確認
-        $exists = Menu::where("name", "=", $posts["postData"][0])
-        ->whereNull("deleted_at")
-        ->exists();
+        
         $post = $posts["postData"][1];
+        
 
-        if($exists === true){
+        if(Menu::where("name", "=", $posts["postData"][0])
+        ->whereNull("deleted_at")
+        ->exists()){
 
         return "このメニューは既に登録されています。";
 
@@ -69,13 +70,15 @@ class add_menuController extends Controller
                 "name" => $posts["postData"][0],
                 "user_id" => $posts["userId"]
             ]);
-            foreach($post as $value){
+        if($post !==null) {
+            foreach($post as $value) {
                 FoodMenu::create([
                     "food_id" => $value["foodId"],
                     "food_amount"=> $value["amount"],
                     "menu_id"=> $menu_id
                 ]);
             };
+        };
             return"登録完了";
         }
 
