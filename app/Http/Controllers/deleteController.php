@@ -36,7 +36,7 @@ class deleteController extends Controller
 
         FoodMenu::select("food_menus.*")
         ->where("id","=",$food_menu_id)
-        ->delete();
+        ->forceDelete();
 
         //menuテーブルから$menu_idに格納されてる番号がid_のデータを取得
         $menu_name = Menu::find($menu_id);
@@ -86,16 +86,16 @@ class deleteController extends Controller
     
         
         Menu::where("id","=",$menu_id)
-        ->delete();
+        ->forceDelete();
 
         if(FoodMenu::where('menu_id', '=', $menu_id)->exists()) {
             FoodMenu::where('menu_id', '=', $menu_id)
-            ->delete();
+            ->forceDelete();
         }
 
         if(CookingList::where('menu_id', '=', $menu_id)->exists()) {
             CookingList::where('menu_id', '=', $menu_id)
-            ->delete();
+            ->forceDelete();
         }
         return "削除完了";
 
@@ -104,9 +104,13 @@ class deleteController extends Controller
     public function food_delete(Request $request ) //確認済み
     {
         $posts = $request ->all();
+
+        if(Stock::where("food_id","=",$posts["modaldata"]['id'])->exists()){
+            Stock::where("food_id","=",$posts["modaldata"]['id'])->forceDelete();
+        }
     
         Food::where("id","=",$posts["modaldata"]['id'])
-        ->delete();
+        ->forceDelete();
 
 
         return "削除完了";

@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Food;
-use App\Models\Menu;
+
 use App\Models\Stock;
-use App\Models\User;
 use App\Models\CookingList;
-use App\Models\FoodMenu;
 use DB;
 
 class cookingListController extends Controller
@@ -36,7 +33,7 @@ class cookingListController extends Controller
         ->where("cooking_lists.user_id","=",$id)
         ->leftjoin("menus","cooking_lists.menu_id" ,"=", "menus.id")
         ->select("menus.id","menus.name","cooking_lists.id")
-        ->orderby("cooking_lists.id","DESC");
+        ->orderby("menus.id","DESC");
 
         $stocks = Stock::select("food_id")
         ->where("user_id","=",$id)
@@ -70,6 +67,7 @@ class cookingListController extends Controller
         // 使用食材と個数 (total_amountがeloquentのselectで取得できないため) ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $cooking_list_food_name_amount=[];
         foreach($cooking_list_food_data as $i){
+            if($i["total_amount"] !== null)
             $cooking_list_food_name_amount[]=[
                 "id"=>$i["food_id"],
                 "food_name"=>$cooking_list_food_name[$i["food_id"]]["name"],
@@ -91,6 +89,7 @@ class cookingListController extends Controller
         //不足食材名とその数量（stocksテーブルにない）↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         $non_stocks_data =[];
         foreach($non_stocks_id_data as $id){
+            if($cooking_list_food_data[$id]->total_amount !== null)
             $non_stocks_data []= [
                 "id"=>$id,
                 "food_name"=>$cooking_list_food_name[$id]->name,
@@ -166,9 +165,9 @@ class cookingListController extends Controller
     {
         $posts=$request->all();
 
-        CookingList::where("user_id","=", $posts["userId"])->delete();
+        CookingList::where("user_id","=", $posts["userId"])->forceDelete();
         
-        foreach($posts["editCookingList"] as $post){
+        foreach($posts["nameCount"] as $post){
             for($i=1;$i<=$post["count"];$i++){
                 CookingList::create([
                     "menu_id"=>$post["menu_id"],

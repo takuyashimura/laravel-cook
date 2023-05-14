@@ -34,7 +34,7 @@ class cookingController extends Controller
     {
         $posts = $request->all();
         
-        CookingList::where("user_id",'=',$posts["userId"])->delete();
+        CookingList::where("user_id",'=',$posts["userId"])->forceDelete();
 
         foreach($posts["useList"] as $i){
             
@@ -49,7 +49,7 @@ class cookingController extends Controller
                         // 残り必要な数からストックの数を引いて0より大きい場合処理の継続処理
                     } elseif($remaining_amount - $stock["amount"] > 0) {
                         $remaining_amount = $remaining_amount - $stock["amount"];
-                        $stock->delete();
+                        $stock->forceDelete();
                     }
                 }else{
                     break;

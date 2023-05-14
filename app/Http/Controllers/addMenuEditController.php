@@ -42,7 +42,7 @@ class addMenuEditController extends Controller
                 if($i['food_amount']===0){
                     FoodMenu::where("menu_id",'=', $menu_id)
                 ->where("food_id",'=',$i['id'])
-                ->delete();
+                ->forceDelete();
                 }else{              
                 if(FoodMenu::where("menu_id",'=', $menu_id)
                     ->where("food_id",'=', $i['id'])->exists()){

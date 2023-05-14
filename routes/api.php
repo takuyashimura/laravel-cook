@@ -38,6 +38,7 @@ use App\Http\Controllers\API\AuthController;
 // });
 
 // コントローラー、URLには基本的に_を使用しないので編集して無くす
+
 Route::get('/home/{id}', [HomeController::class, 'home'])->name('home'); //済み ユーザー認証済み
 Route::get('/menu/{id}', [menuController::class, 'menu'])->name('menu'); //済み ユーザー認証済み
 Route::post('/add', [stockController::class, 'add'])->name('add'); //確認済み ユーザー認証済み
