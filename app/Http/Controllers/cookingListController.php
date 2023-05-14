@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Food;
-use App\Models\Menu;
+
 use App\Models\Stock;
-use App\Models\User;
 use App\Models\CookingList;
-use App\Models\FoodMenu;
 use DB;
 
 class cookingListController extends Controller
@@ -36,7 +33,7 @@ class cookingListController extends Controller
         ->where("cooking_lists.user_id","=",$id)
         ->leftjoin("menus","cooking_lists.menu_id" ,"=", "menus.id")
         ->select("menus.id","menus.name","cooking_lists.id")
-        ->orderby("cooking_lists.id","DESC");
+        ->orderby("menus.id","DESC");
 
         $stocks = Stock::select("food_id")
         ->where("user_id","=",$id)
@@ -170,7 +167,7 @@ class cookingListController extends Controller
 
         CookingList::where("user_id","=", $posts["userId"])->forceDelete();
         
-        foreach($posts["editCookingList"] as $post){
+        foreach($posts["nameCount"] as $post){
             for($i=1;$i<=$post["count"];$i++){
                 CookingList::create([
                     "menu_id"=>$post["menu_id"],
