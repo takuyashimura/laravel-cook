@@ -83,12 +83,9 @@ class deleteController extends Controller
     {
         $posts = $request->all();
         $menu_id = $posts["deleteMenu"]['id'];
+        // return $menu_id;
     
-        
-        Menu::where("id","=",$menu_id)
-        ->forceDelete();
-
-        if(FoodMenu::where('menu_id', '=', $menu_id)->exists()) {
+         if(FoodMenu::where('menu_id', '=', $menu_id)->exists()) {
             FoodMenu::where('menu_id', '=', $menu_id)
             ->forceDelete();
         }
@@ -97,6 +94,11 @@ class deleteController extends Controller
             CookingList::where('menu_id', '=', $menu_id)
             ->forceDelete();
         }
+        
+        Menu::where("id","=",$menu_id)
+        ->forceDelete();
+
+       
         return "削除完了";
 
     }

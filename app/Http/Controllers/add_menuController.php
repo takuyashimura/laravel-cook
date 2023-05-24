@@ -55,11 +55,14 @@ class add_menuController extends Controller
     {
         $posts=$request->all();
         // メニュー名の存在確認
+
         
         $post = $posts["postData"][1];
-        
+        $userId = $posts["userId"];
+
 
         if(Menu::where("name", "=", $posts["postData"][0])
+        ->where("user_id","=",$userId)
         ->whereNull("deleted_at")
         ->exists()){
 
