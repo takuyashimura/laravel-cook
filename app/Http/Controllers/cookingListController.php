@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\CookingList;
 
+
+
 class cookingListController extends Controller
 {
     /**
@@ -31,7 +33,7 @@ class cookingListController extends Controller
         ->where("cooking_lists.user_id","=",$id)
         ->leftjoin("menus","cooking_lists.menu_id" ,"=", "menus.id")
         ->select("menus.id","menus.name","cooking_lists.id")
-        ->orderby("cooking_lists.menu_id","DESC");
+        ->orderby("menus.id","DESC");
 
         $stocks = Stock::select("food_id")
         ->where("user_id","=",$id)
@@ -169,6 +171,7 @@ class cookingListController extends Controller
         if($posts !== null){ 
             CookingList::where("user_id","=", $userId)->forceDelete();
             foreach($posts["upDataNameCount"] as $post){
+
             for($i=1;$i<=$post["count"];$i++){
                 CookingList::create([
                     "menu_id"=> $post["menu_id"],
