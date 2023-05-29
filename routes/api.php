@@ -16,8 +16,6 @@ use App\Http\Controllers\addMenuEditController;
 use App\Http\Controllers\foodToMenuController;
 use App\Http\Controllers\stockController;
 use App\Http\Controllers\boughtFoodController;
-use App\Http\Controllers\cookingListFoodAmountController;
-use App\Http\Controllers\cookingListdeleteController;
 use App\Http\Controllers\addBuyListByCoookingListController;
 use App\Http\Controllers\foodCheckController;
 

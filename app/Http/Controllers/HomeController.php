@@ -39,13 +39,7 @@ class HomeController extends Controller
     ->get()
     ->toArray();
 
-    // dd($food_stocks);
  
-    
-
-
-
-        //json形式で渡す
         return response()->json([
             "food_stocks" => $food_stocks,
         ],
