@@ -47,6 +47,7 @@ Route::post('/add_buy_list', [buyController::class, 'add_buy_list'])->name('add_
 Route::get('/buy_list/{id}', [buyController::class, 'buy_list'])->name('buy_list');//済み ユーザー認証済み
 Route::get('/edit_buy_list/{id}', [buyController::class, 'edit_buy_list'])->name('edit_buy_list');//済み ユーザー認証済み
 Route::post('/reply_buy_list', [buyController::class, 'reply_buy_list'])->name('reply_buy_list');//済み ユーザ認証済み
+Route::post('/reply_buy_list1', [buyController::class, 'reply_buy_list1'])->name('reply_buy_list1');//済み ユーザ認証済み
 Route::get('/cooking_list/{id}', [cookingListController::class, 'cooking_list'])->name('cooking_list');//済み ユーザー認証済み
 Route::post('/add_cooking_list', [cookingListController::class, 'add_cooking_list'])->name('add_cooking_list'); //済み ユーザー認証済み
 Route::post('/text', [textController::class, 'text'])->name('text'); //済み ユーザー認証済み

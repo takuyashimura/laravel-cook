@@ -147,45 +147,60 @@ class buyController extends Controller
     public function reply_buy_list(Request $request)
     {
         $posts= $request->all();
-        
-        //sListからamountが0の要素を消す
-        foreach($posts["sList"] as $key => $value){
-            if ($value["amount"] == 0){
-                ShoppingItem::whereNull("deleted_at")->where("food_id","=",$value["food_id"])->forceDelete();
-                unset($posts["sList"][$key]);
-            }
-        }
-        //$posts["nonFood"]のamountが１以上のレコードで配列を構成する
+     
         foreach($posts["nonFood"] as $i ){
             if($i["amount"]>0){
-                $posts["sList"][]=[
+                ShoppingItem::create([
+                    "user_id" => $posts["userId"],
                     "food_id" => $i["id"],
                     "name" => $i["name"],
-                    "amount" => $i["amount"]
-                ];
+                    'amount' => $i["amount"]
+                ]);
             }
         }
 
             
 
 
-        foreach($posts["sList"] as $post){
-            if(ShoppingItem::whereNull("deleted_at")->where("user_id","=",$posts["userId"])->where("food_id","=" ,$post["food_id"])->exists()){
-                ShoppingItem::where("food_id",'=',$post['food_id'])
-                ->whereNull('deleted_at')
-                ->update([
-                    "amount"=>$post["amount"]
-                ]);
-            }else{
-                ShoppingItem::create([
-                    "user_id" => $posts["userId"],
-                    "food_id" => $post["food_id"],
-                    'amount' => $post["amount"]
-                ]);
-            }
-        }
         return $posts;
 
+
+    }
+
+    public function reply_buy_list1(Request $request){
+
+        $posts = $request ->all();
+        // return $posts;
+
+        $count = 0;
+
+        foreach($posts["upDataShoppingItems"] as $post){
+            $data=ShoppingItem::whereNull("deleted_at")
+            ->where("food_id","=",$post["food_id"])
+            ->get("amount");
+
+            if($post["total_amount"]===0){
+                ShoppingItem::whereNull("deleted_at")->where("food_id","=",$post["food_id"])->delete();
+                $count ++;
+                continue;
+            }
+
+       
+
+            if($data[0]["amount"] != $post["total_amount"]){
+                ShoppingItem::whereNull("deleted_at")->where("food_id","=",$post["food_id"])->update([
+                    "amount" => $post["total_amount"]
+                ]);
+           
+            }
+
+        }
+        
+        if($count>0){
+            return 0;
+        }
+
+        return $posts;
 
     }
     
