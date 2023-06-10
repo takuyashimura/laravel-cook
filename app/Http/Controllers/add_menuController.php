@@ -75,11 +75,13 @@ class add_menuController extends Controller
             ]);
         if($post !==null) {
             foreach($post as $value) {
-                FoodMenu::create([
+                if($value["amount"]!==0){
+                    FoodMenu::create([
                     "food_id" => $value["foodId"],
                     "food_amount"=> $value["amount"],
                     "menu_id"=> $menu_id
-                ]);
+                    ]);
+                }
             };
         };
             return"登録完了";
