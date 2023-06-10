@@ -18,6 +18,7 @@ use App\Http\Controllers\stockController;
 use App\Http\Controllers\boughtFoodController;
 use App\Http\Controllers\addBuyListByCoookingListController;
 use App\Http\Controllers\foodCheckController;
+use App\Http\Controllers\categoryController;
 
 use App\Http\Controllers\API\AuthController;
 /*
@@ -61,6 +62,8 @@ Route::post('/cooking', [cookingController::class, 'cooking'])->name('cooking');
 Route::post('/food_delete', [deleteController::class, 'food_delete'])->name('food_delete'); //済み ユーザー認証なし
 Route::post('/foodCheck', [foodCheckController::class, 'foodCheck'])->name('foodCheck');//済み ユーザー認証なし
 Route::post('/editCookingList', [cookingListController::class, 'editCookingList'])->name('editCookingList');//済み ユーザー認証なし
+Route::post('/addCategory', [categoryController::class, 'addCategory'])->name('addCategory');//済み ユーザー認証なし
+Route::get('/category/{id}', [categoryController::class, 'addCategory'])->name('addCategory');//済み ユーザー認証なし
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
