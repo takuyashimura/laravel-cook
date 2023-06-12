@@ -63,7 +63,7 @@ Route::post('/food_delete', [deleteController::class, 'food_delete'])->name('foo
 Route::post('/foodCheck', [foodCheckController::class, 'foodCheck'])->name('foodCheck');//済み ユーザー認証なし
 Route::post('/editCookingList', [cookingListController::class, 'editCookingList'])->name('editCookingList');//済み ユーザー認証なし
 Route::post('/addCategory', [categoryController::class, 'addCategory'])->name('addCategory');//済み ユーザー認証なし
-Route::get('/category/{id}', [categoryController::class, 'addCategory'])->name('addCategory');//済み ユーザー認証なし
+Route::get('/category/{id}', [categoryController::class, 'category'])->name('category');//済み ユーザー認証なし
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
