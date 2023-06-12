@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Food;
 use App\Models\Menu;
 use App\Models\Stock;
+use App\Models\Category;
 use App\Models\User;
 
 
@@ -33,23 +34,30 @@ class stockController extends Controller
         
 
         $post =$request->all();
+        // return $post;
         $foodName = $post["foodData"];
         $userId = $post["userId"];
+        $categoryName = $post["postCategory"];
 
-        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->where("user_id",'=',$userId)->exists();
-        if ($food === false) {
-            Food::create([
-                "user_id"=>$userId,
-                "name"=>$foodName
-                ])
-            ->save();
-            return "登録完了";
-        } else {
+            
+        if (Food::whereNUll("deleted_at")->where("name", "=", $foodName)->where("user_id",'=',$userId)->exists()) {
             return "この食材はすでに登録されています。";
+        } else {
+            if($categoryName=="null"){
+                Food::create([
+                "user_id"=>$userId,
+                "name"=>$foodName,
+                ]);
+            }else{
+                $categoryId = Category::where("user_id",'=',$userId)->where("name","=",$categoryName)->select("categories.id")->get();
+                Food::create([
+                "user_id"=>$userId,
+                "name"=>$foodName,
+                "category_id"=>$categoryId[0]["id"]
+                ]);
+
+            }
+            return "登録完了";            
         }
     }
 }
-
-
-
-       

@@ -24,6 +24,21 @@ class categoryController extends Controller
         }
         
         return "成功";
+    }
+    public function category(Request $request,$id)
+    {
+        $categories = Category::select("categories.id","categories.name")->where("user_id","=",$id)->orderby("id","ASC")->get();
+ 
+        return response()->json([
+            "categories" => $categories,
+        ],
+        200,
+        [],
+        JSON_UNESCAPED_UNICODE //文字化け対策
+        );
 
+
+
+        
     }
 }

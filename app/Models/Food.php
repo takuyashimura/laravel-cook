@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Food extends Model
 {
-    protected $fillable = ['name','user_id','stock']; //保存したいカラム名が1つの場合
+    protected $fillable = ['name','user_id','stock',"category_id"]; //保存したいカラム名が1つの場合
     use HasFactory;
 
     public function stocks()
