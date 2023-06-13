@@ -37,8 +37,22 @@ class categoryController extends Controller
         JSON_UNESCAPED_UNICODE //文字化け対策
         );
 
+    }
+    public function categoryEdit(Request $request)
+    {
 
+        $posts = $request->all();
 
-        
+        foreach($posts["editCategories"] as $category ){
+            if(Category::where("id","=",$category["id"])->where("name","=",$category["name"])->exists()===false){
+                Category::where("id","=",$category["id"])->update([
+                    "name"=>$category["name"]
+                ]);
+                return $category["name"];
+            } 
+        }
+        return ;
+      
+
     }
 }
