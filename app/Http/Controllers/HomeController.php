@@ -33,7 +33,7 @@ class HomeController extends Controller
     $food_stocks = Food::whereNull("food.deleted_at")
     ->where("food.user_id","=",$id)
     ->leftjoin("stocks","food.id","=","stocks.food_id")
-    ->select("food.id","food.name")
+    ->select("food.id","food.name","food.category_id")
     ->selectRaw('SUM(amount) AS total_amount')
     ->groupBy('food.id',"food.name")
     ->get()
