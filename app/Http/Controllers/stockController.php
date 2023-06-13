@@ -76,4 +76,21 @@ class stockController extends Controller
         //     return "登録完了";            
         // }
     }
+    public function changeCategory(Request $request) //確認済み
+    {
+
+        $post =$request->all();
+        if(Food::where("id","=",$post["categoryEditFood"]["id"])->where("category_id","=",$post["value"])->exists() ){
+            return "already";
+        }
+        if($post["value"]==="null"){ Food::where("id","=",$post["categoryEditFood"]["id"])->update([
+            "category_id"=>null
+        ]);}
+        else if($post["value"]!=="null"){ Food::where("id","=",$post["categoryEditFood"]["id"])->update([
+            "category_id"=>$post["value"]
+        ]);}
+       
+        return "ok";
+        
+    }
 }

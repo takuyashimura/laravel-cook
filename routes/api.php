@@ -41,6 +41,7 @@ use App\Http\Controllers\API\AuthController;
 Route::get('/home/{id}', [HomeController::class, 'home'])->name('home'); //済み ユーザー認証済み
 Route::get('/menu/{id}', [menuController::class, 'menu'])->name('menu'); //済み ユーザー認証済み
 Route::post('/add', [stockController::class, 'add'])->name('add'); //確認済み ユーザー認証済み
+Route::post('/changeCategory', [stockController::class, 'changeCategory'])->name('changeCategory'); //確認済み ユーザー認証済み
 Route::post('/menu_cook', [menu_cookController::class, 'menu_cook'])->name('menu_cook'); //済み ユーザー認証済み
 Route::get('/add_menu/{id}', [add_menuController::class, 'add_menu'])->name('add_menu');//済み ユーザー認証済み
 Route::post('/add_menu_register', [add_menuController::class, 'add_menu_register'])->name('add_menu_register'); //済み ユーザー認証済み
@@ -64,6 +65,7 @@ Route::post('/foodCheck', [foodCheckController::class, 'foodCheck'])->name('food
 Route::post('/editCookingList', [cookingListController::class, 'editCookingList'])->name('editCookingList');//済み ユーザー認証なし
 Route::post('/addCategory', [categoryController::class, 'addCategory'])->name('addCategory');//済み ユーザー認証なし
 Route::get('/category/{id}', [categoryController::class, 'category'])->name('category');//済み ユーザー認証なし
+Route::post('/categoryEdit', [categoryController::class, 'categoryEdit'])->name('categoryEdit');//済み ユーザー認証なし
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
