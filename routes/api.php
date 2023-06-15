@@ -66,6 +66,7 @@ Route::post('/editCookingList', [cookingListController::class, 'editCookingList'
 Route::post('/addCategory', [categoryController::class, 'addCategory'])->name('addCategory');//済み ユーザー認証なし
 Route::get('/category/{id}', [categoryController::class, 'category'])->name('category');//済み ユーザー認証なし
 Route::post('/categoryEdit', [categoryController::class, 'categoryEdit'])->name('categoryEdit');//済み ユーザー認証なし
+Route::post('/categoryDelete', [categoryController::class, 'categoryDelete'])->name('categoryDelete');//済み ユーザー認証なし
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

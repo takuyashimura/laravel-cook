@@ -31,50 +31,33 @@ class stockController extends Controller
     //食材を追加した時の処理
     public function add(Request $request) //確認済み
     {
-
         $post =$request->all();
         $foodName = $post["foodData"];
         $userId = $post["userId"];
-
-        $food =Food::whereNUll("deleted_at")->where("name", "=", $foodName)->where("user_id",'=',$userId)->exists();
-        if ($food === false) {
-            Food::create([
-                "user_id"=>$userId,
-                "name"=>$foodName
-                ])
-            ->save();
-            return "登録完了";
-        } else {
-            return "この食材はすでに登録されています。";
-        }
-        
-
-        // $post =$request->all();
-        // // return $post;
-        // $foodName = $post["foodData"];
-        // $userId = $post["userId"];
-        // $categoryName = $post["postCategory"];
+        $categoryName = $post["postCategory"];
 
             
-        // if (Food::whereNUll("deleted_at")->where("name", "=", $foodName)->where("user_id",'=',$userId)->exists()) {
-        //     return "この食材はすでに登録されています。";
-        // } else {
-        //     if($categoryName=="null"){
-        //         Food::create([
-        //         "user_id"=>$userId,
-        //         "name"=>$foodName,
-        //         ]);
-        //     }else{
-        //         $categoryId = Category::where("user_id",'=',$userId)->where("name","=",$categoryName)->select("categories.id")->get();
-        //         Food::create([
-        //         "user_id"=>$userId,
-        //         "name"=>$foodName,
-        //         "category_id"=>$categoryId[0]["id"]
-        //         ]);
+        if (Food::whereNUll("deleted_at")->where("name", "=", $foodName)->where("user_id",'=',$userId)->exists()) {
+            return "この食材はすでに登録されています。";
+        } else {
+            if($categoryName=="null"){
+                Food::create([
+                "user_id"=>$userId,
+                "name"=>$foodName,
+                ]);
+                return "登録完了";            
 
-        //     }
-        //     return "登録完了";            
-        // }
+            }else{
+                $categoryId = Category::where("user_id",'=',$userId)->where("name","=",$categoryName)->get("id");
+                Food::create([
+                "user_id"=>$userId,
+                "name"=>$foodName,
+                "category_id"=>$categoryId[0]["id"]
+                ]);
+
+            }
+            return "登録完了";            
+        }
     }
     public function changeCategory(Request $request) //確認済み
     {

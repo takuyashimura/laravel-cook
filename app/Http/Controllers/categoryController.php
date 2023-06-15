@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Food;
 use DB;
 
 class categoryController extends Controller
@@ -54,5 +55,21 @@ class categoryController extends Controller
         return ;
       
 
+    }
+    public function categoryDelete(Request $request)
+    {
+
+        $posts = $request->all();
+
+        if(Food::where("user_id","=",$posts["userId"])->where("category_id","=",$posts["categoryId"])->exists()){
+            Food::where("user_id","=",$posts["userId"])->where("category_id","=",$posts["categoryId"])->update([
+            "category_id"=>null
+            ]);
+        }
+        
+        Category::where("id","=",$posts["categoryId"])->delete();
+        return ;
+
+        
     }
 }
