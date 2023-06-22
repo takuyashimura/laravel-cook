@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdToFoodTable extends Migration
+class AddUserIdToMenuCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddUserIdToFoodTable extends Migration
      */
     public function up()
     {
-        Schema::table('food', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+        Schema::table('menu_categories', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 
@@ -27,9 +25,8 @@ class AddUserIdToFoodTable extends Migration
      */
     public function down()
     {
-        Schema::table('food', function (Blueprint $table) {
-            $table->dropForeign('food_user_id_foreign');
-            $table->dropColumn('user_id');
+        Schema::table('menu_categories', function (Blueprint $table) {
+            $table->dropForeign('menu_categories_user_id_foreign');
         });
     }
 }

@@ -53,9 +53,8 @@ class categoryController extends Controller
             } 
         }
         return ;
-      
-
     }
+    
     public function categoryDelete(Request $request)
     {
 

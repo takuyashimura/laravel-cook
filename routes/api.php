@@ -19,6 +19,7 @@ use App\Http\Controllers\boughtFoodController;
 use App\Http\Controllers\addBuyListByCoookingListController;
 use App\Http\Controllers\foodCheckController;
 use App\Http\Controllers\categoryController;
+use App\Http\Controllers\menuCategoriesController;
 
 use App\Http\Controllers\API\AuthController;
 /*
@@ -67,6 +68,10 @@ Route::post('/addCategory', [categoryController::class, 'addCategory'])->name('a
 Route::get('/category/{id}', [categoryController::class, 'category'])->name('category');//済み ユーザー認証なし
 Route::post('/categoryEdit', [categoryController::class, 'categoryEdit'])->name('categoryEdit');//済み ユーザー認証なし
 Route::post('/categoryDelete', [categoryController::class, 'categoryDelete'])->name('categoryDelete');//済み ユーザー認証なし
+Route::get('/getMenuCatagories/{id}', [menuCategoriesController::class, 'getMenuCatagories'])->name('getMenuCatagories');//済み ユーザー認証なし
+Route::post('/addMenuCategory', [menuCategoriesController::class, 'addMenuCategory'])->name('addMenuCategory');//済み ユーザー認証なし
+Route::post('/menuCategoryEdit', [menuCategoriesController::class, 'menuCategoryEdit'])->name('menuCategoryEdit');//済み ユーザー認証なし
+Route::post('/menuCategoryDelete', [menuCategoriesController::class, 'menuCategoryDelete'])->name('menuCategoryDelete');//済み ユーザー認証なし
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

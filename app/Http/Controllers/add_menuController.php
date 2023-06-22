@@ -8,6 +8,8 @@ use App\Models\Menu;
 use App\Models\Stock;
 use App\Models\User;
 use App\Models\FoodMenu;
+use App\Models\MenuCategory;
+
 use DB;
 
 class add_menuController extends Controller
@@ -54,11 +56,10 @@ class add_menuController extends Controller
     public function add_menu_register(Request $request)  //済み
     {
         $posts=$request->all();
-        // メニュー名の存在確認
-
         
         $post = $posts["postData"][1];
         $userId = $posts["userId"];
+        $categoryId = MenuCategory::where("user_id","=",$userId)->where("name","=",$posts["postCategory"])->get("id");
 
 
         if(Menu::where("name", "=", $posts["postData"][0])
@@ -71,7 +72,8 @@ class add_menuController extends Controller
         }else{
             $menu_id = Menu::insertGetId([
                 "name" => $posts["postData"][0],
-                "user_id" => $posts["userId"]
+                "user_id" => $posts["userId"],
+                "category_id" => $categoryId[0]["id"]
             ]);
         if($post !==null) {
             foreach($post as $value) {
