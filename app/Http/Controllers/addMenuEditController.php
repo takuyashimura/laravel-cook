@@ -32,9 +32,10 @@ class addMenuEditController extends Controller
     public function add_menu_edit(Request $request) //確認済み
     {
         $posts = $request->all();
-        // return $posts;
-        $food_data = $posts['postMenuData'];
+        $food_data = $posts['menuData'];
         $menu_id =$posts["menuName"]["menu"]["id"];
+        $categoryId = $posts["editMenuCategory"];
+        // return $categoryId;
  
 
         foreach($food_data as $i){
@@ -44,24 +45,32 @@ class addMenuEditController extends Controller
                 ->where("food_id",'=',$i['id'])
                 ->forceDelete();
                 }else{              
-                if(FoodMenu::where("menu_id",'=', $menu_id)
-                    ->where("food_id",'=', $i['id'])->exists()){
-                    FoodMenu::where("menu_id",'=', $menu_id)
-                    ->where("food_id",'=', $i['id'])
-                    ->update([
-                        "food_amount"=>$i['food_amount']
-                    ]);
-                }else{
-                    FoodMenu::create([
-                        "food_id"=>$i['id'],
-                        "food_amount"=>$i['food_amount'],
-                        "menu_id"=>$menu_id
-                    ]);
+                    if(FoodMenu::where("menu_id",'=', $menu_id)
+                        ->where("food_id",'=', $i['id'])->exists()){
+                        FoodMenu::where("menu_id",'=', $menu_id)
+                        ->where("food_id",'=', $i['id'])
+                        ->update([
+                            "food_amount"=>$i['food_amount']
+                        ]);
+                    }else{
+                        FoodMenu::create([
+                            "food_id"=>$i['id'],
+                            "food_amount"=>$i['food_amount'],
+                            "menu_id"=>$menu_id
+                        ]);
+                    }      
                 }
-                    
-            }
                 
+                }
             }
+
+        // $test = Menu::where("id","=",$menu_id)->where("menu_category_id","=",$categoryId)->get();
+        // return $test;
+        if(Menu::where("id","=",$menu_id)->where("category_id","=",$categoryId)->exists()===false){
+            // return "変更";
+            Menu::Where("id","=",$menu_id)->update([
+                "category_id"=>$categoryId
+            ]);
         }
 
         return "編集完了";

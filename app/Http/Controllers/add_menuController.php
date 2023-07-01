@@ -55,26 +55,30 @@ class add_menuController extends Controller
 
     public function add_menu_register(Request $request)  //済み
     {
-        $posts=$request->all();
-        
+        $posts=$request->all();        
         $post = $posts["postData"][1];
         $userId = $posts["userId"];
-        $categoryId = MenuCategory::where("user_id","=",$userId)->where("name","=",$posts["postCategory"])->get("id");
-
 
         if(Menu::where("name", "=", $posts["postData"][0])
         ->where("user_id","=",$userId)
         ->whereNull("deleted_at")
         ->exists()){
-
         return "このメニューは既に登録されています。";
-
         }else{
-            $menu_id = Menu::insertGetId([
+            if($posts["postCategory"]==="null"){
+                $menu_id = Menu::insertGetId([
+                    "name" => $posts["postData"][0],
+                    "user_id" => $posts["userId"],
+                    "category_id" => null
+                ]);
+            }else{
+                $categoryId = MenuCategory::where("user_id","=",$userId)->where("name","=",$posts["postCategory"])->get("id");
+                $menu_id = Menu::insertGetId([
                 "name" => $posts["postData"][0],
                 "user_id" => $posts["userId"],
                 "category_id" => $categoryId[0]["id"]
             ]);
+            }
         if($post !==null) {
             foreach($post as $value) {
                 if($value["amount"]!==0){
@@ -88,6 +92,5 @@ class add_menuController extends Controller
         };
             return"登録完了";
         }
-
     }
 }
