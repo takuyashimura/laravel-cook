@@ -14,8 +14,8 @@ class AddMenuCategoryIdToMenusTable extends Migration
     public function up()
     {
         Schema::table('menus', function (Blueprint $table) {
-            $table->unsignedBigInteger('menu_category_id')->nullable();
-            $table->foreign('menu_category_id')->references('id')->on('menu_categories');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
                 });
     }
 
@@ -27,8 +27,8 @@ class AddMenuCategoryIdToMenusTable extends Migration
     public function down()
     {
         Schema::table('menus', function (Blueprint $table) {
-            $table->dropForeign('menus_menu_category_id_foreign');
-            $table->dropColumn('menu_category_id');
+            $table->dropForeign('menus_category_id_foreign');
+            $table->dropColumn('category_id');
                 });
     }
 }
