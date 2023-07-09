@@ -35,7 +35,7 @@ class menuController extends Controller
          $menus= Menu::
          where("user_id" ,"=", $id)
          ->whereNull("deleted_at")
-         ->select("menus.id","menus.user_id","menus.name","menus.category_id")
+         ->select("menus.id","menus.user_id","menus.name","menus.category_id","menus.last_cook_at")
          ->orderby('created_at','DESC')
          ->get();
  
