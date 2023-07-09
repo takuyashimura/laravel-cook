@@ -33,11 +33,17 @@ class cookingController extends Controller
     public function cooking(Request $request)//済み
     {
         $posts = $request->all();
+
+        //調理されたメニューのlast_cook_atカラムに調理した日時を記録
+        foreach($posts["nameCount"] as $i){
+            Menu::where("id","=",$i["menu_id"])->update([
+                "last_cook_at"=>now()
+            ]);
+        }
         
         CookingList::where("user_id",'=',$posts["userId"])->forceDelete();
 
         foreach($posts["useList"] as $i){
-            
             $remaining_amount = $i["amount"];
             while($remaining_amount != 0){
                $stock = Stock::whereNull("deleted_at")->where("food_id",'=', $i['id'])->orderby("created_at","ASC")->first();
